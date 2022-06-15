@@ -3,12 +3,25 @@
  */
 package com.example.sample;
 
-public class App {
-    public String getGreeting() {
-        return "Hello World!";
-    }
+import javax.swing.*;
 
-    public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
-    }
+public class App {
+  public static void main(String[] args) {
+    JFrame window = new JFrame();
+    window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    window.setResizable(false);
+    window.setTitle("2D Adventure");
+  
+    GamePanel gamePanel = new GamePanel();
+    gamePanel.setFocusable(true);
+    window.add(gamePanel);
+  
+    window.pack();
+  
+    window.setLocationRelativeTo(null);
+    window.setVisible(true);
+  
+    gamePanel.setupGame();
+    gamePanel.startGameThread();
+  }
 }
