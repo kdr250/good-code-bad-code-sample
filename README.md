@@ -4,6 +4,7 @@
 書籍『良いコード／悪いコードで学ぶ設計入門』で紹介されているコードを参考にした、サンプルRPGゲームです。
 <br><br>
 【参考文献】
+<br>
 仙塲大也さん [良いコード／悪いコードで学ぶ設計入門保守しやすい　成長し続けるコードの書き方](https://www.amazon.co.jp/dp/B09Y1MWK9N/ref=dp-kindle-redirect?_encoding=UTF8&btkr=1)
 
 ## 悪いコード例
