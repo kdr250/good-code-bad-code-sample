@@ -7,6 +7,11 @@
 <br>
 仙塲大也さん [良いコード／悪いコードで学ぶ設計入門保守しやすい　成長し続けるコードの書き方](https://www.amazon.co.jp/dp/B09Y1MWK9N/ref=dp-kindle-redirect?_encoding=UTF8&btkr=1)
 
+## 起動方法
+```
+./gradlew run
+```
+
 ## 悪いコード例
 - 未成熟なクラスの例
   - ×リスト1.17 生焼けオブジェクトの例
