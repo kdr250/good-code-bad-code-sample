@@ -28,3 +28,9 @@ application {
     // Define the main class for the application.
     mainClass = 'com.example.sample.App'
 }
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(11)
+    }
+}
