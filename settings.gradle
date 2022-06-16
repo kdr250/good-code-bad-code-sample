@@ -8,4 +8,4 @@
  */
 
 rootProject.name = 'good-code-bad-code-sample'
-include('app')
+include('bad', 'good')
