@@ -1,27 +1,30 @@
 package com.example.sample.presentation;
 
+import com.example.sample.application.service.TestService;
 import com.example.sample.domain.model.Location;
 import com.example.sample.domain.model.Player;
 import com.example.sample.domain.model.Vector;
+import org.springframework.stereotype.Component;
 
 import javax.swing.*;
 import java.awt.*;
 
+@Component
 public class GamePanel extends JPanel implements Runnable {
 
   // スクリーン設定
-  private final int originalTileSize = 16; // 16x16
-  private final int scale = 3;
+  private static final int originalTileSize = 16; // 16x16
+  private static final int scale = 3;
 
-  private final int tileSize = originalTileSize * scale; // 48x48 tile
-  private final int maxScreenCol = 16;
-  private final int maxScreenRow = 12;
-  private final int screenWidth = tileSize * maxScreenCol; // 768 px
-  private final int screenHeight = tileSize * maxScreenRow; // 576 px
+  private static final int tileSize = originalTileSize * scale; // 48x48 tile
+  private static final int maxScreenCol = 16;
+  private static final int maxScreenRow = 12;
+  private static final int screenWidth = tileSize * maxScreenCol; // 768 px
+  private static final int screenHeight = tileSize * maxScreenRow; // 576 px
 
   // FPS設定
-  private final int FPS = 60;
-  private final double DRAW_INTERVAL = 1000000000 / FPS;
+  private static final int FPS = 60;
+  private static final double DRAW_INTERVAL = 1000000000 / FPS;
 
   private Thread gameThread;
 
@@ -30,9 +33,13 @@ public class GamePanel extends JPanel implements Runnable {
   // TODO: キー入力の動作確認用、後でリファクタリングすること
   private Player player = new Player(new Location(100, 100));
 
+  // TODO: Serviceの動作確認用、後でリファクタリングすること
+  private final TestService testService;
+
   private boolean isFinished = false;
 
-  public GamePanel() {
+  public GamePanel(TestService testService) {
+    this.testService = testService;
     this.setPreferredSize(new Dimension(screenWidth, screenHeight));
     this.setBackground(Color.black);
     this.setDoubleBuffered(true);
@@ -65,6 +72,7 @@ public class GamePanel extends JPanel implements Runnable {
       if (delta >= 1) {
         repaint();
         delta--;
+        testService.hello();
         isFinished = false;
       }
     }
