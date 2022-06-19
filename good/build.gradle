@@ -44,7 +44,7 @@ dependencies {
     // Spring
     implementation 'org.springframework.boot:spring-boot-starter'
     implementation 'org.springframework.boot:spring-boot-starter-jdbc'
-    implementation("org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.0")
+    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.0'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
     // H2 Database
