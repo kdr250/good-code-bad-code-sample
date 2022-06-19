@@ -16,6 +16,13 @@ plugins {
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 }
 
+sourceSets {
+    main {
+        // mybatis SQL map XML ファイルを java 以下でも検知する
+        resources.srcDirs = ["src/main/java", "src/main/resources"]
+    }
+}
+
 repositories {
     // Use Maven Central for resolving dependencies.
     mavenCentral()
@@ -36,7 +43,12 @@ dependencies {
 
     // Spring
     implementation 'org.springframework.boot:spring-boot-starter'
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+    implementation("org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.0")
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    // H2 Database
+    implementation("com.h2database:h2")
 }
 
 application {
