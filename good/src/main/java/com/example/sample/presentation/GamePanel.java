@@ -1,6 +1,6 @@
 package com.example.sample.presentation;
 
-import com.example.sample.application.service.TestService;
+import com.example.sample.application.service.WorldMapQueryService;
 import com.example.sample.domain.model.Location;
 import com.example.sample.domain.model.Player;
 import com.example.sample.domain.model.Vector;
@@ -34,12 +34,13 @@ public class GamePanel extends JPanel implements Runnable {
   private Player player = new Player(new Location(100, 100));
 
   // TODO: Serviceの動作確認用、後でリファクタリングすること
-  private final TestService testService;
+  private final WorldMapQueryService worldMapQueryService;
 
   private boolean isFinished = false;
+  boolean isFirst = true;
 
-  public GamePanel(TestService testService) {
-    this.testService = testService;
+  public GamePanel(WorldMapQueryService worldMapQueryService) {
+    this.worldMapQueryService = worldMapQueryService;
     this.setPreferredSize(new Dimension(screenWidth, screenHeight));
     this.setBackground(Color.black);
     this.setDoubleBuffered(true);
@@ -69,10 +70,14 @@ public class GamePanel extends JPanel implements Runnable {
         isFinished = true;
       }
 
+      if (isFirst) {
+        this.worldMapQueryService.find();
+        isFirst = false;
+      }
+
       if (delta >= 1) {
         repaint();
         delta--;
-        testService.hello();
         isFinished = false;
       }
     }

@@ -16,7 +16,7 @@ public enum TileType {
     this.emoji = emoji;
   }
 
-  public TileType from(String emoji) {
+  public static TileType from(String emoji) {
     return Arrays.stream(values()).filter(t -> t.emoji.equals(emoji))
         .findFirst().orElseThrow(IllegalArgumentException::new);
   }
