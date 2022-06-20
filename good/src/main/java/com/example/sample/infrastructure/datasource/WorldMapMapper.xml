@@ -12,4 +12,11 @@
         FROM tb_world_map
         WHERE id = #{worldId}
     </select>
+
+    <select id="selectTileImageDto" resultType="com.example.sample.infrastructure.datasource.TileImageDto">
+        SELECT
+        name,
+        image,
+        FROM tb_tile_image
+    </select>
 </mapper>

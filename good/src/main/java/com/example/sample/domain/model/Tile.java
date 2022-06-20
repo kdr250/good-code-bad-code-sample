@@ -10,6 +10,6 @@ import java.awt.image.BufferedImage;
 public class Tile {
   private final TileType tileType;
   private final Location location;
-  // private final BufferedImage bufferedImage;
+  private final BufferedImage bufferedImage;
   // TODO: コリジョンも追加すること
 }

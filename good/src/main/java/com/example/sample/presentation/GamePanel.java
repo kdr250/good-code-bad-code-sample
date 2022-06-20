@@ -3,7 +3,9 @@ package com.example.sample.presentation;
 import com.example.sample.application.service.WorldMapQueryService;
 import com.example.sample.domain.model.Location;
 import com.example.sample.domain.model.Player;
+import com.example.sample.domain.model.Tile;
 import com.example.sample.domain.model.Vector;
+import com.example.sample.domain.model.WorldMap;
 import org.springframework.stereotype.Component;
 
 import javax.swing.*;
@@ -35,6 +37,7 @@ public class GamePanel extends JPanel implements Runnable {
 
   // TODO: Serviceの動作確認用、後でリファクタリングすること
   private final WorldMapQueryService worldMapQueryService;
+  private WorldMap worldMap;
 
   private boolean isFinished = false;
   boolean isFirst = true;
@@ -71,7 +74,7 @@ public class GamePanel extends JPanel implements Runnable {
       }
 
       if (isFirst) {
-        this.worldMapQueryService.find();
+        worldMap = this.worldMapQueryService.find();
         isFirst = false;
       }
 
@@ -93,6 +96,11 @@ public class GamePanel extends JPanel implements Runnable {
     Graphics2D g2 = (Graphics2D)g;
     g2.setColor(Color.white);
     g2.fillRect(player.getLocation().getX(), player.getLocation().getY(), tileSize, tileSize);
+    // TODO: 動作確認用
+    if (worldMap != null) {
+      Tile tile = worldMap.getTiles()[0][0];
+      g2.drawImage(tile.getBufferedImage(), tile.getLocation().getX(), tile.getLocation().getY(), null);
+    }
     g2.dispose();
   }
 }
