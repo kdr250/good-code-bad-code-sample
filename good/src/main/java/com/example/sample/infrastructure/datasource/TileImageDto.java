@@ -2,12 +2,9 @@ package com.example.sample.infrastructure.datasource;
 
 import com.example.sample.domain.model.TileType;
 import com.example.sample.presentation.GamePanel;
-import net.coobird.thumbnailator.Thumbnails;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
-import java.awt.geom.AffineTransform;
-import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
