@@ -30,7 +30,7 @@ public class GamePanel extends JPanel implements Runnable {
 
   private Thread gameThread;
 
-  private KeyInputHandler keyInputHandler = new KeyInputHandler();
+  private final KeyInputHandler keyInputHandler;
 
   // TODO: キー入力の動作確認用、後でリファクタリングすること
   private Player player = new Player(new Location(100, 100));
@@ -42,12 +42,13 @@ public class GamePanel extends JPanel implements Runnable {
   private boolean isFinished = false;
   boolean isFirst = true;
 
-  public GamePanel(WorldMapQueryService worldMapQueryService) {
+  public GamePanel(WorldMapQueryService worldMapQueryService, KeyInputHandler keyInputHandler) {
     this.worldMapQueryService = worldMapQueryService;
+    this.keyInputHandler = keyInputHandler;
     this.setPreferredSize(new Dimension(screenWidth, screenHeight));
     this.setBackground(Color.black);
     this.setDoubleBuffered(true);
-    this.addKeyListener(keyInputHandler);
+    this.addKeyListener(this.keyInputHandler);
     this.setFocusable(true);
   }
 
