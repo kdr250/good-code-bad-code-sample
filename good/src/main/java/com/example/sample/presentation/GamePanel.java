@@ -18,7 +18,7 @@ public class GamePanel extends JPanel implements Runnable {
   private static final int originalTileSize = 16; // 16x16
   private static final int scale = 3;
 
-  private static final int tileSize = originalTileSize * scale; // 48x48 tile
+  public static final int tileSize = originalTileSize * scale; // 48x48 tile
   private static final int maxScreenCol = 16;
   private static final int maxScreenRow = 12;
   private static final int screenWidth = tileSize * maxScreenCol; // 768 px
@@ -98,8 +98,11 @@ public class GamePanel extends JPanel implements Runnable {
     g2.fillRect(player.getLocation().getX(), player.getLocation().getY(), tileSize, tileSize);
     // TODO: 動作確認用
     if (worldMap != null) {
-      Tile tile = worldMap.getTiles()[0][0];
-      g2.drawImage(tile.getBufferedImage(), tile.getLocation().getX(), tile.getLocation().getY(), null);
+      for (Tile[] tiles : worldMap.getTiles()) {
+        for (Tile tile : tiles) {
+          g2.drawImage(tile.getBufferedImage(), tile.getLocation().getX(), tile.getLocation().getY(), null);
+        }
+      }
     }
     g2.dispose();
   }

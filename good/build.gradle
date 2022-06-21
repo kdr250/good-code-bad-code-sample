@@ -49,6 +49,9 @@ dependencies {
 
     // H2 Database
     implementation("com.h2database:h2")
+
+    // Thumbnailator
+    implementation 'net.coobird:thumbnailator:0.4.17'
 }
 
 application {

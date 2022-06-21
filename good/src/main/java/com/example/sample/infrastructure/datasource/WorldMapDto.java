@@ -4,6 +4,7 @@ import com.example.sample.domain.model.Location;
 import com.example.sample.domain.model.Tile;
 import com.example.sample.domain.model.TileType;
 import com.example.sample.domain.model.WorldMap;
+import com.example.sample.presentation.GamePanel;
 
 import java.awt.image.BufferedImage;
 import java.util.Map;
@@ -22,7 +23,7 @@ public class WorldMapDto {
       for (int j = 0; j < horizontalSize; j++) {
         String emoji = strTiles[i * horizontalSize + j];
         TileType tileType = TileType.from(emoji);
-        Location location = new Location(0, 0);
+        Location location = new Location(j * GamePanel.tileSize, i * GamePanel.tileSize);
         BufferedImage image = map.get(tileType);
         result[i][j] = new Tile(tileType, location, image);
       }

@@ -1,8 +1,13 @@
 package com.example.sample.infrastructure.datasource;
 
 import com.example.sample.domain.model.TileType;
+import com.example.sample.presentation.GamePanel;
+import net.coobird.thumbnailator.Thumbnails;
 
 import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -17,12 +22,13 @@ public class TileImageDto {
   }
 
   public BufferedImage bufferedImage() {
-    String base64 = image.split(",")[1];
-
-    byte[] decodedBytes = Base64.getDecoder().decode(base64);
+    byte[] decodedBytes = Base64.getDecoder().decode(image);
     ByteArrayInputStream bis = new ByteArrayInputStream(decodedBytes);
     try {
-      return ImageIO.read(bis);
+      BufferedImage original = ImageIO.read(bis);
+      return Thumbnails.of(original)
+          .size(GamePanel.tileSize, GamePanel.tileSize)
+          .asBufferedImage();
     } catch (IOException e) {
       throw new IllegalStateException(e.getMessage(), e);
     }

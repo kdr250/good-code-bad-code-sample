@@ -7,7 +7,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.awt.image.BufferedImage;
-import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -18,10 +17,10 @@ public class WorldMapDataSource implements WorldMapRepository {
 
   @Override
   public WorldMap find(Integer worldId) {
-    Map<TileType, BufferedImage> map = worldMapMapper.selectTileImageDto()
+    Map<TileType, BufferedImage> imageMap = worldMapMapper.selectTileImageDto()
         .stream().collect(Collectors.toMap(TileImageDto::toTileType, TileImageDto::bufferedImage));
 
     WorldMapDto worldMapDto = worldMapMapper.selectWorldMapDto(worldId);
-    return worldMapDto.toWorldMap(map);
+    return worldMapDto.toWorldMap(imageMap);
   }
 }
