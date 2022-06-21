@@ -26,9 +26,10 @@ public class TileImageDto {
     ByteArrayInputStream bis = new ByteArrayInputStream(decodedBytes);
     try {
       BufferedImage original = ImageIO.read(bis);
-      return Thumbnails.of(original)
-          .size(GamePanel.tileSize, GamePanel.tileSize)
-          .asBufferedImage();
+      BufferedImage scaledImage = new BufferedImage(GamePanel.tileSize, GamePanel.tileSize, original.getType());
+      Graphics2D g2 = scaledImage.createGraphics();
+      g2.drawImage(original, 0, 0, GamePanel.tileSize, GamePanel.tileSize, null);
+      return scaledImage;
     } catch (IOException e) {
       throw new IllegalStateException(e.getMessage(), e);
     }
