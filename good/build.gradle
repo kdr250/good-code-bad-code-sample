@@ -7,8 +7,21 @@
  */
 
 plugins {
+    // Apply the java plugin to add support for Java
+    id 'java'
+
     // Apply the application plugin to add support for building a CLI application in Java.
     id 'application'
+    id 'org.springframework.boot' version '2.7.0'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id "org.dddjava.jig-gradle-plugin" version "2022.6.2"
+}
+
+sourceSets {
+    main {
+        // mybatis SQL map XML ファイルを java 以下でも検知する
+        resources.srcDirs = ["src/main/java", "src/main/resources"]
+    }
 }
 
 repositories {
@@ -18,10 +31,25 @@ repositories {
 
 dependencies {
     // Use JUnit test framework.
-    testImplementation 'junit:junit:4.13.2'
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.5.2'
 
     // This dependency is used by the application.
     implementation 'com.google.guava:guava:30.1.1-jre'
+
+    // Lombok
+    compileOnly 'org.projectlombok:lombok:1.18.24'
+    annotationProcessor 'org.projectlombok:lombok:1.18.24'
+    testCompileOnly 'org.projectlombok:lombok:1.18.24'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.24'
+
+    // Spring
+    implementation 'org.springframework.boot:spring-boot-starter'
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.0'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    // H2 Database
+    implementation 'com.h2database:h2'
 }
 
 application {
