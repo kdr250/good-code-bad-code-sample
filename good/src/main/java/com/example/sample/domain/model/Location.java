@@ -26,10 +26,4 @@ public class Location {
     final int nextY = y + vector.getY();
     return new Location(nextX, nextY);
   }
-
-  public double distance(final Location other) {
-    final int distanceX = this.x - other.x;
-    final int distanceY = this.y - other.y;
-    return Math.sqrt(Math.pow(distanceX, 2) + Math.pow(distanceY, 2));
-  }
 }
