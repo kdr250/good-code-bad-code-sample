@@ -17,7 +17,7 @@ public class WorldMapDataSource implements WorldMapRepository {
 
   @Override
   public WorldMap find(Integer worldId) {
-    Map<TileType, BufferedImage> imageMap = worldMapMapper.selectTileImageDto()
+    Map<TileType, BufferedImage> imageMap = worldMapMapper.selectTileImageDto(TileType.names())
         .stream().collect(Collectors.toMap(TileImageDto::toTileType, TileImageDto::bufferedImage));
 
     WorldMapDto worldMapDto = worldMapMapper.selectWorldMapDto(worldId);

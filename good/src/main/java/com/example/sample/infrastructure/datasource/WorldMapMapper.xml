@@ -18,5 +18,9 @@
         name,
         image,
         FROM tb_tile_image
+        WHERE name in
+        <foreach item="names" index="index" collection="list" open="(" separator="," close=")">
+            #{names}
+        </foreach>
     </select>
 </mapper>

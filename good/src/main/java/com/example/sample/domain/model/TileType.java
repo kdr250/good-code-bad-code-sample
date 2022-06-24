@@ -1,6 +1,8 @@
 package com.example.sample.domain.model;
 
 import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public enum TileType {
   GRASS("\uD83D\uDFE9"),
@@ -19,5 +21,9 @@ public enum TileType {
   public static TileType from(String emoji) {
     return Arrays.stream(values()).filter(t -> t.emoji.equals(emoji))
         .findFirst().orElseThrow(IllegalArgumentException::new);
+  }
+
+  public static List<String> names() {
+    return Arrays.stream(values()).map(TileType::name).collect(Collectors.toList());
   }
 }
