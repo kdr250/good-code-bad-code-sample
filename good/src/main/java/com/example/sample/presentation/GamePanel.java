@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.List;
 
 @Component
 public class GamePanel extends JPanel implements Runnable {
@@ -35,7 +36,7 @@ public class GamePanel extends JPanel implements Runnable {
   private final KeyInputHandler keyInputHandler;
 
   // TODO: キー入力の動作確認用、後でリファクタリングすること
-  private Player player = new Player(new Location(500, 500));
+  private Player player = new Player(new Location(tileSize * 23, tileSize * 21));
 
   // TODO: Serviceの動作確認用、後でリファクタリングすること
   private final WorldMapQueryService worldMapQueryService;
@@ -70,15 +71,15 @@ public class GamePanel extends JPanel implements Runnable {
       delta += (currentTime - lastTime) / DRAW_INTERVAL;
       lastTime = currentTime;
 
+      if (isFirst) {
+        worldMap = this.worldMapQueryService.find();
+        isFirst = false;
+      }
+
       // TODO: 要リファクタリング DoOnceを実装すること
       if (!isFinished) {
         update();
         isFinished = true;
-      }
-
-      if (isFirst) {
-        worldMap = this.worldMapQueryService.find();
-        isFirst = false;
       }
 
       if (delta >= 1) {
@@ -91,7 +92,14 @@ public class GamePanel extends JPanel implements Runnable {
 
   private void update() {
     Vector vector = keyInputHandler.getKeyInputType().getVector();
-    player.move(vector);
+    // TODO: 動作確認用
+    if (worldMap != null) {
+      Location playerWillMoveLocation = player.getLocation().shift(vector);
+      List<Tile> tiles = worldMap.getTilesFromLocation(playerWillMoveLocation);
+      if (player.canMove(tiles, vector)) {
+        player.move(vector);
+      }
+    }
   }
 
   public void paintComponent(Graphics g) {

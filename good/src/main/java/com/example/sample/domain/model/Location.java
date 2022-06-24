@@ -26,4 +26,12 @@ public class Location {
     final int nextY = y + vector.getY();
     return new Location(nextX, nextY);
   }
+
+  @Override
+  public String toString() {
+    return "Location{" +
+        "x=" + x +
+        ", y=" + y +
+        '}';
+  }
 }

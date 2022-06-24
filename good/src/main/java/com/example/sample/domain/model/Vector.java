@@ -32,4 +32,8 @@ public class Vector {
   public static Vector right(final int length) {
     return new Vector(length, 0);
   }
+
+  public Vector inverse() {
+    return new Vector(x * -1, y * -1);
+  }
 }

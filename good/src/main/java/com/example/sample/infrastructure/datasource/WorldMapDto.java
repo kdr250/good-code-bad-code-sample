@@ -1,5 +1,6 @@
 package com.example.sample.infrastructure.datasource;
 
+import com.example.sample.domain.model.Collision;
 import com.example.sample.domain.model.Location;
 import com.example.sample.domain.model.Tile;
 import com.example.sample.domain.model.TileType;
