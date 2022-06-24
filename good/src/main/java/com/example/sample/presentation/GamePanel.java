@@ -111,12 +111,21 @@ public class GamePanel extends JPanel implements Runnable {
     // TODO: 動作確認用
     if (worldMap != null) {
       Location playerWillMoveLocation = player.getLocation().shift(vector);
-      List<Collidable> collidableList = worldMap.getTilesFromLocation(playerWillMoveLocation);
-      collidableList.add(npc);
-      if (player.canMove(collidableList, vector)) {
+      List<Collidable> collidableListForPlayer = worldMap.getTilesFromLocation(playerWillMoveLocation);
+      collidableListForPlayer.add(npc);
+      if (player.canMove(collidableListForPlayer, vector)) {
         player.move(vector);
       } else {
         player.changeDirection(vector);
+      }
+
+      Location npcWillMoveLocation = npc.getLocation().shift(npc.getVector());
+      List<Collidable> collidableListForNpc = worldMap.getTilesFromLocation(npcWillMoveLocation);
+      collidableListForNpc.add(player);
+      if (npc.canMove(collidableListForNpc)) {
+        npc.move();
+      } else {
+        npc.changeDirection();
       }
     }
   }

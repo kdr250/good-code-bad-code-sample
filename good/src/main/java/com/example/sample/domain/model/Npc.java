@@ -13,6 +13,10 @@ public class Npc implements Collidable {
   private Direction direction;
   private final NpcAnimation npcAnimation;
 
+  // TODO: Movementのドメインモデルを作成すること
+  private Vector vector = Vector.NONE;
+  private int count = 0;
+
   public Npc(final Location location, final NpcAnimation npcAnimation) {
     this.location = location;
     this.collision = new Collision(location);
@@ -20,11 +24,30 @@ public class Npc implements Collidable {
     direction = Direction.DOWN;
   }
 
-  public boolean canMove(final List<Tile> tiles, final Vector vector) {
-    return tiles.stream().noneMatch(tile -> collision.willCollide(tile.getCollision(), vector));
+  public void move() {
+    location = location.shift(vector);
+    collision = collision.shift(vector);
+    direction = vector.getDirection();
+  }
+
+  public boolean canMove(final List<Collidable> collidableList) {
+    count++;
+    count %= 180;
+    if (count / 120 < 1) return false;
+    if (count == 120) vector = Vector.random(1);
+    return collidableList.stream().noneMatch(c -> collision.willCollide(c.getCollision(), vector));
+  }
+
+  public void changeDirection() {
+    direction = vector.getDirection();
   }
 
   public BufferedImage getAnimatedImage() {
     return npcAnimation.getAnimatedImage(direction);
+  }
+
+  @Override
+  public Collision getCollision() {
+    return collision;
   }
 }

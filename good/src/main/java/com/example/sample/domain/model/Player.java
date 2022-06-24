@@ -10,7 +10,7 @@ import java.util.List;
  * プレイヤーを表現するクラス
  */
 @Getter
-public class Player {
+public class Player implements Collidable {
   private Location location;
   private Collision collision;
   private Direction direction;
@@ -43,5 +43,10 @@ public class Player {
 
   public boolean isOverlap(final Tile tile) {
     return collision.isCollide(tile.getCollision());
+  }
+
+  @Override
+  public Collision getCollision() {
+    return collision;
   }
 }

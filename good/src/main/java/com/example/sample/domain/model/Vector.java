@@ -34,6 +34,15 @@ public class Vector {
     return new Vector(length, 0);
   }
 
+  public static Vector random(final int length) {
+    int random = (int)(Math.random() * 100);
+    if (random <= 25) return Vector.up(length);
+    if (random <= 50) return Vector.down(length);
+    if (random <= 75) return Vector.right(length);
+    return Vector.left(length);
+  }
+
+
   public Direction getDirection() {
     if (x == 0 && y < 0) return Direction.UP;
     if (x == 0 && y > 0) return Direction.DOWN;
