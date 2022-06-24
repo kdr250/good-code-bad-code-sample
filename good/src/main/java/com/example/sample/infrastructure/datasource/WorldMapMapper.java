@@ -9,5 +9,5 @@ import java.util.List;
 public interface WorldMapMapper {
   WorldMapDto selectWorldMapDto(@Param("worldId") Integer worldId);
 
-  List<TileImageDto> selectTileImageDto(List<String> imageNames);
+  List<TileImageDto> selectTileImageDto(@Param("names") List<String> names);
 }

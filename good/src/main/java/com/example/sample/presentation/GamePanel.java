@@ -1,8 +1,11 @@
 package com.example.sample.presentation;
 
+import com.example.sample.application.service.NpcQueryService;
 import com.example.sample.application.service.PlayerQueryService;
 import com.example.sample.application.service.WorldMapQueryService;
 import com.example.sample.domain.model.Location;
+import com.example.sample.domain.model.Npc;
+import com.example.sample.domain.model.NpcAnimation;
 import com.example.sample.domain.model.Player;
 import com.example.sample.domain.model.PlayerAnimation;
 import com.example.sample.domain.model.Tile;
@@ -40,6 +43,8 @@ public class GamePanel extends JPanel implements Runnable {
   // TODO: 動作確認用、後でリファクタリングすること
   private Player player;
   private final PlayerQueryService playerQueryService;
+  private Npc npc;
+  private final NpcQueryService npcQueryService;
 
   // TODO: Serviceの動作確認用、後でリファクタリングすること
   private final WorldMapQueryService worldMapQueryService;
@@ -48,10 +53,11 @@ public class GamePanel extends JPanel implements Runnable {
   private boolean isFinished = false;
   boolean isFirst = true;
 
-  public GamePanel(WorldMapQueryService worldMapQueryService, KeyInputHandler keyInputHandler, PlayerQueryService playerQueryService) {
+  public GamePanel(WorldMapQueryService worldMapQueryService, KeyInputHandler keyInputHandler, PlayerQueryService playerQueryService, NpcQueryService npcQueryService) {
     this.worldMapQueryService = worldMapQueryService;
     this.keyInputHandler = keyInputHandler;
     this.playerQueryService = playerQueryService;
+    this.npcQueryService = npcQueryService;
     this.setPreferredSize(new Dimension(screenWidth, screenHeight));
     this.setBackground(Color.black);
     this.setDoubleBuffered(true);
@@ -80,6 +86,8 @@ public class GamePanel extends JPanel implements Runnable {
         // TODO: 動作確認用、後でリファクタリングすること
         PlayerAnimation playerAnimation = playerQueryService.find();
         player = new Player(new Location(tileSize * 23, tileSize * 21), playerAnimation);
+        NpcAnimation npcAnimation = npcQueryService.find();
+        npc = new Npc(new Location(tileSize * 21, tileSize * 20), npcAnimation);
         isFirst = false;
       }
 
@@ -132,8 +140,20 @@ public class GamePanel extends JPanel implements Runnable {
     g2.setColor(Color.white);
     if (player != null) {
       g2.drawImage(player.getAnimatedImage(), screenCenterX, screenCenterY, null);
+
+      if (npc != null) {
+        Location playerLocation = player.getLocation();
+        Location npcLocation = npc.getLocation();
+        int diffX = npcLocation.getX() - playerLocation.getX();
+        int diffY = npcLocation.getY() - playerLocation.getY();
+        if (
+            Math.abs(diffX) <= screenWidth / 2 + tileSize &&
+            Math.abs(diffY) <= screenHeight / 2 + tileSize
+        ) {
+          g2.drawImage(npc.getAnimatedImage(), screenCenterX + diffX, screenCenterY + diffY, null);
+        }
+      }
     }
-    //g2.fillRect(screenCenterX, screenCenterY, tileSize, tileSize);
 
     g2.dispose();
   }

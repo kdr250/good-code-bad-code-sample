@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.sample.infrastructure.datasource.npc.NpcMapper">
+    <select id="selectNpcImageDto" resultType="com.example.sample.infrastructure.datasource.npc.NpcImageDto">
+        SELECT
+        name,
+        image,
+        FROM tb_npc_image
+        WHERE name in
+        <foreach item="name" index="index" collection="names" open="(" separator="," close=")">
+            #{name}
+        </foreach>
+    </select>
+</mapper>
