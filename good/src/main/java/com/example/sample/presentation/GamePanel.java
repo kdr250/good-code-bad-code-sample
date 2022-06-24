@@ -23,6 +23,8 @@ public class GamePanel extends JPanel implements Runnable {
   private static final int maxScreenRow = 12;
   private static final int screenWidth = tileSize * maxScreenCol; // 768 px
   private static final int screenHeight = tileSize * maxScreenRow; // 576 px
+  private static final int screenCenterX = screenWidth / 2;
+  private static final int screenCenterY = screenHeight / 2;
 
   // FPS設定
   private static final int FPS = 60;
@@ -33,7 +35,7 @@ public class GamePanel extends JPanel implements Runnable {
   private final KeyInputHandler keyInputHandler;
 
   // TODO: キー入力の動作確認用、後でリファクタリングすること
-  private Player player = new Player(new Location(100, 100));
+  private Player player = new Player(new Location(500, 500));
 
   // TODO: Serviceの動作確認用、後でリファクタリングすること
   private final WorldMapQueryService worldMapQueryService;
@@ -97,14 +99,23 @@ public class GamePanel extends JPanel implements Runnable {
     Graphics2D g2 = (Graphics2D)g;
     // TODO: 動作確認用
     if (worldMap != null) {
+      Location playerLocation = player.getLocation();
       for (Tile[] tiles : worldMap.getTiles()) {
         for (Tile tile : tiles) {
-          g2.drawImage(tile.getBufferedImage(), tile.getLocation().getX(), tile.getLocation().getY(), null);
+          Location tileLocation = tile.getLocation();
+          int diffX = tileLocation.getX() - playerLocation.getX();
+          int diffY = tileLocation.getY() - playerLocation.getY();
+          if (
+            Math.abs(diffX) <= screenWidth / 2 + tileSize &&
+            Math.abs(diffY) <= screenHeight / 2 + tileSize
+          ) {
+            g2.drawImage(tile.getBufferedImage(), screenCenterX + diffX, screenCenterY + diffY, null);
+          }
         }
       }
     }
     g2.setColor(Color.white);
-    g2.fillRect(player.getLocation().getX(), player.getLocation().getY(), tileSize, tileSize);
+    g2.fillRect(screenCenterX, screenCenterY, tileSize, tileSize);
 
     g2.dispose();
   }
