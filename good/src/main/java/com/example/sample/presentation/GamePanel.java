@@ -1,8 +1,10 @@
 package com.example.sample.presentation;
 
+import com.example.sample.application.service.PlayerQueryService;
 import com.example.sample.application.service.WorldMapQueryService;
 import com.example.sample.domain.model.Location;
 import com.example.sample.domain.model.Player;
+import com.example.sample.domain.model.PlayerAnimation;
 import com.example.sample.domain.model.Tile;
 import com.example.sample.domain.model.Vector;
 import com.example.sample.domain.model.WorldMap;
@@ -35,8 +37,9 @@ public class GamePanel extends JPanel implements Runnable {
 
   private final KeyInputHandler keyInputHandler;
 
-  // TODO: キー入力の動作確認用、後でリファクタリングすること
-  private Player player = new Player(new Location(tileSize * 23, tileSize * 21));
+  // TODO: 動作確認用、後でリファクタリングすること
+  private Player player;
+  private final PlayerQueryService playerQueryService;
 
   // TODO: Serviceの動作確認用、後でリファクタリングすること
   private final WorldMapQueryService worldMapQueryService;
@@ -45,9 +48,10 @@ public class GamePanel extends JPanel implements Runnable {
   private boolean isFinished = false;
   boolean isFirst = true;
 
-  public GamePanel(WorldMapQueryService worldMapQueryService, KeyInputHandler keyInputHandler) {
+  public GamePanel(WorldMapQueryService worldMapQueryService, KeyInputHandler keyInputHandler, PlayerQueryService playerQueryService) {
     this.worldMapQueryService = worldMapQueryService;
     this.keyInputHandler = keyInputHandler;
+    this.playerQueryService = playerQueryService;
     this.setPreferredSize(new Dimension(screenWidth, screenHeight));
     this.setBackground(Color.black);
     this.setDoubleBuffered(true);
@@ -73,6 +77,9 @@ public class GamePanel extends JPanel implements Runnable {
 
       if (isFirst) {
         worldMap = this.worldMapQueryService.find();
+        // TODO: 動作確認用、後でリファクタリングすること
+        PlayerAnimation playerAnimation = playerQueryService.find();
+        player = new Player(new Location(tileSize * 23, tileSize * 21), playerAnimation);
         isFirst = false;
       }
 
@@ -123,7 +130,10 @@ public class GamePanel extends JPanel implements Runnable {
       }
     }
     g2.setColor(Color.white);
-    g2.fillRect(screenCenterX, screenCenterY, tileSize, tileSize);
+    if (player != null) {
+      g2.drawImage(player.getAnimatedImage(), screenCenterX, screenCenterY, null);
+    }
+    //g2.fillRect(screenCenterX, screenCenterY, tileSize, tileSize);
 
     g2.dispose();
   }

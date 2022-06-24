@@ -1,5 +1,6 @@
 package com.example.sample.domain.model;
 
+import com.example.sample.domain.type.Direction;
 import lombok.Getter;
 
 /**
@@ -33,7 +34,11 @@ public class Vector {
     return new Vector(length, 0);
   }
 
-  public Vector inverse() {
-    return new Vector(x * -1, y * -1);
+  public Direction getDirection() {
+    if (x == 0 && y < 0) return Direction.UP;
+    if (x == 0 && y > 0) return Direction.DOWN;
+    if (x < 0 && y == 0) return Direction.LEFT;
+    if (x > 0 && y == 0) return Direction.RIGHT;
+    return Direction.NONE;
   }
 }
