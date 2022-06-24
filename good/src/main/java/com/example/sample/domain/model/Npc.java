@@ -7,7 +7,7 @@ import java.awt.image.BufferedImage;
 import java.util.List;
 
 @Getter
-public class Npc {
+public class Npc implements Collidable {
   private Location location;
   private Collision collision;
   private Direction direction;

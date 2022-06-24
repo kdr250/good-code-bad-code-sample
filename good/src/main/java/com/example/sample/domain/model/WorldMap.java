@@ -11,9 +11,9 @@ import java.util.List;
 public class WorldMap {
   private final Tile[][] tiles;
 
-  public List<Tile> getTilesFromLocation(Location location) {
+  public List<Collidable> getTilesFromLocation(Location location) {
     // TODO: Locationからx座標、y座標のタイルのインデックス絞り込みを行い効率化すること
-    List<Tile> tileList = new ArrayList<>();
+    List<Collidable> tileList = new ArrayList<>();
     for (Tile[] tls : tiles) {
       for (Tile tile : tls) {
         if (tile.contains(location)) {

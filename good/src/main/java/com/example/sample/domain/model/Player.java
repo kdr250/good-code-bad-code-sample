@@ -29,8 +29,12 @@ public class Player {
     direction = vector.getDirection();
   }
 
-  public boolean canMove(final List<Tile> tiles, final Vector vector) {
-    return tiles.stream().noneMatch(tile -> collision.willCollide(tile.getCollision(), vector));
+  public boolean canMove(final List<Collidable> collidableList, final Vector vector) {
+    return collidableList.stream().noneMatch(c -> collision.willCollide(c.getCollision(), vector));
+  }
+
+  public void changeDirection(Vector vector) {
+    direction = vector.getDirection();
   }
 
   public BufferedImage getAnimatedImage() {

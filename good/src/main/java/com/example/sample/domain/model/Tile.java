@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 import java.awt.image.BufferedImage;
 
 @Getter
-public class Tile {
+public class Tile implements Collidable {
   private final TileType tileType;
   private final Location location;
   private final BufferedImage bufferedImage;
@@ -33,5 +33,10 @@ public class Tile {
     boolean containsY = diffY >= GamePanel.tileSize * -1 && diffY <= GamePanel.tileSize;
 
     return containsX && containsY;
+  }
+
+  @Override
+  public Collision getCollision() {
+    return collision;
   }
 }

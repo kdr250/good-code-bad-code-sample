@@ -3,6 +3,7 @@ package com.example.sample.presentation;
 import com.example.sample.application.service.NpcQueryService;
 import com.example.sample.application.service.PlayerQueryService;
 import com.example.sample.application.service.WorldMapQueryService;
+import com.example.sample.domain.model.Collidable;
 import com.example.sample.domain.model.Location;
 import com.example.sample.domain.model.Npc;
 import com.example.sample.domain.model.NpcAnimation;
@@ -110,9 +111,12 @@ public class GamePanel extends JPanel implements Runnable {
     // TODO: 動作確認用
     if (worldMap != null) {
       Location playerWillMoveLocation = player.getLocation().shift(vector);
-      List<Tile> tiles = worldMap.getTilesFromLocation(playerWillMoveLocation);
-      if (player.canMove(tiles, vector)) {
+      List<Collidable> collidableList = worldMap.getTilesFromLocation(playerWillMoveLocation);
+      collidableList.add(npc);
+      if (player.canMove(collidableList, vector)) {
         player.move(vector);
+      } else {
+        player.changeDirection(vector);
       }
     }
   }
