@@ -2,7 +2,6 @@ package com.example.sample.domain.model;
 
 import com.example.sample.presentation.GamePanel;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
 import java.awt.image.BufferedImage;
 
@@ -17,12 +16,7 @@ public class Tile implements Collidable {
     this.tileType = tileType;
     this.location = location;
     this.bufferedImage = bufferedImage;
-    // TODO: 要リファクタリング
-    if (tileType == TileType.TREE || tileType == TileType.WALL || tileType == TileType.WATER) {
-      collision = new Collision(location);
-    } else {
-      collision = Collision.NO_COLLISION;
-    }
+    collision = tileType.requireCollision() ? new Collision(location) : Collision.NO_COLLISION;
   }
 
   public boolean contains(final Location location) {

@@ -14,7 +14,7 @@ public class Enemy implements Collidable {
 
   public Enemy(final Location location, final EnemyAnimation enemyAnimation) {
     this.location = location;
-    this.collision = new Collision(location);
+    collision = new Collision(location);
     this.enemyAnimation = enemyAnimation;
     enemyMovement = new EnemyMovement();
   }

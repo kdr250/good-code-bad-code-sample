@@ -12,6 +12,7 @@ public enum TileType {
   TREE("\uD83C\uDF33"),
   SAND("\uD83D\uDFE7");
 
+  private static List<TileType> collisionTileList = Arrays.asList(WALL, WATER, TREE);
   private String emoji;
 
   TileType(String emoji) {
@@ -25,5 +26,9 @@ public enum TileType {
 
   public static List<String> names() {
     return Arrays.stream(values()).map(TileType::name).collect(Collectors.toList());
+  }
+
+  public boolean requireCollision() {
+    return collisionTileList.contains(this);
   }
 }

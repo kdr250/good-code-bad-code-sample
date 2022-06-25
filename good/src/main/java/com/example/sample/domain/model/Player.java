@@ -18,7 +18,7 @@ public class Player implements Collidable {
 
   public Player(final Location location, final PlayerAnimation playerAnimation) {
     this.location = location;
-    this.collision = new Collision(location);
+    collision = new Collision(location);
     this.playerAnimation = playerAnimation;
     direction = Direction.DOWN;
   }

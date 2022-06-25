@@ -16,7 +16,7 @@ public class Npc implements Collidable {
 
   public Npc(final Location location, final NpcAnimation npcAnimation) {
     this.location = location;
-    this.collision = new Collision(location);
+    collision = new Collision(location);
     direction = Direction.DOWN;
     this.npcAnimation = npcAnimation;
     npcMovement = new NpcMovement();
