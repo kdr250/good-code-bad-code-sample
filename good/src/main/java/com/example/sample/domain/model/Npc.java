@@ -12,34 +12,31 @@ public class Npc implements Collidable {
   private Collision collision;
   private Direction direction;
   private final NpcAnimation npcAnimation;
-
-  // TODO: Movementのドメインモデルを作成すること
-  private Vector vector = Vector.NONE;
-  private int count = 0;
+  private final NpcMovement npcMovement;
 
   public Npc(final Location location, final NpcAnimation npcAnimation) {
     this.location = location;
     this.collision = new Collision(location);
-    this.npcAnimation = npcAnimation;
     direction = Direction.DOWN;
+    this.npcAnimation = npcAnimation;
+    npcMovement = new NpcMovement();
   }
 
   public void move() {
+    Vector vector = npcMovement.getVector();
     location = location.shift(vector);
     collision = collision.shift(vector);
     direction = vector.getDirection();
   }
 
-  public boolean canMove(final List<Collidable> collidableList) {
-    count++;
-    count %= 180;
-    if (count / 120 < 1) return false;
-    if (count == 120) vector = Vector.random(1);
+  public boolean updateMovementCountThenCanMove(final List<Collidable> collidableList) {
+    npcMovement.update();
+    Vector vector = npcMovement.getVector();
     return collidableList.stream().noneMatch(c -> collision.willCollide(c.getCollision(), vector));
   }
 
   public void changeDirection() {
-    direction = vector.getDirection();
+    direction = npcMovement.getVector().getDirection();
   }
 
   public BufferedImage getAnimatedImage() {

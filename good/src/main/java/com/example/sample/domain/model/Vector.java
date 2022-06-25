@@ -36,12 +36,18 @@ public class Vector {
 
   public static Vector random(final int length) {
     int random = (int)(Math.random() * 100);
-    if (random <= 25) return Vector.up(length);
-    if (random <= 50) return Vector.down(length);
-    if (random <= 75) return Vector.right(length);
-    return Vector.left(length);
-  }
 
+    switch (random / 25) {
+      case 0:
+        return Vector.up(length);
+      case 1:
+        return Vector.down(length);
+      case 2:
+        return Vector.left(length);
+      default:
+        return Vector.right(length);
+    }
+  }
 
   public Direction getDirection() {
     if (x == 0 && y < 0) return Direction.UP;

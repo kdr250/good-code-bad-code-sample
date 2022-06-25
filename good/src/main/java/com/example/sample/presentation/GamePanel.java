@@ -128,11 +128,11 @@ public class GamePanel extends JPanel implements Runnable {
         player.changeDirection(vector);
       }
 
-      Location npcWillMoveLocation = npc.getLocation().shift(npc.getVector());
+      Location npcWillMoveLocation = npc.getLocation().shift(npc.getNpcMovement().getVector());
       List<Collidable> collidableListForNpc = worldMap.getTilesFromLocation(npcWillMoveLocation);
       collidableListForNpc.add(player);
       collidableListForPlayer.add(enemy);
-      if (npc.canMove(collidableListForNpc)) {
+      if (npc.updateMovementCountThenCanMove(collidableListForNpc)) {
         npc.move();
       } else {
         npc.changeDirection();
