@@ -1,9 +1,12 @@
 package com.example.sample.presentation;
 
+import com.example.sample.application.service.EnemyQueryService;
 import com.example.sample.application.service.NpcQueryService;
 import com.example.sample.application.service.PlayerQueryService;
 import com.example.sample.application.service.WorldMapQueryService;
 import com.example.sample.domain.model.Collidable;
+import com.example.sample.domain.model.Enemy;
+import com.example.sample.domain.model.EnemyAnimation;
 import com.example.sample.domain.model.Location;
 import com.example.sample.domain.model.Npc;
 import com.example.sample.domain.model.NpcAnimation;
@@ -46,6 +49,8 @@ public class GamePanel extends JPanel implements Runnable {
   private final PlayerQueryService playerQueryService;
   private Npc npc;
   private final NpcQueryService npcQueryService;
+  private Enemy enemy;
+  private final EnemyQueryService enemyQueryService;
 
   // TODO: Serviceの動作確認用、後でリファクタリングすること
   private final WorldMapQueryService worldMapQueryService;
@@ -54,11 +59,12 @@ public class GamePanel extends JPanel implements Runnable {
   private boolean isFinished = false;
   boolean isFirst = true;
 
-  public GamePanel(WorldMapQueryService worldMapQueryService, KeyInputHandler keyInputHandler, PlayerQueryService playerQueryService, NpcQueryService npcQueryService) {
+  public GamePanel(WorldMapQueryService worldMapQueryService, KeyInputHandler keyInputHandler, PlayerQueryService playerQueryService, NpcQueryService npcQueryService, EnemyQueryService enemyQueryService) {
     this.worldMapQueryService = worldMapQueryService;
     this.keyInputHandler = keyInputHandler;
     this.playerQueryService = playerQueryService;
     this.npcQueryService = npcQueryService;
+    this.enemyQueryService = enemyQueryService;
     this.setPreferredSize(new Dimension(screenWidth, screenHeight));
     this.setBackground(Color.black);
     this.setDoubleBuffered(true);
@@ -89,6 +95,8 @@ public class GamePanel extends JPanel implements Runnable {
         player = new Player(new Location(tileSize * 23, tileSize * 21), playerAnimation);
         NpcAnimation npcAnimation = npcQueryService.find();
         npc = new Npc(new Location(tileSize * 21, tileSize * 20), npcAnimation);
+        EnemyAnimation enemyAnimation = enemyQueryService.find();
+        enemy = new Enemy(new Location(tileSize * 14, tileSize * 21), enemyAnimation);
         isFirst = false;
       }
 
@@ -113,6 +121,7 @@ public class GamePanel extends JPanel implements Runnable {
       Location playerWillMoveLocation = player.getLocation().shift(vector);
       List<Collidable> collidableListForPlayer = worldMap.getTilesFromLocation(playerWillMoveLocation);
       collidableListForPlayer.add(npc);
+      collidableListForPlayer.add(enemy);
       if (player.canMove(collidableListForPlayer, vector)) {
         player.move(vector);
       } else {
@@ -122,10 +131,19 @@ public class GamePanel extends JPanel implements Runnable {
       Location npcWillMoveLocation = npc.getLocation().shift(npc.getVector());
       List<Collidable> collidableListForNpc = worldMap.getTilesFromLocation(npcWillMoveLocation);
       collidableListForNpc.add(player);
+      collidableListForPlayer.add(enemy);
       if (npc.canMove(collidableListForNpc)) {
         npc.move();
       } else {
         npc.changeDirection();
+      }
+
+      Location enemyWillMoveLocation = enemy.getLocation().shift(enemy.getVector());
+      List<Collidable> collidableListForEnemy = worldMap.getTilesFromLocation(enemyWillMoveLocation);
+      collidableListForEnemy.add(player);
+      collidableListForEnemy.add(npc);
+      if (enemy.canMove(collidableListForEnemy)) {
+        enemy.move();
       }
     }
   }
@@ -154,8 +172,9 @@ public class GamePanel extends JPanel implements Runnable {
     if (player != null) {
       g2.drawImage(player.getAnimatedImage(), screenCenterX, screenCenterY, null);
 
+      Location playerLocation = player.getLocation();
+
       if (npc != null) {
-        Location playerLocation = player.getLocation();
         Location npcLocation = npc.getLocation();
         int diffX = npcLocation.getX() - playerLocation.getX();
         int diffY = npcLocation.getY() - playerLocation.getY();
@@ -164,6 +183,18 @@ public class GamePanel extends JPanel implements Runnable {
             Math.abs(diffY) <= screenHeight / 2 + tileSize
         ) {
           g2.drawImage(npc.getAnimatedImage(), screenCenterX + diffX, screenCenterY + diffY, null);
+        }
+
+        if (enemy != null) {
+          Location enemyLocation = enemy.getLocation();
+          int diffXForEnemy = enemyLocation.getX() - playerLocation.getX();
+          int diffYForEnemy = enemyLocation.getY() - playerLocation.getY();
+          if (
+              Math.abs(diffXForEnemy) <= screenWidth / 2 + tileSize &&
+              Math.abs(diffYForEnemy) <= screenHeight / 2 + tileSize
+          ) {
+            g2.drawImage(enemy.getAnimatedImage(), screenCenterX + diffXForEnemy, screenCenterY + diffYForEnemy, null);
+          }
         }
       }
     }

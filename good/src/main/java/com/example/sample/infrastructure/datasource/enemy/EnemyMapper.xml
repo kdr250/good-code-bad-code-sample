@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.sample.infrastructure.datasource.enemy.EnemyMapper">
+    <select id="selectEnemyImageDto" resultType="com.example.sample.infrastructure.datasource.enemy.EnemyImageDto">
+        SELECT
+        name,
+        image,
+        FROM tb_enemy_image
+        WHERE name in
+        <foreach item="name" index="index" collection="names" open="(" separator="," close=")">
+            #{name}
+        </foreach>
+    </select>
+</mapper>
