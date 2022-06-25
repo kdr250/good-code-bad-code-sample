@@ -1,6 +1,6 @@
 package com.example.sample.domain.model;
 
 public interface Collidable {
-
-  Collision getCollision();
+  public Location getLocation();
+  public Collision getCollision();
 }

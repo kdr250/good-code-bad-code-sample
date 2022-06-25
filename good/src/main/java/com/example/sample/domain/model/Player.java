@@ -1,5 +1,6 @@
 package com.example.sample.domain.model;
 
+import com.example.sample.domain.model.item.Item;
 import com.example.sample.domain.type.Direction;
 import lombok.Getter;
 
@@ -15,12 +16,14 @@ public class Player implements Collidable {
   private Collision collision;
   private Direction direction;
   private final PlayerAnimation playerAnimation;
+  private PlayerItems playerItems;
 
   public Player(final Location location, final PlayerAnimation playerAnimation) {
     this.location = location;
     collision = new Collision(location);
     this.playerAnimation = playerAnimation;
     direction = Direction.DOWN;
+    playerItems = new PlayerItems();
   }
 
   public void move(final Vector vector) {
@@ -41,8 +44,12 @@ public class Player implements Collidable {
     return playerAnimation.getAnimatedImage(direction);
   }
 
-  public boolean isOverlap(final Tile tile) {
-    return collision.isCollide(tile.getCollision());
+  public void pickUp(Item item) {
+    playerItems = playerItems.add(item);
+  }
+
+  public boolean isOverlap(final Item item) {
+    return collision.isCollide(item.getCollision());
   }
 
   @Override

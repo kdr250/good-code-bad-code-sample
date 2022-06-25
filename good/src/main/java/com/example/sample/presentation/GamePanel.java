@@ -1,6 +1,7 @@
 package com.example.sample.presentation;
 
 import com.example.sample.application.service.EnemyQueryService;
+import com.example.sample.application.service.ItemQueryService;
 import com.example.sample.application.service.NpcQueryService;
 import com.example.sample.application.service.PlayerQueryService;
 import com.example.sample.application.service.WorldMapQueryService;
@@ -15,10 +16,15 @@ import com.example.sample.domain.model.PlayerAnimation;
 import com.example.sample.domain.model.Tile;
 import com.example.sample.domain.model.Vector;
 import com.example.sample.domain.model.WorldMap;
+import com.example.sample.domain.model.item.Item;
+import com.example.sample.domain.model.item.ItemImage;
+import com.example.sample.domain.model.item.ItemType;
+import com.example.sample.domain.model.item.PotionRed;
 import org.springframework.stereotype.Component;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -51,6 +57,8 @@ public class GamePanel extends JPanel implements Runnable {
   private final NpcQueryService npcQueryService;
   private Enemy enemy;
   private final EnemyQueryService enemyQueryService;
+  private List<Item> fieldItemList = new ArrayList<>();
+  private final ItemQueryService itemQueryService;
 
   // TODO: Serviceの動作確認用、後でリファクタリングすること
   private final WorldMapQueryService worldMapQueryService;
@@ -59,12 +67,13 @@ public class GamePanel extends JPanel implements Runnable {
   private boolean isFinished = false;
   boolean isFirst = true;
 
-  public GamePanel(WorldMapQueryService worldMapQueryService, KeyInputHandler keyInputHandler, PlayerQueryService playerQueryService, NpcQueryService npcQueryService, EnemyQueryService enemyQueryService) {
+  public GamePanel(WorldMapQueryService worldMapQueryService, KeyInputHandler keyInputHandler, PlayerQueryService playerQueryService, NpcQueryService npcQueryService, EnemyQueryService enemyQueryService, ItemQueryService itemQueryService) {
     this.worldMapQueryService = worldMapQueryService;
     this.keyInputHandler = keyInputHandler;
     this.playerQueryService = playerQueryService;
     this.npcQueryService = npcQueryService;
     this.enemyQueryService = enemyQueryService;
+    this.itemQueryService = itemQueryService;
     this.setPreferredSize(new Dimension(screenWidth, screenHeight));
     this.setBackground(Color.black);
     this.setDoubleBuffered(true);
@@ -97,6 +106,9 @@ public class GamePanel extends JPanel implements Runnable {
         npc = new Npc(new Location(tileSize * 21, tileSize * 20), npcAnimation);
         EnemyAnimation enemyAnimation = enemyQueryService.find();
         enemy = new Enemy(new Location(tileSize * 14, tileSize * 21), enemyAnimation);
+        ItemImage itemImage = itemQueryService.find(ItemType.POTION_RED);
+        Item potionRed = new PotionRed(new Location(tileSize * 22, tileSize * 7), itemImage);
+        fieldItemList.add(potionRed);
         isFirst = false;
       }
 
@@ -144,6 +156,14 @@ public class GamePanel extends JPanel implements Runnable {
       collidableListForEnemy.add(npc);
       if (enemy.updateMovementThenCanMove(collidableListForEnemy)) {
         enemy.move();
+      }
+
+      for (Item item : fieldItemList) {
+        if (item.getCollision().isCollide(player.getCollision())) {
+          player.pickUp(item);
+          fieldItemList.remove(item);
+          break;
+        }
       }
     }
   }
@@ -194,6 +214,18 @@ public class GamePanel extends JPanel implements Runnable {
               Math.abs(diffYForEnemy) <= screenHeight / 2 + tileSize
           ) {
             g2.drawImage(enemy.getAnimatedImage(), screenCenterX + diffXForEnemy, screenCenterY + diffYForEnemy, null);
+          }
+        }
+
+        for (Item item : fieldItemList) {
+          Location potionRedLocation = item.getLocation();
+          int diffXForPotionRed = potionRedLocation.getX() - playerLocation.getX();
+          int diffYForPotionRed = potionRedLocation.getY() - playerLocation.getY();
+          if (
+              Math.abs(diffXForPotionRed) <= screenWidth / 2 + tileSize &&
+              Math.abs(diffYForPotionRed) <= screenHeight / 2 + tileSize
+          ) {
+            g2.drawImage(item.getImage(), screenCenterX + diffXForPotionRed, screenCenterY + diffYForPotionRed, null);
           }
         }
       }
