@@ -132,7 +132,7 @@ public class GamePanel extends JPanel implements Runnable {
       List<Collidable> collidableListForNpc = worldMap.getTilesFromLocation(npcWillMoveLocation);
       collidableListForNpc.add(player);
       collidableListForPlayer.add(enemy);
-      if (npc.updateMovementCountThenCanMove(collidableListForNpc)) {
+      if (npc.updateMovementThenCanMove(collidableListForNpc)) {
         npc.move();
       } else {
         npc.changeDirection();
@@ -142,7 +142,7 @@ public class GamePanel extends JPanel implements Runnable {
       List<Collidable> collidableListForEnemy = worldMap.getTilesFromLocation(enemyWillMoveLocation);
       collidableListForEnemy.add(player);
       collidableListForEnemy.add(npc);
-      if (enemy.updateMovementCountThenCanMove(collidableListForEnemy)) {
+      if (enemy.updateMovementThenCanMove(collidableListForEnemy)) {
         enemy.move();
       }
     }

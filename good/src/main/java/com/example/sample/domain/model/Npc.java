@@ -29,7 +29,7 @@ public class Npc implements Collidable {
     direction = vector.getDirection();
   }
 
-  public boolean updateMovementCountThenCanMove(final List<Collidable> collidableList) {
+  public boolean updateMovementThenCanMove(final List<Collidable> collidableList) {
     npcMovement.update();
     Vector vector = npcMovement.getVector();
     return collidableList.stream().noneMatch(c -> collision.willCollide(c.getCollision(), vector));

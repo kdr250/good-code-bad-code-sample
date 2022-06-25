@@ -25,7 +25,7 @@ public class Enemy implements Collidable {
     collision = collision.shift(vector);
   }
 
-  public boolean updateMovementCountThenCanMove(final List<Collidable> collidableList) {
+  public boolean updateMovementThenCanMove(final List<Collidable> collidableList) {
     enemyMovement.update();
     Vector vector = enemyMovement.getVector();
     return collidableList.stream().noneMatch(c -> collision.willCollide(c.getCollision(), vector));
