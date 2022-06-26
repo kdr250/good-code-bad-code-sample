@@ -3,7 +3,7 @@ package com.example.sample.domain.model.item;
 import com.example.sample.domain.model.Collision;
 import com.example.sample.domain.model.Location;
 import com.example.sample.domain.model.event.Event;
-import com.example.sample.domain.model.event.GameClearPlayerEvent;
+import com.example.sample.domain.model.event.GameClearEvent;
 import lombok.Getter;
 
 import java.awt.image.BufferedImage;
@@ -26,7 +26,7 @@ public class ItemChest implements Interactive {
 
   @Override
   public Event interact() {
-    return new GameClearPlayerEvent();
+    return new GameClearEvent();
   }
 
   @Override
