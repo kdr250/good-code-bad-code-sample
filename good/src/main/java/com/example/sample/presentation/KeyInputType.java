@@ -8,6 +8,7 @@ public enum KeyInputType {
   LEFT(Vector.left(4)),
   RIGHT(Vector.right(4)),
   DECIDE(Vector.NONE),
+  DISPLAY_ITEM_LIST(Vector.NONE),
   NONE(Vector.NONE);
 
   private final Vector vector;

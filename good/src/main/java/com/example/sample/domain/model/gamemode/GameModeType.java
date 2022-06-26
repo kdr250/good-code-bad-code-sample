@@ -1,10 +1,10 @@
 package com.example.sample.domain.model.gamemode;
 
 public enum GameModeType {
-  TITLE,
+  DISPLAY_TITLE,
   WORLD_MAP,
   BATTLE,
-  ITEM,
-  OPTION,
+  DISPLAY_ITEM_LIST,
+  DISPLAY_OPTION_MENU,
   GAME_CLEAR;
 }

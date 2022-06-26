@@ -17,7 +17,6 @@ import com.example.sample.domain.model.Tile;
 import com.example.sample.domain.model.Vector;
 import com.example.sample.domain.model.WorldMap;
 import com.example.sample.domain.model.event.Event;
-import com.example.sample.domain.model.event.GameClearPlayerEvent;
 import com.example.sample.domain.model.event.GameModeEvent;
 import com.example.sample.domain.model.event.PlayerEvent;
 import com.example.sample.domain.model.gamemode.GameMode;
@@ -146,7 +145,7 @@ public class GamePanel extends JPanel implements Runnable {
   }
 
   private void update() {
-    Vector vector = keyInputHandler.getKeyInputType().getVector();
+    KeyInputType keyInputType = keyInputHandler.getKeyInputType();
 
     if (gameMode.isGameCleared()) {
       if (keyInputHandler.getKeyInputType() == KeyInputType.DECIDE) {
@@ -155,57 +154,65 @@ public class GamePanel extends JPanel implements Runnable {
       return;
     }
 
-    // TODO: 動作確認用
-    if (worldMap != null) {
-      Location playerWillMoveLocation = player.getLocation().shift(vector);
+    if (keyInputType == KeyInputType.DISPLAY_ITEM_LIST) {
+      gameMode.toggleDisplayItemList();
+      return;
+    }
 
-      for (Item item : fieldItemList) {
-        if (item.getCollision().isCollide(player.getCollision().shift(vector))) {
-          if (item instanceof Interactive) {
-            Event event = ((Interactive) item).interact();
-            if (event instanceof GameModeEvent) {
-              ((GameModeEvent) event).execute(gameMode);
-              return;
-            }
-            if (event instanceof PlayerEvent) {
-              if (((PlayerEvent) event).execute(player)) {
-                fieldItemList.remove(item);
+    if (gameMode.isWorldMap()) {
+      // TODO: 動作確認用
+      if (worldMap != null) {
+        Vector vector = keyInputType.getVector();
+        Location playerWillMoveLocation = player.getLocation().shift(vector);
+
+        for (Item item : fieldItemList) {
+          if (item.getCollision().isCollide(player.getCollision().shift(vector))) {
+            if (item instanceof Interactive) {
+              Event event = ((Interactive) item).interact();
+              if (event instanceof GameModeEvent) {
+                ((GameModeEvent) event).execute(gameMode);
+                return;
               }
+              if (event instanceof PlayerEvent) {
+                if (((PlayerEvent) event).execute(player)) {
+                  fieldItemList.remove(item);
+                }
+              }
+            } else {
+              player.pickUp(item);
+              fieldItemList.remove(item);
             }
-          } else {
-            player.pickUp(item);
-            fieldItemList.remove(item);
+            break;
           }
-          break;
         }
-      }
 
-      List<Collidable> collidableListForPlayer = worldMap.getTilesFromLocation(playerWillMoveLocation);
-      collidableListForPlayer.add(npc);
-      collidableListForPlayer.add(enemy);
-      collidableListForPlayer.addAll(fieldItemList.stream().filter(item -> item instanceof Interactive).collect(Collectors.toList()));
-      if (player.canMove(collidableListForPlayer, vector)) {
-        player.move(vector);
-      } else {
-        player.changeDirection(vector);
-      }
+        List<Collidable> collidableListForPlayer = worldMap.getTilesFromLocation(playerWillMoveLocation);
+        collidableListForPlayer.add(npc);
+        collidableListForPlayer.add(enemy);
+        collidableListForPlayer.addAll(fieldItemList.stream().filter(item -> item instanceof Interactive).collect(Collectors.toList()));
+        if (player.canMove(collidableListForPlayer, vector)) {
+          player.move(vector);
+        } else {
+          player.changeDirection(vector);
+        }
 
-      Location npcWillMoveLocation = npc.getLocation().shift(npc.getNpcMovement().getVector());
-      List<Collidable> collidableListForNpc = worldMap.getTilesFromLocation(npcWillMoveLocation);
-      collidableListForNpc.add(player);
-      collidableListForPlayer.add(enemy);
-      if (npc.updateMovementThenCanMove(collidableListForNpc)) {
-        npc.move();
-      } else {
-        npc.changeDirection();
-      }
+        Location npcWillMoveLocation = npc.getLocation().shift(npc.getNpcMovement().getVector());
+        List<Collidable> collidableListForNpc = worldMap.getTilesFromLocation(npcWillMoveLocation);
+        collidableListForNpc.add(player);
+        collidableListForPlayer.add(enemy);
+        if (npc.updateMovementThenCanMove(collidableListForNpc)) {
+          npc.move();
+        } else {
+          npc.changeDirection();
+        }
 
-      Location enemyWillMoveLocation = enemy.getLocation().shift(enemy.getEnemyMovement().getVector());
-      List<Collidable> collidableListForEnemy = worldMap.getTilesFromLocation(enemyWillMoveLocation);
-      collidableListForEnemy.add(player);
-      collidableListForEnemy.add(npc);
-      if (enemy.updateMovementThenCanMove(collidableListForEnemy)) {
-        enemy.move();
+        Location enemyWillMoveLocation = enemy.getLocation().shift(enemy.getEnemyMovement().getVector());
+        List<Collidable> collidableListForEnemy = worldMap.getTilesFromLocation(enemyWillMoveLocation);
+        collidableListForEnemy.add(player);
+        collidableListForEnemy.add(npc);
+        if (enemy.updateMovementThenCanMove(collidableListForEnemy)) {
+          enemy.move();
+        }
       }
     }
   }
@@ -275,6 +282,10 @@ public class GamePanel extends JPanel implements Runnable {
       g2.drawString("クリア!", screenWidth / 2 - Tile.TILE_SIZE * 3, screenHeight / 2);
       g2.setColor(Color.black);
       g2.drawString("> Press Enter to Quit Game", screenWidth / 2 - Tile.TILE_SIZE * 3, screenHeight / 2 + Tile.TILE_SIZE * 3);
+    }
+
+    if (gameMode.isDisplayingItemList()) {
+      g2.drawString("アイテムリスト!", screenWidth / 2 - Tile.TILE_SIZE * 3, screenHeight / 2);
     }
 
     g2.dispose();
