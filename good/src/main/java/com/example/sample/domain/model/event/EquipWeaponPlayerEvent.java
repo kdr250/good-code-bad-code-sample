@@ -1,14 +1,14 @@
 package com.example.sample.domain.model.event;
 
 import com.example.sample.domain.model.Player;
-import com.example.sample.domain.model.item.Weapon;
+import com.example.sample.domain.model.item.Equipment;
 
 public class EquipWeaponPlayerEvent implements PlayerEvent {
 
-  private final Weapon weapon;
+  private final Equipment equipment;
 
-  public EquipWeaponPlayerEvent(final Weapon weapon) {
-    this.weapon = weapon;
+  public EquipWeaponPlayerEvent(final Equipment equipment) {
+    this.equipment = equipment;
   }
 
   @Override
