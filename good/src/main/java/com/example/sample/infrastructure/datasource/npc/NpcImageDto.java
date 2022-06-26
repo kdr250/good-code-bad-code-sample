@@ -1,7 +1,7 @@
 package com.example.sample.infrastructure.datasource.npc;
 
 import com.example.sample.domain.model.NpcAnimationType;
-import com.example.sample.presentation.GamePanel;
+import com.example.sample.domain.model.Tile;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -23,9 +23,9 @@ public class NpcImageDto {
     ByteArrayInputStream bis = new ByteArrayInputStream(decodedBytes);
     try {
       BufferedImage original = ImageIO.read(bis);
-      BufferedImage scaledImage = new BufferedImage(GamePanel.tileSize, GamePanel.tileSize, original.getType());
+      BufferedImage scaledImage = new BufferedImage(Tile.TILE_SIZE, Tile.TILE_SIZE, original.getType());
       Graphics2D g2 = scaledImage.createGraphics();
-      g2.drawImage(original, 0, 0, GamePanel.tileSize, GamePanel.tileSize, null);
+      g2.drawImage(original, 0, 0, Tile.TILE_SIZE, Tile.TILE_SIZE, null);
       return scaledImage;
     } catch (IOException e) {
       throw new IllegalStateException(e.getMessage(), e);

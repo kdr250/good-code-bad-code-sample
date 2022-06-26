@@ -1,5 +1,6 @@
 package com.example.sample.infrastructure.datasource;
 
+import com.example.sample.domain.model.Tile;
 import com.example.sample.domain.model.TileType;
 import com.example.sample.presentation.GamePanel;
 
@@ -23,9 +24,9 @@ public class TileImageDto {
     ByteArrayInputStream bis = new ByteArrayInputStream(decodedBytes);
     try {
       BufferedImage original = ImageIO.read(bis);
-      BufferedImage scaledImage = new BufferedImage(GamePanel.tileSize, GamePanel.tileSize, original.getType());
+      BufferedImage scaledImage = new BufferedImage(Tile.TILE_SIZE, Tile.TILE_SIZE, original.getType());
       Graphics2D g2 = scaledImage.createGraphics();
-      g2.drawImage(original, 0, 0, GamePanel.tileSize, GamePanel.tileSize, null);
+      g2.drawImage(original, 0, 0, Tile.TILE_SIZE, Tile.TILE_SIZE, null);
       return scaledImage;
     } catch (IOException e) {
       throw new IllegalStateException(e.getMessage(), e);

@@ -24,7 +24,7 @@ public class WorldMapDto {
       for (int j = 0; j < horizontalSize; j++) {
         String emoji = strTiles[i * horizontalSize + j];
         TileType tileType = TileType.from(emoji);
-        Location location = new Location(j * GamePanel.tileSize, i * GamePanel.tileSize);
+        Location location = new Location(j * Tile.TILE_SIZE, i * Tile.TILE_SIZE);
         BufferedImage image = map.get(tileType);
         result[i][j] = new Tile(tileType, location, image);
       }

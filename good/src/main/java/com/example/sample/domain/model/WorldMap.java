@@ -13,8 +13,8 @@ public class WorldMap {
   private final Tile[][] tiles;
 
   public List<Collidable> getTilesFromLocation(Location location) {
-    int tileX = location.getX() / GamePanel.tileSize;
-    int tileY = location.getY() / GamePanel.tileSize;
+    int tileX = location.getX() / Tile.TILE_SIZE;
+    int tileY = location.getY() / Tile.TILE_SIZE;
 
     Tile tile1 = tiles[tileY][tileX];
     Tile tile2 = tiles[tileY + 1][tileX];

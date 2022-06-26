@@ -38,14 +38,10 @@ import java.util.stream.Collectors;
 public class GamePanel extends JPanel implements Runnable {
 
   // スクリーン設定
-  private static final int originalTileSize = 16; // 16x16
-  private static final int scale = 3;
-
-  public static final int tileSize = originalTileSize * scale; // 48x48 tile
   private static final int maxScreenCol = 16;
   private static final int maxScreenRow = 12;
-  private static final int screenWidth = tileSize * maxScreenCol; // 768 px
-  private static final int screenHeight = tileSize * maxScreenRow; // 576 px
+  private static final int screenWidth = Tile.TILE_SIZE * maxScreenCol; // 768 px
+  private static final int screenHeight = Tile.TILE_SIZE * maxScreenRow; // 576 px
   private static final int screenCenterX = screenWidth / 2;
   private static final int screenCenterY = screenHeight / 2;
 
@@ -111,22 +107,22 @@ public class GamePanel extends JPanel implements Runnable {
         worldMap = this.worldMapQueryService.find();
         // TODO: 動作確認用、後でリファクタリングすること
         PlayerAnimation playerAnimation = playerQueryService.find();
-        player = new Player(new Location(tileSize * 23, tileSize * 21), playerAnimation);
+        player = new Player(new Location(Tile.TILE_SIZE * 23, Tile.TILE_SIZE * 21), playerAnimation);
         NpcAnimation npcAnimation = npcQueryService.find();
-        npc = new Npc(new Location(tileSize * 21, tileSize * 20), npcAnimation);
+        npc = new Npc(new Location(Tile.TILE_SIZE * 21, Tile.TILE_SIZE * 20), npcAnimation);
         EnemyAnimation enemyAnimation = enemyQueryService.find();
-        enemy = new Enemy(new Location(tileSize * 9, tileSize * 30), enemyAnimation);
+        enemy = new Enemy(new Location(Tile.TILE_SIZE * 9, Tile.TILE_SIZE * 30), enemyAnimation);
         ItemImage itemImage = itemQueryService.find(ItemType.POTION_RED);
-        Item potionRed = new ItemPotionRed(new Location(tileSize * 22, tileSize * 7), itemImage);
+        Item potionRed = new ItemPotionRed(new Location(Tile.TILE_SIZE * 22, Tile.TILE_SIZE * 7), itemImage);
         fieldItemList.add(potionRed);
         ItemImage itemImageKey = itemQueryService.find(ItemType.KEY);
-        Item key = new ItemKey(new Location(tileSize * 22, tileSize * 9), itemImageKey);
+        Item key = new ItemKey(new Location(Tile.TILE_SIZE * 22, Tile.TILE_SIZE * 9), itemImageKey);
         fieldItemList.add(key);
         ItemImage itemImageDoor = itemQueryService.find(ItemType.DOOR);
-        Item door = new ItemDoor(new Location(tileSize * 10, tileSize * 11), itemImageDoor);
+        Item door = new ItemDoor(new Location(Tile.TILE_SIZE * 10, Tile.TILE_SIZE * 11), itemImageDoor);
         fieldItemList.add(door);
         ItemImage itemImageChest = itemQueryService.find(ItemType.CHEST);
-        Item chest = new ItemChest(new Location(tileSize * 10, tileSize * 7), itemImageChest);
+        Item chest = new ItemChest(new Location(Tile.TILE_SIZE * 10, Tile.TILE_SIZE * 7), itemImageChest);
         fieldItemList.add(chest);
         isFirst = false;
       }
@@ -223,8 +219,8 @@ public class GamePanel extends JPanel implements Runnable {
           int diffX = tileLocation.getX() - playerLocation.getX();
           int diffY = tileLocation.getY() - playerLocation.getY();
           if (
-            Math.abs(diffX) <= screenWidth / 2 + tileSize &&
-            Math.abs(diffY) <= screenHeight / 2 + tileSize
+            Math.abs(diffX) <= screenWidth / 2 + Tile.TILE_SIZE &&
+            Math.abs(diffY) <= screenHeight / 2 + Tile.TILE_SIZE
           ) {
             g2.drawImage(tile.getBufferedImage(), screenCenterX + diffX, screenCenterY + diffY, null);
           }
@@ -237,8 +233,8 @@ public class GamePanel extends JPanel implements Runnable {
         int diffX = npcLocation.getX() - playerLocation.getX();
         int diffY = npcLocation.getY() - playerLocation.getY();
         if (
-            Math.abs(diffX) <= screenWidth / 2 + tileSize &&
-            Math.abs(diffY) <= screenHeight / 2 + tileSize
+            Math.abs(diffX) <= screenWidth / 2 + Tile.TILE_SIZE &&
+            Math.abs(diffY) <= screenHeight / 2 + Tile.TILE_SIZE
         ) {
           g2.drawImage(npc.getAnimatedImage(), screenCenterX + diffX, screenCenterY + diffY, null);
         }
@@ -248,8 +244,8 @@ public class GamePanel extends JPanel implements Runnable {
           int diffXForEnemy = enemyLocation.getX() - playerLocation.getX();
           int diffYForEnemy = enemyLocation.getY() - playerLocation.getY();
           if (
-              Math.abs(diffXForEnemy) <= screenWidth / 2 + tileSize &&
-              Math.abs(diffYForEnemy) <= screenHeight / 2 + tileSize
+              Math.abs(diffXForEnemy) <= screenWidth / 2 + Tile.TILE_SIZE &&
+              Math.abs(diffYForEnemy) <= screenHeight / 2 + Tile.TILE_SIZE
           ) {
             g2.drawImage(enemy.getAnimatedImage(), screenCenterX + diffXForEnemy, screenCenterY + diffYForEnemy, null);
           }
@@ -260,8 +256,8 @@ public class GamePanel extends JPanel implements Runnable {
           int diffXForPotionRed = potionRedLocation.getX() - playerLocation.getX();
           int diffYForPotionRed = potionRedLocation.getY() - playerLocation.getY();
           if (
-              Math.abs(diffXForPotionRed) <= screenWidth / 2 + tileSize &&
-              Math.abs(diffYForPotionRed) <= screenHeight / 2 + tileSize
+              Math.abs(diffXForPotionRed) <= screenWidth / 2 + Tile.TILE_SIZE &&
+              Math.abs(diffYForPotionRed) <= screenHeight / 2 + Tile.TILE_SIZE
           ) {
             g2.drawImage(item.getImage(), screenCenterX + diffXForPotionRed, screenCenterY + diffYForPotionRed, null);
           }
@@ -270,9 +266,9 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     if (gameMode == GameMode.GAME_CLEAR) {
-      g2.drawString("クリア!", screenWidth / 2 - tileSize * 3, screenHeight / 2);
+      g2.drawString("クリア!", screenWidth / 2 - Tile.TILE_SIZE * 3, screenHeight / 2);
       g2.setColor(Color.black);
-      g2.drawString("> Press Enter to Quit Game", screenWidth / 2 - tileSize * 3, screenHeight / 2 + tileSize * 3);
+      g2.drawString("> Press Enter to Quit Game", screenWidth / 2 - Tile.TILE_SIZE * 3, screenHeight / 2 + Tile.TILE_SIZE * 3);
     }
 
     g2.dispose();
