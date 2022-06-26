@@ -2,8 +2,8 @@ package com.example.sample.domain.model.item;
 
 import com.example.sample.domain.model.Collision;
 import com.example.sample.domain.model.Location;
-import com.example.sample.domain.model.event.DoorOpenEvent;
-import com.example.sample.domain.model.event.Event;
+import com.example.sample.domain.model.event.DoorOpenPlayerEvent;
+import com.example.sample.domain.model.event.PlayerEvent;
 import lombok.Getter;
 
 import java.awt.image.BufferedImage;
@@ -25,8 +25,8 @@ public class ItemDoor implements Interactive {
   }
 
   @Override
-  public Event interact() {
-    return new DoorOpenEvent();
+  public PlayerEvent interact() {
+    return new DoorOpenPlayerEvent();
   }
 
   @Override

@@ -2,8 +2,8 @@ package com.example.sample.domain.model.item;
 
 import com.example.sample.domain.model.Collision;
 import com.example.sample.domain.model.Location;
-import com.example.sample.domain.model.event.Event;
-import com.example.sample.domain.model.event.HitPointRecoveryEvent;
+import com.example.sample.domain.model.event.PlayerEvent;
+import com.example.sample.domain.model.event.HitPointRecoveryPlayerEvent;
 import lombok.Getter;
 
 import java.awt.image.BufferedImage;
@@ -25,8 +25,8 @@ public class ItemPotionRed implements Consumable {
   }
 
   @Override
-  public Event consume() {
-    return new HitPointRecoveryEvent(5);
+  public PlayerEvent consume() {
+    return new HitPointRecoveryPlayerEvent(5);
   }
 
   @Override

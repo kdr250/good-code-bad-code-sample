@@ -3,11 +3,11 @@ package com.example.sample.domain.model.event;
 import com.example.sample.domain.model.Player;
 import com.example.sample.domain.model.item.Weapon;
 
-public class EquipWeaponEvent implements Event {
+public class EquipWeaponPlayerEvent implements PlayerEvent {
 
   private final Weapon weapon;
 
-  public EquipWeaponEvent(final Weapon weapon) {
+  public EquipWeaponPlayerEvent(final Weapon weapon) {
     this.weapon = weapon;
   }
 

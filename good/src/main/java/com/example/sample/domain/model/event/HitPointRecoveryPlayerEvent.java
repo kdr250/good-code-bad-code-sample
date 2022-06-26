@@ -2,10 +2,10 @@ package com.example.sample.domain.model.event;
 
 import com.example.sample.domain.model.Player;
 
-public class HitPointRecoveryEvent implements Event {
+public class HitPointRecoveryPlayerEvent implements PlayerEvent {
   private final int recoveryAmount;
 
-  public HitPointRecoveryEvent(final int recoveryAmount) {
+  public HitPointRecoveryPlayerEvent(final int recoveryAmount) {
     this.recoveryAmount = recoveryAmount;
   }
 

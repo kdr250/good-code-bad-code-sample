@@ -17,7 +17,11 @@ import com.example.sample.domain.model.Tile;
 import com.example.sample.domain.model.Vector;
 import com.example.sample.domain.model.WorldMap;
 import com.example.sample.domain.model.event.Event;
-import com.example.sample.domain.model.event.GameClearEvent;
+import com.example.sample.domain.model.event.GameClearPlayerEvent;
+import com.example.sample.domain.model.event.GameModeEvent;
+import com.example.sample.domain.model.event.PlayerEvent;
+import com.example.sample.domain.model.gamemode.GameMode;
+import com.example.sample.domain.model.gamemode.GameModeType;
 import com.example.sample.domain.model.item.Interactive;
 import com.example.sample.domain.model.item.Item;
 import com.example.sample.domain.model.item.ItemChest;
@@ -70,7 +74,7 @@ public class GamePanel extends JPanel implements Runnable {
   private boolean isFinished = false;
   boolean isFirst = true;
 
-  private GameMode gameMode = GameMode.WORLD_MAP;
+  private GameMode gameMode = new GameMode(GameModeType.WORLD_MAP);
   Font arial30 = new Font("Arial", Font.PLAIN, 30);
 
   public GamePanel(WorldMapQueryService worldMapQueryService, KeyInputHandler keyInputHandler, PlayerQueryService playerQueryService, NpcQueryService npcQueryService, EnemyQueryService enemyQueryService, ItemQueryService itemQueryService) {
@@ -144,7 +148,7 @@ public class GamePanel extends JPanel implements Runnable {
   private void update() {
     Vector vector = keyInputHandler.getKeyInputType().getVector();
 
-    if (gameMode == GameMode.GAME_CLEAR) {
+    if (gameMode.isGameCleared()) {
       if (keyInputHandler.getKeyInputType() == KeyInputType.DECIDE) {
         System.exit(0);
       }
@@ -159,12 +163,15 @@ public class GamePanel extends JPanel implements Runnable {
         if (item.getCollision().isCollide(player.getCollision().shift(vector))) {
           if (item instanceof Interactive) {
             Event event = ((Interactive) item).interact();
-            if (event instanceof GameClearEvent) {
-              gameMode = GameMode.GAME_CLEAR;
+            if (event instanceof GameModeEvent) {
+              ((GameModeEvent) event).execute(gameMode);
+              gameMode.gameClear();
               return;
             }
-            if (event.execute(player)) {
-              fieldItemList.remove(item);
+            if (event instanceof PlayerEvent) {
+              if (((PlayerEvent) event).execute(player)) {
+                fieldItemList.remove(item);
+              }
             }
           } else {
             player.pickUp(item);
@@ -265,7 +272,7 @@ public class GamePanel extends JPanel implements Runnable {
       }
     }
 
-    if (gameMode == GameMode.GAME_CLEAR) {
+    if (gameMode.isGameCleared()) {
       g2.drawString("クリア!", screenWidth / 2 - Tile.TILE_SIZE * 3, screenHeight / 2);
       g2.setColor(Color.black);
       g2.drawString("> Press Enter to Quit Game", screenWidth / 2 - Tile.TILE_SIZE * 3, screenHeight / 2 + Tile.TILE_SIZE * 3);
