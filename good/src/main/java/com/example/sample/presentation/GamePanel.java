@@ -165,7 +165,6 @@ public class GamePanel extends JPanel implements Runnable {
             Event event = ((Interactive) item).interact();
             if (event instanceof GameModeEvent) {
               ((GameModeEvent) event).execute(gameMode);
-              gameMode.gameClear();
               return;
             }
             if (event instanceof PlayerEvent) {
