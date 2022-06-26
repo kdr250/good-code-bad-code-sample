@@ -18,17 +18,7 @@ public class GameMode {
     return gameModeType == GameModeType.WORLD_MAP;
   }
 
-  public void toggleDisplayItemList() {
-    if (gameModeType == GameModeType.WORLD_MAP) {
-      gameModeType = GameModeType.DISPLAY_ITEM_LIST;
-      return;
-    }
-    if (gameModeType == GameModeType.DISPLAY_ITEM_LIST ) {
-      gameModeType = GameModeType.WORLD_MAP;
-    }
-  }
-
-  private void displayItemList() {
+  public void displayItemList() {
     gameModeType = GameModeType.DISPLAY_ITEM_LIST;
   }
 

@@ -16,29 +16,7 @@ public class KeyInputHandler implements KeyListener {
 
   @Override
   public void keyPressed(KeyEvent e) {
-    switch (e.getKeyCode()) {
-      case KeyEvent.VK_W:
-        keyInputType = KeyInputType.UP;
-        break;
-      case KeyEvent.VK_S:
-        keyInputType = KeyInputType.DOWN;
-        break;
-      case KeyEvent.VK_A:
-        keyInputType = KeyInputType.LEFT;
-        break;
-      case KeyEvent.VK_D:
-        keyInputType = KeyInputType.RIGHT;
-        break;
-      case KeyEvent.VK_I:
-        keyInputType = KeyInputType.DISPLAY_ITEM_LIST;
-        break;
-      case KeyEvent.VK_ENTER:
-        keyInputType = KeyInputType.DECIDE;
-        break;
-      default:
-        keyInputType = KeyInputType.NONE;
-        break;
-    }
+    keyInputType = KeyInputType.from(e.getKeyCode());
   }
 
   @Override

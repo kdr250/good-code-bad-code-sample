@@ -29,10 +29,12 @@ import com.example.sample.domain.model.item.ItemImage;
 import com.example.sample.domain.model.item.ItemKey;
 import com.example.sample.domain.model.item.ItemType;
 import com.example.sample.domain.model.item.ItemPotionRed;
+import com.example.sample.presentation.view.ItemListView;
 import org.springframework.stereotype.Component;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -43,7 +45,7 @@ public class GamePanel extends JPanel implements Runnable {
   // スクリーン設定
   private static final int maxScreenCol = 16;
   private static final int maxScreenRow = 12;
-  private static final int screenWidth = Tile.TILE_SIZE * maxScreenCol; // 768 px
+  public static final int screenWidth = Tile.TILE_SIZE * maxScreenCol; // 768 px
   private static final int screenHeight = Tile.TILE_SIZE * maxScreenRow; // 576 px
   private static final int screenCenterX = screenWidth / 2;
   private static final int screenCenterY = screenHeight / 2;
@@ -54,7 +56,9 @@ public class GamePanel extends JPanel implements Runnable {
 
   private Thread gameThread;
 
+  private KeyListener keyListener;
   private final KeyInputHandler keyInputHandler;
+  private final KeyInputHandlerForItemList keyInputHandlerForItemList;
 
   // TODO: 動作確認用、後でリファクタリングすること
   private Player player;
@@ -71,14 +75,17 @@ public class GamePanel extends JPanel implements Runnable {
   private WorldMap worldMap;
 
   private boolean isFinished = false;
-  boolean isFirst = true;
 
-  private GameMode gameMode = new GameMode(GameModeType.WORLD_MAP);
+  private final GameMode gameMode = new GameMode(GameModeType.WORLD_MAP);
   Font arial30 = new Font("Arial", Font.PLAIN, 30);
 
-  public GamePanel(WorldMapQueryService worldMapQueryService, KeyInputHandler keyInputHandler, PlayerQueryService playerQueryService, NpcQueryService npcQueryService, EnemyQueryService enemyQueryService, ItemQueryService itemQueryService) {
+  // TODO: Viewの動作確認用、リファクタリングすること
+  private ItemListView itemListView;
+
+  public GamePanel(WorldMapQueryService worldMapQueryService, KeyInputHandler keyInputHandler, KeyInputHandlerForItemList kyeInputHandlerForItemList, PlayerQueryService playerQueryService, NpcQueryService npcQueryService, EnemyQueryService enemyQueryService, ItemQueryService itemQueryService) {
     this.worldMapQueryService = worldMapQueryService;
     this.keyInputHandler = keyInputHandler;
+    this.keyInputHandlerForItemList = kyeInputHandlerForItemList;
     this.playerQueryService = playerQueryService;
     this.npcQueryService = npcQueryService;
     this.enemyQueryService = enemyQueryService;
@@ -86,11 +93,33 @@ public class GamePanel extends JPanel implements Runnable {
     this.setPreferredSize(new Dimension(screenWidth, screenHeight));
     this.setBackground(Color.black);
     this.setDoubleBuffered(true);
-    this.addKeyListener(this.keyInputHandler);
+    this.addKeyListener(keyInputHandler);
     this.setFocusable(true);
   }
 
   public void startGameThread() {
+    // TODO: 動作確認用、後でリファクタリングすること
+    worldMap = this.worldMapQueryService.find();
+    PlayerAnimation playerAnimation = playerQueryService.find();
+    player = new Player(new Location(Tile.TILE_SIZE * 23, Tile.TILE_SIZE * 21), playerAnimation);
+    NpcAnimation npcAnimation = npcQueryService.find();
+    npc = new Npc(new Location(Tile.TILE_SIZE * 21, Tile.TILE_SIZE * 20), npcAnimation);
+    EnemyAnimation enemyAnimation = enemyQueryService.find();
+    enemy = new Enemy(new Location(Tile.TILE_SIZE * 9, Tile.TILE_SIZE * 30), enemyAnimation);
+    ItemImage itemImage = itemQueryService.find(ItemType.POTION_RED);
+    Item potionRed = new ItemPotionRed(new Location(Tile.TILE_SIZE * 22, Tile.TILE_SIZE * 7), itemImage);
+    fieldItemList.add(potionRed);
+    ItemImage itemImageKey = itemQueryService.find(ItemType.KEY);
+    Item key = new ItemKey(new Location(Tile.TILE_SIZE * 22, Tile.TILE_SIZE * 9), itemImageKey);
+    fieldItemList.add(key);
+    ItemImage itemImageDoor = itemQueryService.find(ItemType.DOOR);
+    Item door = new ItemDoor(new Location(Tile.TILE_SIZE * 10, Tile.TILE_SIZE * 11), itemImageDoor);
+    fieldItemList.add(door);
+    ItemImage itemImageChest = itemQueryService.find(ItemType.CHEST);
+    Item chest = new ItemChest(new Location(Tile.TILE_SIZE * 10, Tile.TILE_SIZE * 7), itemImageChest);
+    fieldItemList.add(chest);
+    itemListView = new ItemListView(player);
+
     gameThread = new Thread(this);
     gameThread.start();
   }
@@ -106,30 +135,6 @@ public class GamePanel extends JPanel implements Runnable {
       delta += (currentTime - lastTime) / DRAW_INTERVAL;
       lastTime = currentTime;
 
-      if (isFirst) {
-        worldMap = this.worldMapQueryService.find();
-        // TODO: 動作確認用、後でリファクタリングすること
-        PlayerAnimation playerAnimation = playerQueryService.find();
-        player = new Player(new Location(Tile.TILE_SIZE * 23, Tile.TILE_SIZE * 21), playerAnimation);
-        NpcAnimation npcAnimation = npcQueryService.find();
-        npc = new Npc(new Location(Tile.TILE_SIZE * 21, Tile.TILE_SIZE * 20), npcAnimation);
-        EnemyAnimation enemyAnimation = enemyQueryService.find();
-        enemy = new Enemy(new Location(Tile.TILE_SIZE * 9, Tile.TILE_SIZE * 30), enemyAnimation);
-        ItemImage itemImage = itemQueryService.find(ItemType.POTION_RED);
-        Item potionRed = new ItemPotionRed(new Location(Tile.TILE_SIZE * 22, Tile.TILE_SIZE * 7), itemImage);
-        fieldItemList.add(potionRed);
-        ItemImage itemImageKey = itemQueryService.find(ItemType.KEY);
-        Item key = new ItemKey(new Location(Tile.TILE_SIZE * 22, Tile.TILE_SIZE * 9), itemImageKey);
-        fieldItemList.add(key);
-        ItemImage itemImageDoor = itemQueryService.find(ItemType.DOOR);
-        Item door = new ItemDoor(new Location(Tile.TILE_SIZE * 10, Tile.TILE_SIZE * 11), itemImageDoor);
-        fieldItemList.add(door);
-        ItemImage itemImageChest = itemQueryService.find(ItemType.CHEST);
-        Item chest = new ItemChest(new Location(Tile.TILE_SIZE * 10, Tile.TILE_SIZE * 7), itemImageChest);
-        fieldItemList.add(chest);
-        isFirst = false;
-      }
-
       // TODO: 要リファクタリング DoOnceを実装すること
       if (!isFinished) {
         update();
@@ -137,7 +142,9 @@ public class GamePanel extends JPanel implements Runnable {
       }
 
       if (delta >= 1) {
-        repaint();
+        if (gameMode.isWorldMap() || gameMode.isDisplayingItemList()) {
+          repaint();
+        }
         delta--;
         isFinished = false;
       }
@@ -145,7 +152,15 @@ public class GamePanel extends JPanel implements Runnable {
   }
 
   private void update() {
-    KeyInputType keyInputType = keyInputHandler.getKeyInputType();
+    if (gameMode.isDisplayingItemList()) {
+      KeyInputType keyInputType = keyInputHandlerForItemList.getKeyInputType();
+      if (keyInputType == KeyInputType.NOT_DISPLAY_ITEM_LIST) {
+        this.removeKeyListener(keyInputHandlerForItemList);
+        this.addKeyListener(keyInputHandler);
+        gameMode.worldMap();
+        return;
+      }
+    }
 
     if (gameMode.isGameCleared()) {
       if (keyInputHandler.getKeyInputType() == KeyInputType.DECIDE) {
@@ -154,65 +169,68 @@ public class GamePanel extends JPanel implements Runnable {
       return;
     }
 
-    if (keyInputType == KeyInputType.DISPLAY_ITEM_LIST) {
-      gameMode.toggleDisplayItemList();
-      return;
-    }
-
     if (gameMode.isWorldMap()) {
+
+      KeyInputType keyInputType = keyInputHandler.getKeyInputType();
+
+      if (keyInputType == KeyInputType.DISPLAY_ITEM_LIST) {
+        this.removeKeyListener(keyInputHandler);
+        this.addKeyListener(keyInputHandlerForItemList);
+        gameMode.displayItemList();
+        return;
+      }
+
       // TODO: 動作確認用
-      if (worldMap != null) {
-        Vector vector = keyInputType.getVector();
-        Location playerWillMoveLocation = player.getLocation().shift(vector);
+      Vector vector = keyInputType.getVector();
+      Location playerWillMoveLocation = player.getLocation().shift(vector);
 
-        for (Item item : fieldItemList) {
-          if (item.getCollision().isCollide(player.getCollision().shift(vector))) {
-            if (item instanceof Interactive) {
-              Event event = ((Interactive) item).interact();
-              if (event instanceof GameModeEvent) {
-                ((GameModeEvent) event).execute(gameMode);
-                return;
-              }
-              if (event instanceof PlayerEvent) {
-                if (((PlayerEvent) event).execute(player)) {
-                  fieldItemList.remove(item);
-                }
-              }
-            } else {
-              player.pickUp(item);
-              fieldItemList.remove(item);
+      for (Item item : fieldItemList) {
+        if (item.getCollision().isCollide(player.getCollision().shift(vector))) {
+          if (item instanceof Interactive) {
+            Event event = ((Interactive) item).interact();
+            if (event instanceof GameModeEvent) {
+              ((GameModeEvent) event).execute(gameMode);
+              return;
             }
-            break;
+            if (event instanceof PlayerEvent) {
+              if (((PlayerEvent) event).execute(player)) {
+                fieldItemList.remove(item);
+              }
+            }
+          } else {
+            player.pickUp(item);
+            fieldItemList.remove(item);
           }
+          break;
         }
+      }
 
-        List<Collidable> collidableListForPlayer = worldMap.getTilesFromLocation(playerWillMoveLocation);
-        collidableListForPlayer.add(npc);
-        collidableListForPlayer.add(enemy);
-        collidableListForPlayer.addAll(fieldItemList.stream().filter(item -> item instanceof Interactive).collect(Collectors.toList()));
-        if (player.canMove(collidableListForPlayer, vector)) {
-          player.move(vector);
-        } else {
-          player.changeDirection(vector);
-        }
+      List<Collidable> collidableListForPlayer = worldMap.getTilesFromLocation(playerWillMoveLocation);
+      collidableListForPlayer.add(npc);
+      collidableListForPlayer.add(enemy);
+      collidableListForPlayer.addAll(fieldItemList.stream().filter(item -> item instanceof Interactive).collect(Collectors.toList()));
+      if (player.canMove(collidableListForPlayer, vector)) {
+        player.move(vector);
+      } else {
+        player.changeDirection(vector);
+      }
 
-        Location npcWillMoveLocation = npc.getLocation().shift(npc.getNpcMovement().getVector());
-        List<Collidable> collidableListForNpc = worldMap.getTilesFromLocation(npcWillMoveLocation);
-        collidableListForNpc.add(player);
-        collidableListForPlayer.add(enemy);
-        if (npc.updateMovementThenCanMove(collidableListForNpc)) {
-          npc.move();
-        } else {
-          npc.changeDirection();
-        }
+      Location npcWillMoveLocation = npc.getLocation().shift(npc.getNpcMovement().getVector());
+      List<Collidable> collidableListForNpc = worldMap.getTilesFromLocation(npcWillMoveLocation);
+      collidableListForNpc.add(player);
+      collidableListForPlayer.add(enemy);
+      if (npc.updateMovementThenCanMove(collidableListForNpc)) {
+        npc.move();
+      } else {
+        npc.changeDirection();
+      }
 
-        Location enemyWillMoveLocation = enemy.getLocation().shift(enemy.getEnemyMovement().getVector());
-        List<Collidable> collidableListForEnemy = worldMap.getTilesFromLocation(enemyWillMoveLocation);
-        collidableListForEnemy.add(player);
-        collidableListForEnemy.add(npc);
-        if (enemy.updateMovementThenCanMove(collidableListForEnemy)) {
-          enemy.move();
-        }
+      Location enemyWillMoveLocation = enemy.getLocation().shift(enemy.getEnemyMovement().getVector());
+      List<Collidable> collidableListForEnemy = worldMap.getTilesFromLocation(enemyWillMoveLocation);
+      collidableListForEnemy.add(player);
+      collidableListForEnemy.add(npc);
+      if (enemy.updateMovementThenCanMove(collidableListForEnemy)) {
+        enemy.move();
       }
     }
   }
@@ -285,7 +303,7 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     if (gameMode.isDisplayingItemList()) {
-      g2.drawString("アイテムリスト!", screenWidth / 2 - Tile.TILE_SIZE * 3, screenHeight / 2);
+      itemListView.draw(g2);
     }
 
     g2.dispose();
