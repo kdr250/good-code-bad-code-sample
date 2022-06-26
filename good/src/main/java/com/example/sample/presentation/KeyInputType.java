@@ -11,9 +11,7 @@ public enum KeyInputType {
   RIGHT(Vector.right(4)),
   DECIDE(Vector.NONE),
   DISPLAY_ITEM_LIST(Vector.NONE),
-  NOT_DISPLAY_ITEM_LIST(Vector.NONE),
-  NONE(Vector.NONE),
-  NOT_PAINT(Vector.NONE);
+  NONE(Vector.NONE);
 
   private final Vector vector;
 
@@ -37,25 +35,6 @@ public enum KeyInputType {
         return KeyInputType.DECIDE;
       default:
         return KeyInputType.NONE;
-    }
-  }
-
-  public static KeyInputType fromItemList(int keyCode) {
-    switch (keyCode) {
-      case KeyEvent.VK_W:
-        return KeyInputType.UP;
-      case KeyEvent.VK_S:
-        return KeyInputType.DOWN;
-      case KeyEvent.VK_A:
-        return KeyInputType.LEFT;
-      case KeyEvent.VK_D:
-        return KeyInputType.RIGHT;
-      case KeyEvent.VK_I:
-        return KeyInputType.NOT_DISPLAY_ITEM_LIST;
-      case KeyEvent.VK_ENTER:
-        return KeyInputType.DECIDE;
-      default:
-        return KeyInputType.NOT_PAINT;
     }
   }
 

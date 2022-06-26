@@ -34,7 +34,6 @@ import org.springframework.stereotype.Component;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -56,9 +55,7 @@ public class GamePanel extends JPanel implements Runnable {
 
   private Thread gameThread;
 
-  private KeyListener keyListener;
   private final KeyInputHandler keyInputHandler;
-  private final KeyInputHandlerForItemList keyInputHandlerForItemList;
 
   // TODO: 動作確認用、後でリファクタリングすること
   private Player player;
@@ -82,10 +79,9 @@ public class GamePanel extends JPanel implements Runnable {
   // TODO: Viewの動作確認用、リファクタリングすること
   private ItemListView itemListView;
 
-  public GamePanel(WorldMapQueryService worldMapQueryService, KeyInputHandler keyInputHandler, KeyInputHandlerForItemList kyeInputHandlerForItemList, PlayerQueryService playerQueryService, NpcQueryService npcQueryService, EnemyQueryService enemyQueryService, ItemQueryService itemQueryService) {
+  public GamePanel(WorldMapQueryService worldMapQueryService, KeyInputHandler keyInputHandler, PlayerQueryService playerQueryService, NpcQueryService npcQueryService, EnemyQueryService enemyQueryService, ItemQueryService itemQueryService) {
     this.worldMapQueryService = worldMapQueryService;
     this.keyInputHandler = keyInputHandler;
-    this.keyInputHandlerForItemList = kyeInputHandlerForItemList;
     this.playerQueryService = playerQueryService;
     this.npcQueryService = npcQueryService;
     this.enemyQueryService = enemyQueryService;
@@ -142,9 +138,7 @@ public class GamePanel extends JPanel implements Runnable {
       }
 
       if (delta >= 1) {
-        if (gameMode.isWorldMap() || gameMode.isDisplayingItemList()) {
-          repaint();
-        }
+        repaint();
         delta--;
         isFinished = false;
       }
@@ -152,11 +146,10 @@ public class GamePanel extends JPanel implements Runnable {
   }
 
   private void update() {
+    KeyInputType keyInputType = keyInputHandler.getKeyInputType();
+
     if (gameMode.isDisplayingItemList()) {
-      KeyInputType keyInputType = keyInputHandlerForItemList.getKeyInputType();
-      if (keyInputType == KeyInputType.NOT_DISPLAY_ITEM_LIST) {
-        this.removeKeyListener(keyInputHandlerForItemList);
-        this.addKeyListener(keyInputHandler);
+      if (keyInputType == KeyInputType.DECIDE) {
         gameMode.worldMap();
         return;
       }
@@ -170,12 +163,7 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     if (gameMode.isWorldMap()) {
-
-      KeyInputType keyInputType = keyInputHandler.getKeyInputType();
-
       if (keyInputType == KeyInputType.DISPLAY_ITEM_LIST) {
-        this.removeKeyListener(keyInputHandler);
-        this.addKeyListener(keyInputHandlerForItemList);
         gameMode.displayItemList();
         return;
       }
