@@ -2,6 +2,6 @@ package com.example.sample.domain.model.item;
 
 import com.example.sample.domain.model.event.Event;
 
-public interface Consumable extends Item {
-  Event consume();
+public interface Interactive extends Item {
+  Event interact();
 }

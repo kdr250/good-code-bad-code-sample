@@ -17,9 +17,12 @@ import com.example.sample.domain.model.Tile;
 import com.example.sample.domain.model.Vector;
 import com.example.sample.domain.model.WorldMap;
 import com.example.sample.domain.model.item.Item;
+import com.example.sample.domain.model.item.ItemChest;
+import com.example.sample.domain.model.item.ItemDoor;
 import com.example.sample.domain.model.item.ItemImage;
+import com.example.sample.domain.model.item.ItemKey;
 import com.example.sample.domain.model.item.ItemType;
-import com.example.sample.domain.model.item.PotionRed;
+import com.example.sample.domain.model.item.ItemPotionRed;
 import org.springframework.stereotype.Component;
 
 import javax.swing.*;
@@ -105,10 +108,19 @@ public class GamePanel extends JPanel implements Runnable {
         NpcAnimation npcAnimation = npcQueryService.find();
         npc = new Npc(new Location(tileSize * 21, tileSize * 20), npcAnimation);
         EnemyAnimation enemyAnimation = enemyQueryService.find();
-        enemy = new Enemy(new Location(tileSize * 14, tileSize * 21), enemyAnimation);
+        enemy = new Enemy(new Location(tileSize * 9, tileSize * 30), enemyAnimation);
         ItemImage itemImage = itemQueryService.find(ItemType.POTION_RED);
-        Item potionRed = new PotionRed(new Location(tileSize * 22, tileSize * 7), itemImage);
+        Item potionRed = new ItemPotionRed(new Location(tileSize * 22, tileSize * 7), itemImage);
         fieldItemList.add(potionRed);
+        ItemImage itemImageKey = itemQueryService.find(ItemType.KEY);
+        Item key = new ItemKey(new Location(tileSize * 22, tileSize * 9), itemImageKey);
+        fieldItemList.add(key);
+        ItemImage itemImageDoor = itemQueryService.find(ItemType.DOOR);
+        Item door = new ItemDoor(new Location(tileSize * 10, tileSize * 11), itemImageDoor);
+        fieldItemList.add(door);
+        ItemImage itemImageChest = itemQueryService.find(ItemType.CHEST);
+        Item chest = new ItemChest(new Location(tileSize * 10, tileSize * 7), itemImageChest);
+        fieldItemList.add(chest);
         isFirst = false;
       }
 

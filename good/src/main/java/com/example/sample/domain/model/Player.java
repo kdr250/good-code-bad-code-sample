@@ -48,6 +48,14 @@ public class Player implements Collidable {
     playerItems = playerItems.add(item);
   }
 
+  public boolean hasKey() {
+    return playerItems.hasKey();
+  }
+
+  public void deleteKey() {
+    playerItems = playerItems.deleteKeyIfExists();
+  }
+
   public boolean isOverlap(final Item item) {
     return collision.isCollide(item.getCollision());
   }

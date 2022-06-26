@@ -2,21 +2,21 @@ package com.example.sample.domain.model.item;
 
 import com.example.sample.domain.model.Collision;
 import com.example.sample.domain.model.Location;
+import com.example.sample.domain.model.event.DoorOpenEvent;
 import com.example.sample.domain.model.event.Event;
-import com.example.sample.domain.model.event.HitPointRecoveryEvent;
 import lombok.Getter;
 
 import java.awt.image.BufferedImage;
 
 @Getter
-public class PotionRed implements Consumable {
+public class ItemDoor implements Interactive {
 
   private final Location location;
   private final Collision collision;
   private final ItemImage itemImage;
 
-  public PotionRed(final Location location, final ItemImage itemImage) {
-    if (itemImage.getItemType() != ItemType.POTION_RED) {
+  public ItemDoor(Location location, ItemImage itemImage) {
+    if (itemImage.getItemType() != ItemType.DOOR) {
       throw new IllegalArgumentException();
     }
     this.location = location;
@@ -25,8 +25,8 @@ public class PotionRed implements Consumable {
   }
 
   @Override
-  public Event consume() {
-    return new HitPointRecoveryEvent(5);
+  public Event interact() {
+    return new DoorOpenEvent();
   }
 
   @Override

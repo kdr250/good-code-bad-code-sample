@@ -1,13 +1,13 @@
 package com.example.sample.domain.model.event;
 
 import com.example.sample.domain.model.Player;
-import com.example.sample.domain.model.item.Equippable;
+import com.example.sample.domain.model.item.Armor;
 
-public class EquipEvent implements Event {
+public class EquipArmorEvent implements Event {
 
-  private final Equippable equipment;
+  private final Armor equipment;
 
-  public EquipEvent(final Equippable equipment) {
+  public EquipArmorEvent(final Armor equipment) {
     this.equipment  = equipment;
   }
 

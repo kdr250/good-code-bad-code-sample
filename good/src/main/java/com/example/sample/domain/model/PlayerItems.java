@@ -1,9 +1,11 @@
 package com.example.sample.domain.model;
 
 import com.example.sample.domain.model.item.Item;
+import com.example.sample.domain.model.item.Key;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class PlayerItems {
   private static final int MAX_ITEM_COUNT = 20;
@@ -25,5 +27,17 @@ public class PlayerItems {
     List<Item> adding = new ArrayList<>(items);
     adding.add(newItem);
     return new PlayerItems(adding);
+  }
+
+  public boolean hasKey() {
+    return items.stream().anyMatch(item -> item instanceof Key);
+  }
+
+  public PlayerItems deleteKeyIfExists() {
+    Optional<Item> key = items.stream().filter(item -> item instanceof Key).findFirst();
+    if (key.isEmpty()) return this;
+    List<Item> deleting = new ArrayList<>(items);
+    deleting.remove(key.get());
+    return new PlayerItems(deleting);
   }
 }
