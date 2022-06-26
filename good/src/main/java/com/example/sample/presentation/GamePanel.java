@@ -17,6 +17,7 @@ import com.example.sample.domain.model.Tile;
 import com.example.sample.domain.model.Vector;
 import com.example.sample.domain.model.WorldMap;
 import com.example.sample.domain.model.event.Event;
+import com.example.sample.domain.model.event.GameClearEvent;
 import com.example.sample.domain.model.item.Interactive;
 import com.example.sample.domain.model.item.Item;
 import com.example.sample.domain.model.item.ItemChest;
@@ -72,6 +73,9 @@ public class GamePanel extends JPanel implements Runnable {
 
   private boolean isFinished = false;
   boolean isFirst = true;
+
+  private GameMode gameMode = GameMode.WORLD_MAP;
+  Font arial30 = new Font("Arial", Font.PLAIN, 30);
 
   public GamePanel(WorldMapQueryService worldMapQueryService, KeyInputHandler keyInputHandler, PlayerQueryService playerQueryService, NpcQueryService npcQueryService, EnemyQueryService enemyQueryService, ItemQueryService itemQueryService) {
     this.worldMapQueryService = worldMapQueryService;
@@ -143,6 +147,14 @@ public class GamePanel extends JPanel implements Runnable {
 
   private void update() {
     Vector vector = keyInputHandler.getKeyInputType().getVector();
+
+    if (gameMode == GameMode.GAME_CLEAR) {
+      if (keyInputHandler.getKeyInputType() == KeyInputType.DECIDE) {
+        System.exit(0);
+      }
+      return;
+    }
+
     // TODO: 動作確認用
     if (worldMap != null) {
       Location playerWillMoveLocation = player.getLocation().shift(vector);
@@ -151,6 +163,10 @@ public class GamePanel extends JPanel implements Runnable {
         if (item.getCollision().isCollide(player.getCollision().shift(vector))) {
           if (item instanceof Interactive) {
             Event event = ((Interactive) item).interact();
+            if (event instanceof GameClearEvent) {
+              gameMode = GameMode.GAME_CLEAR;
+              return;
+            }
             if (event.execute(player)) {
               fieldItemList.remove(item);
             }
@@ -195,8 +211,11 @@ public class GamePanel extends JPanel implements Runnable {
   public void paintComponent(Graphics g) {
     super.paintComponent(g);
     Graphics2D g2 = (Graphics2D)g;
+    g2.setFont(arial30);
+    g2.setColor(Color.white);
+
     // TODO: 動作確認用
-    if (worldMap != null) {
+    if (worldMap != null && player != null) {
       Location playerLocation = player.getLocation();
       for (Tile[] tiles : worldMap.getTiles()) {
         for (Tile tile : tiles) {
@@ -211,12 +230,7 @@ public class GamePanel extends JPanel implements Runnable {
           }
         }
       }
-    }
-    g2.setColor(Color.white);
-    if (player != null) {
       g2.drawImage(player.getAnimatedImage(), screenCenterX, screenCenterY, null);
-
-      Location playerLocation = player.getLocation();
 
       if (npc != null) {
         Location npcLocation = npc.getLocation();
@@ -253,6 +267,12 @@ public class GamePanel extends JPanel implements Runnable {
           }
         }
       }
+    }
+
+    if (gameMode == GameMode.GAME_CLEAR) {
+      g2.drawString("クリア!", screenWidth / 2 - tileSize * 3, screenHeight / 2);
+      g2.setColor(Color.black);
+      g2.drawString("> Press Enter to Quit Game", screenWidth / 2 - tileSize * 3, screenHeight / 2 + tileSize * 3);
     }
 
     g2.dispose();

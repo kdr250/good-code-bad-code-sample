@@ -29,6 +29,9 @@ public class KeyInputHandler implements KeyListener {
       case KeyEvent.VK_D:
         keyInputType = KeyInputType.RIGHT;
         break;
+      case KeyEvent.VK_ENTER:
+        keyInputType = KeyInputType.DECIDE;
+        break;
       default:
         keyInputType = KeyInputType.NONE;
         break;
