@@ -5,10 +5,11 @@ import com.example.sample.domain.model.Player;
 public class DoorOpenEvent implements Event {
 
   @Override
-  public void execute(Player player) {
-    // TODO: Not yet implemented
+  public boolean execute(Player player) {
     if (player.hasKey()) {
       player.deleteKey();
+      return true;
     }
+    return false;
   }
 }

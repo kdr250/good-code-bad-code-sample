@@ -10,10 +10,11 @@ public class HitPointRecoveryEvent implements Event {
   }
 
   @Override
-  public void execute(Player player) {
+  public boolean execute(Player player) {
     // TODO: Not yet implemented
     System.out.println("=====");
     System.out.println("Player HitPoint Recovered! : " + recoveryAmount);
     System.out.println("=====");
+    return true;
   }
 }

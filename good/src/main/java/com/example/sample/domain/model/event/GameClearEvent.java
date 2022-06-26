@@ -5,7 +5,8 @@ import com.example.sample.domain.model.Player;
 public class GameClearEvent implements Event {
 
   @Override
-  public void execute(Player player) {
+  public boolean execute(Player player) {
     // TODO: not yet implemented
+    return true;
   }
 }

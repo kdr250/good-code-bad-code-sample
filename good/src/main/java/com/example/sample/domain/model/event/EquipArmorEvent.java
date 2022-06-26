@@ -12,7 +12,8 @@ public class EquipArmorEvent implements Event {
   }
 
   @Override
-  public void execute(Player player) {
+  public boolean execute(Player player) {
     // TODO: Not yet implemented
+    return true;
   }
 }

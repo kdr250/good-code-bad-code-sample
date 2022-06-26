@@ -16,6 +16,8 @@ import com.example.sample.domain.model.PlayerAnimation;
 import com.example.sample.domain.model.Tile;
 import com.example.sample.domain.model.Vector;
 import com.example.sample.domain.model.WorldMap;
+import com.example.sample.domain.model.event.Event;
+import com.example.sample.domain.model.item.Interactive;
 import com.example.sample.domain.model.item.Item;
 import com.example.sample.domain.model.item.ItemChest;
 import com.example.sample.domain.model.item.ItemDoor;
@@ -29,6 +31,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class GamePanel extends JPanel implements Runnable {
@@ -143,9 +146,26 @@ public class GamePanel extends JPanel implements Runnable {
     // TODO: 動作確認用
     if (worldMap != null) {
       Location playerWillMoveLocation = player.getLocation().shift(vector);
+
+      for (Item item : fieldItemList) {
+        if (item.getCollision().isCollide(player.getCollision().shift(vector))) {
+          if (item instanceof Interactive) {
+            Event event = ((Interactive) item).interact();
+            if (event.execute(player)) {
+              fieldItemList.remove(item);
+            }
+          } else {
+            player.pickUp(item);
+            fieldItemList.remove(item);
+          }
+          break;
+        }
+      }
+
       List<Collidable> collidableListForPlayer = worldMap.getTilesFromLocation(playerWillMoveLocation);
       collidableListForPlayer.add(npc);
       collidableListForPlayer.add(enemy);
+      collidableListForPlayer.addAll(fieldItemList.stream().filter(item -> item instanceof Interactive).collect(Collectors.toList()));
       if (player.canMove(collidableListForPlayer, vector)) {
         player.move(vector);
       } else {
@@ -168,14 +188,6 @@ public class GamePanel extends JPanel implements Runnable {
       collidableListForEnemy.add(npc);
       if (enemy.updateMovementThenCanMove(collidableListForEnemy)) {
         enemy.move();
-      }
-
-      for (Item item : fieldItemList) {
-        if (item.getCollision().isCollide(player.getCollision())) {
-          player.pickUp(item);
-          fieldItemList.remove(item);
-          break;
-        }
       }
     }
   }
