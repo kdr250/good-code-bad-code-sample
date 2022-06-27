@@ -50,10 +50,4 @@ public class ItemWeapon implements Equipment {
   public Event equip() {
     return new EquipWeaponEvent(this);
   }
-
-
-  @Override
-  public Equipment empty() {
-    return EMPTY;
-  }
 }

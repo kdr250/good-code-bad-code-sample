@@ -4,9 +4,12 @@
  */
 package com.example.sample.domain.model.battle;
 
+import lombok.Getter;
+
 /**
  * ヒットポイント
  */
+@Getter
 public class HItPoint {
   private static final int MIN = 0;
   private static final int MAX = 999;

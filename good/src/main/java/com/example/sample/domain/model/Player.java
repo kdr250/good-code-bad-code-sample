@@ -1,5 +1,6 @@
 package com.example.sample.domain.model;
 
+import com.example.sample.domain.model.battle.PlayerBattleStatus;
 import com.example.sample.domain.model.item.Item;
 import com.example.sample.domain.type.Direction;
 import lombok.Getter;
@@ -17,6 +18,7 @@ public class Player implements Collidable {
   private Direction direction;
   private final PlayerAnimation playerAnimation;
   private PlayerItems playerItems;
+  private final PlayerBattleStatus playerBattleStatus;
 
   public Player(final Location location, final PlayerAnimation playerAnimation) {
     this.location = location;
@@ -24,6 +26,7 @@ public class Player implements Collidable {
     this.playerAnimation = playerAnimation;
     direction = Direction.DOWN;
     playerItems = new PlayerItems();
+    playerBattleStatus = PlayerBattleStatus.initialize();
   }
 
   public void move(final Vector vector) {
