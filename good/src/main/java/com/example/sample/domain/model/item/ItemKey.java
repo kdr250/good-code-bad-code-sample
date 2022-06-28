@@ -26,4 +26,9 @@ public class ItemKey implements Key {
   public BufferedImage getImage() {
     return itemImage.getBufferedImage();
   }
+
+  @Override
+  public String description() {
+    return "扉を開ける鍵";
+  }
 }

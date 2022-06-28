@@ -14,6 +14,7 @@ public class ItemPotionRed implements Consumable {
   private final Location location;
   private final Collision collision;
   private final ItemImage itemImage;
+  private static final int RECOVERY_AMOUNT = 5;
 
   public ItemPotionRed(final Location location, final ItemImage itemImage) {
     if (itemImage.getItemType() != ItemType.POTION_RED) {
@@ -26,11 +27,16 @@ public class ItemPotionRed implements Consumable {
 
   @Override
   public PlayerEvent consume() {
-    return new HitPointRecoveryPlayerEvent(5);
+    return new HitPointRecoveryPlayerEvent(RECOVERY_AMOUNT);
   }
 
   @Override
   public BufferedImage getImage() {
     return itemImage.getBufferedImage();
+  }
+
+  @Override
+  public String description() {
+    return "体力" + RECOVERY_AMOUNT + "回復";
   }
 }

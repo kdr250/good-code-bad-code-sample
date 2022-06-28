@@ -33,4 +33,9 @@ public class ItemDoor implements Interactive {
   public BufferedImage getImage() {
     return itemImage.getBufferedImage();
   }
+
+  @Override
+  public String description() {
+    return "";
+  }
 }

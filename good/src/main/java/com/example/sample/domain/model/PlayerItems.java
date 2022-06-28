@@ -4,6 +4,7 @@ import com.example.sample.domain.model.item.Item;
 import com.example.sample.domain.model.item.Key;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,6 +28,10 @@ public class PlayerItems {
     List<Item> adding = new ArrayList<>(items);
     adding.add(newItem);
     return new PlayerItems(adding);
+  }
+
+  public List<Item> items() {
+    return Collections.unmodifiableList(items);
   }
 
   public boolean hasKey() {

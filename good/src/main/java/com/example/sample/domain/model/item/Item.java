@@ -6,4 +6,6 @@ import java.awt.image.BufferedImage;
 
 public interface Item extends Collidable {
   BufferedImage getImage();
+
+  String description();
 }

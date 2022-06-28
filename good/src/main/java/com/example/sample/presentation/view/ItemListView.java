@@ -2,25 +2,44 @@ package com.example.sample.presentation.view;
 
 import com.example.sample.domain.model.Player;
 import com.example.sample.domain.model.Tile;
+import com.example.sample.domain.model.item.Item;
 import com.example.sample.domain.model.item.ItemWeapon;
+import com.example.sample.domain.type.Direction;
 import com.example.sample.presentation.GamePanel;
 
 import java.awt.*;
+import java.util.List;
 
 public class ItemListView {
 
   private final Player player;
 
+  private int itemListIndex = 0;
+  private int fpsCounter = 0;
+
   public ItemListView(final Player player) {
     this.player = player;
   }
 
+  public void moveCursor(Direction direction) {
+    fpsCounter++;
+    if (fpsCounter > 10) {
+      updateItemListIndex(direction);
+      fpsCounter = 0;
+    }
+  }
+
   public void draw(Graphics2D g2) {
+    drawPlayerBattleStatus(g2);
+    drawPlayerItemList(g2);
+  }
+
+  private void drawPlayerBattleStatus(Graphics2D g2) {
     // フレームを作成
     final int frameX = Tile.TILE_SIZE;
     final int frameY = Tile.TILE_SIZE;
     final int frameWidth = Tile.TILE_SIZE * 5;
-    final int frameHeight =  Tile.TILE_SIZE * 10;
+    final int frameHeight = Tile.TILE_SIZE * 10;
     drawSubWindow(frameX, frameY, frameWidth, frameHeight, g2);
 
     // テキスト
@@ -31,25 +50,25 @@ public class ItemListView {
     final int lineHeight = 35;
 
     // 項目名
-    g2.drawString("Level", textX, textY);
+    g2.drawString("レベル", textX, textY);
     textY += lineHeight;
-    g2.drawString("Life", textX, textY);
+    g2.drawString("HP", textX, textY);
     textY += lineHeight;
-    g2.drawString("Mana", textX, textY);
+    g2.drawString("魔法力", textX, textY);
     textY += lineHeight;
-    g2.drawString("Attack", textX, textY);
+    g2.drawString("攻撃力", textX, textY);
     textY += lineHeight;
-    g2.drawString("Defense", textX, textY);
+    g2.drawString("防御力", textX, textY);
     textY += lineHeight;
-    g2.drawString("Exp", textX, textY);
+    g2.drawString("経験値", textX, textY);
     textY += lineHeight;
-    g2.drawString("Next Level", textX, textY);
+    g2.drawString("レベルUP", textX, textY);
     textY += lineHeight + 10;
-    g2.drawString("Weapon", textX, textY);
+    g2.drawString("武器", textX, textY);
     textY += lineHeight + 15;
-    g2.drawString("Body", textX, textY);
+    g2.drawString("鎧", textX, textY);
     textY += lineHeight + 15;
-    g2.drawString("Arm", textX, textY);
+    g2.drawString("盾", textX, textY);
 
     // 値
     int tailX = (frameX + frameWidth) - 30;
@@ -105,6 +124,68 @@ public class ItemListView {
     }
   }
 
+  private void drawPlayerItemList(Graphics2D g2) {
+    // フレーム
+    int frameX = Tile.TILE_SIZE * 9;
+    int frameY = Tile.TILE_SIZE;
+    int frameWidth = Tile.TILE_SIZE * 6;
+    int frameHeight = Tile.TILE_SIZE * 5;
+    drawSubWindow(frameX, frameY, frameWidth, frameHeight, g2);
+
+    // スロット
+    final int slotXStart = frameX + 20;
+    final int slotYStart = frameY + 20;
+    int slotX = slotXStart;
+    int slotY = slotYStart;
+    int slotSize = Tile.TILE_SIZE + 3;
+
+    // プレイヤーの所持アイテムを表示
+    List<Item> items = player.getPlayerItems().items();
+    for (int i = 0; i < items.size(); i++) {
+
+      g2.setColor(new Color(240, 190, 90));
+      g2.fillRoundRect(slotX, slotY, Tile.TILE_SIZE, Tile.TILE_SIZE, 10, 10);
+
+      g2.drawImage(items.get(i).getImage(), slotX, slotY, null);
+      slotX += slotSize;
+      if (i % 5 == 1) {
+        slotX = slotXStart;
+        slotY += slotSize;
+      }
+
+      if (i == itemListIndex) {
+        int slotCol = itemListIndex % 4;
+        int slotRow = itemListIndex / 4;
+        // カーソル
+        int cursorX = slotXStart + (slotSize * slotCol);
+        int cursorY = slotYStart + (slotSize * slotRow);
+        int cursorWidth = Tile.TILE_SIZE;
+        int cursorHeight = Tile.TILE_SIZE;
+
+        // カーソル描画
+        g2.setColor(Color.white);
+        g2.setStroke(new BasicStroke(3));
+        g2.drawRoundRect(cursorX, cursorY, cursorWidth, cursorHeight, 10, 10);
+
+        // アイテム説明
+        int dFrameX = frameX;
+        int dFrameY = frameY + frameHeight;
+        int dFrameWidth = frameWidth;
+        int dFrameHeight = Tile.TILE_SIZE * 3;
+
+        int textX = dFrameX + 20;
+        int textY = dFrameY + Tile.TILE_SIZE;
+        g2.setFont(g2.getFont().deriveFont(28F));
+
+        drawSubWindow(dFrameX, dFrameY, dFrameWidth, dFrameHeight, g2);
+        for (String line : items.get(itemListIndex).description().split("\n")) {
+          g2.drawString(line, textX, textY);
+          textY += 32;
+        }
+      }
+    }
+  }
+
   private void drawSubWindow(int x, int y, int width, int height, Graphics2D g2) {
     g2.setColor(new Color(0, 0, 0, 210));
     g2.fillRoundRect(x, y, width, height, 35, 35);
@@ -114,12 +195,34 @@ public class ItemListView {
   }
 
   private int getXForCenteredText(String text, Graphics2D g2) {
-    int length = (int)g2.getFontMetrics().getStringBounds(text, g2).getWidth();
+    int length = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
     return GamePanel.screenWidth / 2 - length / 2;
   }
 
   private int getXForAlignToRightText(String text, int tailX, Graphics2D g2) {
-    int length = (int)g2.getFontMetrics().getStringBounds(text, g2).getWidth();
+    int length = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
     return tailX - length;
+  }
+
+  private void updateItemListIndex(Direction direction) {
+    List<Item> items = player.getPlayerItems().items();
+    switch (direction) {
+      case UP:
+        int tempItemListIndexUp = itemListIndex == -1 ? items.size() - 1 : itemListIndex - 4;
+        itemListIndex = tempItemListIndexUp >= 0 ? tempItemListIndexUp : -1;
+        break;
+      case DOWN:
+        int tempItemListIndexDown = itemListIndex == -1 ? 0 : itemListIndex + 4;
+        itemListIndex = tempItemListIndexDown < items.size() ? tempItemListIndexDown : -1;
+        break;
+      case LEFT:
+        int tempItemListIndexLeft = itemListIndex == -1 ? 0 : itemListIndex - 1;
+        itemListIndex = tempItemListIndexLeft >= 0 ? tempItemListIndexLeft : -1;
+        break;
+      case RIGHT:
+        int tempItemListIndexRight = itemListIndex == -1 ? items.size() - 1 : itemListIndex + 1;
+        itemListIndex = tempItemListIndexRight < items.size() ? tempItemListIndexRight : -1;
+        break;
+    }
   }
 }

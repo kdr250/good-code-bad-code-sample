@@ -50,4 +50,9 @@ public class ItemWeapon implements Equipment {
   public Event equip() {
     return new EquipWeaponEvent(this);
   }
+
+  @Override
+  public String description() {
+    return "普通の剣";
+  }
 }

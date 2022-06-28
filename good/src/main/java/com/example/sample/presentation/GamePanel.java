@@ -153,6 +153,8 @@ public class GamePanel extends JPanel implements Runnable {
         gameMode.worldMap();
         return;
       }
+      itemListView.moveCursor(keyInputType.getDirection());
+      return;
     }
 
     if (gameMode.isGameCleared()) {

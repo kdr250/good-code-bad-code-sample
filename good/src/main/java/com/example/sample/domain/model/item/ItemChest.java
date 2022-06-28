@@ -33,4 +33,9 @@ public class ItemChest implements Interactive {
   public BufferedImage getImage() {
     return itemImage.getBufferedImage();
   }
+
+  @Override
+  public String description() {
+    return "";
+  }
 }

@@ -1,22 +1,25 @@
 package com.example.sample.presentation;
 
 import com.example.sample.domain.model.Vector;
+import com.example.sample.domain.type.Direction;
 
 import java.awt.event.KeyEvent;
 
 public enum KeyInputType {
-  UP(Vector.up(4)),
-  DOWN(Vector.down(4)),
-  LEFT(Vector.left(4)),
-  RIGHT(Vector.right(4)),
-  DECIDE(Vector.NONE),
-  DISPLAY_ITEM_LIST(Vector.NONE),
-  NONE(Vector.NONE);
+  UP(Vector.up(4), Direction.UP),
+  DOWN(Vector.down(4), Direction.DOWN),
+  LEFT(Vector.left(4), Direction.LEFT),
+  RIGHT(Vector.right(4), Direction.RIGHT),
+  DECIDE(Vector.NONE, Direction.NONE),
+  DISPLAY_ITEM_LIST(Vector.NONE, Direction.NONE),
+  NONE(Vector.NONE, Direction.NONE);
 
   private final Vector vector;
+  private final Direction direction;
 
-  KeyInputType(Vector vector) {
+  KeyInputType(Vector vector, Direction direction) {
     this.vector = vector;
+    this.direction = direction;
   }
 
   public static KeyInputType from(int keyCode) {
@@ -40,5 +43,9 @@ public enum KeyInputType {
 
   public Vector getVector() {
     return vector;
+  }
+
+  public Direction getDirection() {
+    return direction;
   }
 }
