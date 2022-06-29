@@ -26,7 +26,7 @@ public class Npc implements Collidable {
     Vector vector = npcMovement.getVector();
     location = location.shift(vector);
     collision = collision.shift(vector);
-    direction = vector.getDirection();
+    direction = vector.direction();
   }
 
   public boolean updateMovementThenCanMove(final List<Collidable> collidableList) {
@@ -36,15 +36,10 @@ public class Npc implements Collidable {
   }
 
   public void changeDirection() {
-    direction = npcMovement.getVector().getDirection();
+    direction = npcMovement.getVector().direction();
   }
 
   public BufferedImage getAnimatedImage() {
     return npcAnimation.getAnimatedImage(direction);
-  }
-
-  @Override
-  public Collision getCollision() {
-    return collision;
   }
 }

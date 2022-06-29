@@ -46,4 +46,9 @@ public class PlayerBattleStatus {
   public boolean hasEquipment(Equipment equipment) {
     return equipments.has(equipment);
   }
+
+  // TODO: 他のも追加
+  public void deactivateArmor() {
+    equipments.deactivateArmor();
+  }
 }

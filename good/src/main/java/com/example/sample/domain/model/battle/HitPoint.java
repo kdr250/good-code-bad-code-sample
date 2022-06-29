@@ -40,7 +40,7 @@ public class HitPoint {
   // 回復する
   public HitPoint recover(final int recoveryAmount) {
     final int recovered = value + recoveryAmount;
-    final int corrected = Math.max(maxValue, recovered);
+    final int corrected = Math.min(maxValue, recovered);
     return new HitPoint(corrected, maxValue);
   }
 }

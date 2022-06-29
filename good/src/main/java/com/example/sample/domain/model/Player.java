@@ -17,23 +17,23 @@ public class Player implements Collidable {
   private Location location;
   private Collision collision;
   private Direction direction;
-  private final PlayerAnimation playerAnimation;
   private PlayerItems playerItems;
+  private final PlayerAnimation playerAnimation;
   private final PlayerBattleStatus playerBattleStatus;
 
   public Player(final Location location, final PlayerAnimation playerAnimation) {
     this.location = location;
-    collision = new Collision(location);
+    this.collision = new Collision(location);
+    this.direction = Direction.DOWN;
+    this.playerItems = new PlayerItems();
     this.playerAnimation = playerAnimation;
-    direction = Direction.DOWN;
-    playerItems = new PlayerItems();
-    playerBattleStatus = PlayerBattleStatus.initialize();
+    this.playerBattleStatus = PlayerBattleStatus.initialize();
   }
 
   public void move(final Vector vector) {
     location = location.shift(vector);
     collision = collision.shift(vector);
-    direction = vector.getDirection();
+    direction = vector.direction();
   }
 
   public boolean canMove(final List<Collidable> collidableList, final Vector vector) {
@@ -41,7 +41,7 @@ public class Player implements Collidable {
   }
 
   public void changeDirection(Vector vector) {
-    direction = vector.getDirection();
+    direction = vector.direction();
   }
 
   public BufferedImage getAnimatedImage() {
@@ -54,9 +54,11 @@ public class Player implements Collidable {
 
   public void changeEquipment(Equipment equipment) {
     if (playerBattleStatus.hasEquipment(equipment)) {
-      pickUp(equipment);
+      pickUp(playerBattleStatus.getEquipments().getArmor());
+      playerBattleStatus.deactivateArmor();
     }
     playerBattleStatus.equip(equipment);
+    removeItem(equipment);
   }
 
   public void recoverHitPoint(final int recoveryAmount) {
@@ -81,10 +83,5 @@ public class Player implements Collidable {
 
   public boolean isOverlap(final Collidable collidable) {
     return collision.isCollide(collidable.getCollision());
-  }
-
-  @Override
-  public Collision getCollision() {
-    return collision;
   }
 }

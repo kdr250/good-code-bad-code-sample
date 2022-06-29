@@ -49,7 +49,7 @@ public class Vector {
     }
   }
 
-  public Direction getDirection() {
+  public Direction direction() {
     if (x == 0 && y < 0) return Direction.UP;
     if (x == 0 && y > 0) return Direction.DOWN;
     if (x < 0 && y == 0) return Direction.LEFT;

@@ -22,7 +22,6 @@ public class ItemWeapon implements Equipment {
   private final Location location;
   private final Collision collision;
   private final ItemImage itemImage;
-  public static final Equipment EMPTY = new ItemWeapon(new AttackPower(0), Location.EMPTY, new ItemImage(ItemType.WEAPON, null));
 
   public ItemWeapon(final AttackPower attackPower, final Location location, final ItemImage itemImage) {
     this.attackPower = attackPower;

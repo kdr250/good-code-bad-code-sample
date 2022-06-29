@@ -1,9 +1,9 @@
-package com.example.sample.presentation.view;
+package com.example.sample.presentation.itemlist;
 
 import com.example.sample.domain.model.Player;
 import com.example.sample.domain.model.Tile;
+import com.example.sample.domain.model.item.Equipment;
 import com.example.sample.domain.model.item.Item;
-import com.example.sample.domain.model.item.ItemWeapon;
 import com.example.sample.presentation.GamePanel;
 import com.example.sample.presentation.KeyInputType;
 
@@ -21,16 +21,17 @@ public class ItemListView {
     this.player = player;
   }
 
-  public void moveCursor(KeyInputType keyInputType) {
+  public boolean countUpFpsThenIsKeyInputAllowed() {
     fpsCounter++;
-    if (keyInputType != KeyInputType.DECIDE && fpsCounter > 6) {
-      updateItemListIndex(keyInputType);
+    if (fpsCounter > 5) {
       fpsCounter = 0;
+      return true;
     }
-    if (keyInputType == KeyInputType.DECIDE && fpsCounter > 10) {
-      updateItemListIndex(keyInputType);
-      fpsCounter = 0;
-    }
+    return false;
+  }
+
+  public void moveCursor(KeyInputType keyInputType) {
+    updateItemListIndex(keyInputType);
   }
 
   public ItemListViewChoice choice() {
@@ -127,16 +128,15 @@ public class ItemListView {
     g2.drawString(value, textX, textY);
     textY += lineHeight;
 
-    // TODO: EMPTYの修正すること
-    if (player.getPlayerBattleStatus().getEquipments().getHead() != ItemWeapon.EMPTY) {
+    if (player.getPlayerBattleStatus().getEquipments().getHead() != Equipment.EMPTY) {
       g2.drawImage(player.getPlayerBattleStatus().getEquipments().getHead().getImage(), tailX - Tile.TILE_SIZE, textY - 24, null);
     }
     textY += Tile.TILE_SIZE;
-    if (player.getPlayerBattleStatus().getEquipments().getArmor() != ItemWeapon.EMPTY) {
+    if (player.getPlayerBattleStatus().getEquipments().getArmor() != Equipment.EMPTY) {
       g2.drawImage(player.getPlayerBattleStatus().getEquipments().getArmor().getImage(), tailX - Tile.TILE_SIZE, textY - 24, null);
     }
     textY += Tile.TILE_SIZE;
-    if (player.getPlayerBattleStatus().getEquipments().getArm() != ItemWeapon.EMPTY) {
+    if (player.getPlayerBattleStatus().getEquipments().getArm() != Equipment.EMPTY) {
       g2.drawImage(player.getPlayerBattleStatus().getEquipments().getArm().getImage(), tailX - Tile.TILE_SIZE, textY - 24, null);
     }
   }
@@ -165,10 +165,6 @@ public class ItemListView {
 
       g2.drawImage(items.get(i).getImage(), slotX, slotY, null);
       slotX += slotSize;
-      if (i % 5 == 1) {
-        slotX = slotXStart;
-        slotY += slotSize;
-      }
 
       if (i == itemListIndex) {
         int slotCol = itemListIndex % 4;
@@ -199,6 +195,11 @@ public class ItemListView {
           g2.drawString(line, textX, textY);
           textY += 32;
         }
+      }
+
+      if (i != 0 && i % 4 == 0) {
+        slotX = slotXStart;
+        slotY += slotSize;
       }
     }
 

@@ -28,9 +28,4 @@ public class Tile implements Collidable {
 
     return containsX && containsY;
   }
-
-  @Override
-  public Collision getCollision() {
-    return collision;
-  }
 }

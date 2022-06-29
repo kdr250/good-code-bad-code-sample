@@ -19,9 +19,9 @@ public class Equipments {
 
   public Equipments() {
     // TODO: 各装備のEMPTYを使うよう修正すること
-    head = ItemWeapon.EMPTY;
-    armor = ItemWeapon.EMPTY;
-    arm = ItemWeapon.EMPTY;
+    head = Equipment.EMPTY;
+    armor = Equipment.EMPTY;
+    arm = Equipment.EMPTY;
   }
 
   /**
@@ -37,13 +37,18 @@ public class Equipments {
    */
   public void deactivateAll() {
     // TODO: 各装備のEMPTYを使うよう修正すること
-    head = ItemWeapon.EMPTY;
-    armor = ItemWeapon.EMPTY;
-    arm = ItemWeapon.EMPTY;
+    head = Equipment.EMPTY;
+    armor = Equipment.EMPTY;
+    arm = Equipment.EMPTY;
+  }
+
+  // TODO: 他のも
+  public void deactivateArmor() {
+    armor = Equipment.EMPTY;
   }
 
   public boolean has(Equipment equipment) {
     // TODO: 他のも
-    return armor == ItemWeapon.EMPTY;
+    return armor != Equipment.EMPTY;
   }
 }

@@ -43,9 +43,4 @@ public class Enemy implements Collidable {
   public BufferedImage getImage() {
     return enemyAnimation.getImage();
   }
-
-  @Override
-  public Collision getCollision() {
-    return collision;
-  }
 }

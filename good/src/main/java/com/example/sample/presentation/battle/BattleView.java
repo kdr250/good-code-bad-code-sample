@@ -1,4 +1,4 @@
-package com.example.sample.presentation.view;
+package com.example.sample.presentation.battle;
 
 import com.example.sample.domain.model.Enemy;
 import com.example.sample.domain.model.Player;
