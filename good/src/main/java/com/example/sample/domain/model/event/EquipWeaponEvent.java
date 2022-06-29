@@ -13,7 +13,7 @@ public class EquipWeaponEvent implements PlayerEvent {
 
   @Override
   public boolean execute(Player player) {
-    // TODO: Not yet implemented
+    player.changeEquipment(equipment);
     return true;
   }
 }

@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class PlayerItems {
   private static final int MAX_ITEM_COUNT = 20;
@@ -32,6 +33,11 @@ public class PlayerItems {
 
   public List<Item> items() {
     return Collections.unmodifiableList(items);
+  }
+
+  public PlayerItems remove(Item item) {
+    List<Item> newItems = items.stream().filter(i -> i != item).collect(Collectors.toList());
+    return new PlayerItems(newItems);
   }
 
   public boolean hasKey() {

@@ -4,8 +4,8 @@ import com.example.sample.domain.model.Player;
 import com.example.sample.domain.model.Tile;
 import com.example.sample.domain.model.item.Item;
 import com.example.sample.domain.model.item.ItemWeapon;
-import com.example.sample.domain.type.Direction;
 import com.example.sample.presentation.GamePanel;
+import com.example.sample.presentation.KeyInputType;
 
 import java.awt.*;
 import java.util.List;
@@ -21,12 +21,29 @@ public class ItemListView {
     this.player = player;
   }
 
-  public void moveCursor(Direction direction) {
+  public void moveCursor(KeyInputType keyInputType) {
     fpsCounter++;
-    if (fpsCounter > 10) {
-      updateItemListIndex(direction);
+    if (keyInputType != KeyInputType.DECIDE && fpsCounter > 6) {
+      updateItemListIndex(keyInputType);
       fpsCounter = 0;
     }
+    if (keyInputType == KeyInputType.DECIDE && fpsCounter > 10) {
+      updateItemListIndex(keyInputType);
+      fpsCounter = 0;
+    }
+  }
+
+  public ItemListViewChoice choice() {
+    List<Item> items = player.getPlayerItems().items();
+    if (itemListIndex > -1 && itemListIndex < items.size()) return ItemListViewChoice.USE_ITEM;
+    return ItemListViewChoice.BACK;
+  }
+
+  public Item selectingItem() {
+    List<Item> items = player.getPlayerItems().items();
+    if (itemListIndex > -1 && itemListIndex < items.size()) return items.get(itemListIndex);
+
+    throw new IllegalArgumentException();
   }
 
   public void draw(Graphics2D g2) {
@@ -79,7 +96,7 @@ public class ItemListView {
     g2.drawString(value, textX, textY);
     textY += lineHeight;
 
-    value = String.valueOf(player.getPlayerBattleStatus().getHItPoint().getValue());
+    value = String.valueOf(player.getPlayerBattleStatus().getHitPoint().getValue());
     textX = getXForAlignToRightText(value, tailX, g2);
     g2.drawString(value, textX, textY);
     textY += lineHeight;
@@ -184,6 +201,13 @@ public class ItemListView {
         }
       }
     }
+
+    // 戻る
+    g2.setColor(Color.white);
+    g2.drawString("もどる", GamePanel.screenWidth - Tile.TILE_SIZE * 5, GamePanel.screenHeight - Tile.TILE_SIZE);
+    if (itemListIndex == -1) {
+      g2.drawString(">", GamePanel.screenWidth - Tile.TILE_SIZE * 6, GamePanel.screenHeight - Tile.TILE_SIZE);
+    }
   }
 
   private void drawSubWindow(int x, int y, int width, int height, Graphics2D g2) {
@@ -204,9 +228,9 @@ public class ItemListView {
     return tailX - length;
   }
 
-  private void updateItemListIndex(Direction direction) {
+  private void updateItemListIndex(KeyInputType keyInputType) {
     List<Item> items = player.getPlayerItems().items();
-    switch (direction) {
+    switch (keyInputType) {
       case UP:
         int tempItemListIndexUp = itemListIndex == -1 ? items.size() - 1 : itemListIndex - 4;
         itemListIndex = tempItemListIndexUp >= 0 ? tempItemListIndexUp : -1;
@@ -216,11 +240,11 @@ public class ItemListView {
         itemListIndex = tempItemListIndexDown < items.size() ? tempItemListIndexDown : -1;
         break;
       case LEFT:
-        int tempItemListIndexLeft = itemListIndex == -1 ? 0 : itemListIndex - 1;
+        int tempItemListIndexLeft = itemListIndex == -1 ? items.size() - 1 : itemListIndex - 1;
         itemListIndex = tempItemListIndexLeft >= 0 ? tempItemListIndexLeft : -1;
         break;
       case RIGHT:
-        int tempItemListIndexRight = itemListIndex == -1 ? items.size() - 1 : itemListIndex + 1;
+        int tempItemListIndexRight = itemListIndex == -1 ? 0 : itemListIndex + 1;
         itemListIndex = tempItemListIndexRight < items.size() ? tempItemListIndexRight : -1;
         break;
     }

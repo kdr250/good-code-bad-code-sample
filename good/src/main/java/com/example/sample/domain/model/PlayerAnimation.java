@@ -31,6 +31,10 @@ public class PlayerAnimation {
     }
   }
 
+  public BufferedImage getImage() {
+    return animationMap.get(PlayerAnimationType.DOWN_ONE);
+  }
+
   private BufferedImage upAnimation() {
     BufferedImage result = count / 15 < 1 ? animationMap.get(PlayerAnimationType.UP_ONE) : animationMap.get(PlayerAnimationType.UP_TWO);
     previousImage = result;

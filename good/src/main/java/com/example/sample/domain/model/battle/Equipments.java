@@ -41,4 +41,9 @@ public class Equipments {
     armor = ItemWeapon.EMPTY;
     arm = ItemWeapon.EMPTY;
   }
+
+  public boolean has(Equipment equipment) {
+    // TODO: 他のも
+    return armor == ItemWeapon.EMPTY;
+  }
 }

@@ -18,6 +18,14 @@ public class GameMode {
     return gameModeType == GameModeType.WORLD_MAP;
   }
 
+  public void battle() {
+    gameModeType = GameModeType.BATTLE;
+  }
+
+  public boolean isBattle() {
+    return gameModeType == GameModeType.BATTLE;
+  }
+
   public void displayItemList() {
     gameModeType = GameModeType.DISPLAY_ITEM_LIST;
   }

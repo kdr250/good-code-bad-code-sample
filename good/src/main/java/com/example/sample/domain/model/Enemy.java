@@ -1,5 +1,6 @@
 package com.example.sample.domain.model;
 
+import com.example.sample.domain.model.battle.EnemyBattleStatus;
 import lombok.Getter;
 
 import java.awt.image.BufferedImage;
@@ -7,16 +8,20 @@ import java.util.List;
 
 @Getter
 public class Enemy implements Collidable {
+  private final String name;
   private Location location;
   private Collision collision;
   private final EnemyAnimation enemyAnimation;
   private final EnemyMovement enemyMovement;
+  private final EnemyBattleStatus enemyBattleStatus;
 
-  public Enemy(final Location location, final EnemyAnimation enemyAnimation) {
+  public Enemy(final String name, final Location location, final EnemyAnimation enemyAnimation, final EnemyBattleStatus enemyBattleStatus) {
+    this.name = name;
     this.location = location;
     collision = new Collision(location);
     this.enemyAnimation = enemyAnimation;
     enemyMovement = new EnemyMovement();
+    this.enemyBattleStatus = enemyBattleStatus;
   }
 
   public void move() {
@@ -33,6 +38,10 @@ public class Enemy implements Collidable {
 
   public BufferedImage getAnimatedImage() {
     return enemyAnimation.getAnimatedImage();
+  }
+
+  public BufferedImage getImage() {
+    return enemyAnimation.getImage();
   }
 
   @Override

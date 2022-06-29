@@ -1,6 +1,7 @@
 package com.example.sample.domain.model;
 
 import com.example.sample.domain.model.battle.PlayerBattleStatus;
+import com.example.sample.domain.model.item.Equipment;
 import com.example.sample.domain.model.item.Item;
 import com.example.sample.domain.type.Direction;
 import lombok.Getter;
@@ -47,20 +48,39 @@ public class Player implements Collidable {
     return playerAnimation.getAnimatedImage(direction);
   }
 
+  public BufferedImage getImage() {
+    return playerAnimation.getImage();
+  }
+
+  public void changeEquipment(Equipment equipment) {
+    if (playerBattleStatus.hasEquipment(equipment)) {
+      pickUp(equipment);
+    }
+    playerBattleStatus.equip(equipment);
+  }
+
+  public void recoverHitPoint(final int recoveryAmount) {
+    playerBattleStatus.recoveryHitPoint(recoveryAmount);
+  }
+
   public void pickUp(Item item) {
     playerItems = playerItems.add(item);
+  }
+
+  public void removeItem(Item item) {
+    playerItems = playerItems.remove(item);
   }
 
   public boolean hasKey() {
     return playerItems.hasKey();
   }
 
-  public void deleteKey() {
+  public void removeKey() {
     playerItems = playerItems.deleteKeyIfExists();
   }
 
-  public boolean isOverlap(final Item item) {
-    return collision.isCollide(item.getCollision());
+  public boolean isOverlap(final Collidable collidable) {
+    return collision.isCollide(collidable.getCollision());
   }
 
   @Override

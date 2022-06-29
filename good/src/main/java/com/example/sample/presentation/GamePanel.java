@@ -16,20 +16,30 @@ import com.example.sample.domain.model.PlayerAnimation;
 import com.example.sample.domain.model.Tile;
 import com.example.sample.domain.model.Vector;
 import com.example.sample.domain.model.WorldMap;
+import com.example.sample.domain.model.battle.AttackPower;
+import com.example.sample.domain.model.battle.DefensePower;
+import com.example.sample.domain.model.battle.EnemyBattleStatus;
+import com.example.sample.domain.model.battle.HitPoint;
 import com.example.sample.domain.model.event.Event;
 import com.example.sample.domain.model.event.GameModeEvent;
 import com.example.sample.domain.model.event.PlayerEvent;
 import com.example.sample.domain.model.gamemode.GameMode;
 import com.example.sample.domain.model.gamemode.GameModeType;
+import com.example.sample.domain.model.item.Consumable;
+import com.example.sample.domain.model.item.Equipment;
 import com.example.sample.domain.model.item.Interactive;
 import com.example.sample.domain.model.item.Item;
 import com.example.sample.domain.model.item.ItemChest;
 import com.example.sample.domain.model.item.ItemDoor;
 import com.example.sample.domain.model.item.ItemImage;
 import com.example.sample.domain.model.item.ItemKey;
+import com.example.sample.domain.model.item.ItemShieldNormal;
 import com.example.sample.domain.model.item.ItemType;
 import com.example.sample.domain.model.item.ItemPotionRed;
+import com.example.sample.domain.model.item.ItemWeapon;
+import com.example.sample.presentation.view.BattleView;
 import com.example.sample.presentation.view.ItemListView;
+import com.example.sample.presentation.view.ItemListViewChoice;
 import org.springframework.stereotype.Component;
 
 import javax.swing.*;
@@ -45,7 +55,7 @@ public class GamePanel extends JPanel implements Runnable {
   private static final int maxScreenCol = 16;
   private static final int maxScreenRow = 12;
   public static final int screenWidth = Tile.TILE_SIZE * maxScreenCol; // 768 px
-  private static final int screenHeight = Tile.TILE_SIZE * maxScreenRow; // 576 px
+  public static final int screenHeight = Tile.TILE_SIZE * maxScreenRow; // 576 px
   private static final int screenCenterX = screenWidth / 2;
   private static final int screenCenterY = screenHeight / 2;
 
@@ -78,6 +88,7 @@ public class GamePanel extends JPanel implements Runnable {
 
   // TODO: Viewの動作確認用、リファクタリングすること
   private ItemListView itemListView;
+  private BattleView battleView;
 
   public GamePanel(WorldMapQueryService worldMapQueryService, KeyInputHandler keyInputHandler, PlayerQueryService playerQueryService, NpcQueryService npcQueryService, EnemyQueryService enemyQueryService, ItemQueryService itemQueryService) {
     this.worldMapQueryService = worldMapQueryService;
@@ -101,7 +112,7 @@ public class GamePanel extends JPanel implements Runnable {
     NpcAnimation npcAnimation = npcQueryService.find();
     npc = new Npc(new Location(Tile.TILE_SIZE * 21, Tile.TILE_SIZE * 20), npcAnimation);
     EnemyAnimation enemyAnimation = enemyQueryService.find();
-    enemy = new Enemy(new Location(Tile.TILE_SIZE * 9, Tile.TILE_SIZE * 30), enemyAnimation);
+    enemy = new Enemy("スライム", new Location(Tile.TILE_SIZE * 9, Tile.TILE_SIZE * 30), enemyAnimation, new EnemyBattleStatus(new HitPoint(6), new AttackPower(2)));
     ItemImage itemImage = itemQueryService.find(ItemType.POTION_RED);
     Item potionRed = new ItemPotionRed(new Location(Tile.TILE_SIZE * 22, Tile.TILE_SIZE * 7), itemImage);
     fieldItemList.add(potionRed);
@@ -114,6 +125,13 @@ public class GamePanel extends JPanel implements Runnable {
     ItemImage itemImageChest = itemQueryService.find(ItemType.CHEST);
     Item chest = new ItemChest(new Location(Tile.TILE_SIZE * 10, Tile.TILE_SIZE * 7), itemImageChest);
     fieldItemList.add(chest);
+    ItemImage itemImageShield = itemQueryService.find(ItemType.SHIELD_NORMAL);
+    Item shieldNormal = new ItemShieldNormal(new DefensePower(2), new Location(Tile.TILE_SIZE * 23, Tile.TILE_SIZE * 7), itemImageShield);
+    fieldItemList.add(shieldNormal);
+    ItemImage itemImageSword = itemQueryService.find(ItemType.WEAPON);
+    Item sword = new ItemWeapon(new AttackPower(2), new Location(Tile.TILE_SIZE * 24, Tile.TILE_SIZE * 7), itemImageSword);
+    fieldItemList.add(sword);
+
     itemListView = new ItemListView(player);
 
     gameThread = new Thread(this);
@@ -131,7 +149,7 @@ public class GamePanel extends JPanel implements Runnable {
       delta += (currentTime - lastTime) / DRAW_INTERVAL;
       lastTime = currentTime;
 
-      // TODO: 要リファクタリング DoOnceを実装すること
+      // TODO: 要リファクタリング
       if (!isFinished) {
         update();
         isFinished = true;
@@ -148,12 +166,31 @@ public class GamePanel extends JPanel implements Runnable {
   private void update() {
     KeyInputType keyInputType = keyInputHandler.getKeyInputType();
 
+    // TODO: 動作確認用、後でリファクタリングすること
+
     if (gameMode.isDisplayingItemList()) {
       if (keyInputType == KeyInputType.DECIDE) {
-        gameMode.worldMap();
+        ItemListViewChoice choice = itemListView.choice();
+        if (choice == ItemListViewChoice.BACK) {
+          gameMode.worldMap();
+          return;
+        }
+        Item item = itemListView.selectingItem();
+        if (item instanceof Consumable) {
+          Event event = ((Consumable) item).consume();
+          if (event instanceof PlayerEvent) {
+            ((PlayerEvent) event).execute(player);
+          }
+        }
+        if (item instanceof Equipment) {
+          Event event = ((Equipment) item).equip();
+          if (event instanceof PlayerEvent) {
+            ((PlayerEvent) event).execute(player);
+          }
+        }
         return;
       }
-      itemListView.moveCursor(keyInputType.getDirection());
+      itemListView.moveCursor(keyInputType);
       return;
     }
 
@@ -170,7 +207,6 @@ public class GamePanel extends JPanel implements Runnable {
         return;
       }
 
-      // TODO: 動作確認用
       Vector vector = keyInputType.getVector();
       Location playerWillMoveLocation = player.getLocation().shift(vector);
 
@@ -197,12 +233,15 @@ public class GamePanel extends JPanel implements Runnable {
 
       List<Collidable> collidableListForPlayer = worldMap.getTilesFromLocation(playerWillMoveLocation);
       collidableListForPlayer.add(npc);
-      collidableListForPlayer.add(enemy);
       collidableListForPlayer.addAll(fieldItemList.stream().filter(item -> item instanceof Interactive).collect(Collectors.toList()));
       if (player.canMove(collidableListForPlayer, vector)) {
         player.move(vector);
       } else {
         player.changeDirection(vector);
+      }
+      if (player.isOverlap(enemy)) {
+        battleView = new BattleView(player, enemy);
+        gameMode.battle();
       }
 
       Location npcWillMoveLocation = npc.getLocation().shift(npc.getNpcMovement().getVector());
@@ -217,10 +256,12 @@ public class GamePanel extends JPanel implements Runnable {
 
       Location enemyWillMoveLocation = enemy.getLocation().shift(enemy.getEnemyMovement().getVector());
       List<Collidable> collidableListForEnemy = worldMap.getTilesFromLocation(enemyWillMoveLocation);
-      collidableListForEnemy.add(player);
       collidableListForEnemy.add(npc);
       if (enemy.updateMovementThenCanMove(collidableListForEnemy)) {
         enemy.move();
+      }
+      if (player.isOverlap(enemy)) {
+        gameMode.battle();
       }
     }
   }
@@ -231,7 +272,8 @@ public class GamePanel extends JPanel implements Runnable {
     g2.setFont(arial30);
     g2.setColor(Color.white);
 
-    // TODO: 動作確認用
+    // TODO: 動作確認用、後でリファクタリングすること
+
     if (worldMap != null && player != null) {
       Location playerLocation = player.getLocation();
       for (Tile[] tiles : worldMap.getTiles()) {
@@ -294,6 +336,10 @@ public class GamePanel extends JPanel implements Runnable {
 
     if (gameMode.isDisplayingItemList()) {
       itemListView.draw(g2);
+    }
+
+    if (gameMode.isBattle()) {
+      battleView.draw(g2);
     }
 
     g2.dispose();

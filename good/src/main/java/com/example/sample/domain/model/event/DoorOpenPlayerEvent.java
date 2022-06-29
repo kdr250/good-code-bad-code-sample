@@ -7,7 +7,7 @@ public class DoorOpenPlayerEvent implements PlayerEvent {
   @Override
   public boolean execute(Player player) {
     if (player.hasKey()) {
-      player.deleteKey();
+      player.removeKey();
       return true;
     }
     return false;

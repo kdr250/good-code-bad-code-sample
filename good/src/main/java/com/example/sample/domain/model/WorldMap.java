@@ -1,6 +1,5 @@
 package com.example.sample.domain.model;
 
-import com.example.sample.presentation.GamePanel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -12,7 +11,7 @@ import java.util.List;
 public class WorldMap {
   private final Tile[][] tiles;
 
-  public List<Collidable> getTilesFromLocation(Location location) {
+  public List<Collidable> getTilesFromLocation(final Location location) {
     int tileX = location.getX() / Tile.TILE_SIZE;
     int tileY = location.getY() / Tile.TILE_SIZE;
 

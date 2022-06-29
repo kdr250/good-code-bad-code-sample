@@ -21,4 +21,8 @@ public class EnemyAnimation {
     count %= 60;
     return result;
   }
+
+  public BufferedImage getImage() {
+    return animationMap.get(EnemyAnimationType.SLIME_DOWN_ONE);
+  }
 }
