@@ -22,7 +22,13 @@ public class MagicPoint {
 
     this.currentAmount = currentAmount;
     this.originalMaxAmount = originalMaxAmount;
-    maxIncrements = new ArrayList<>();
+    this.maxIncrements = new ArrayList<>();
+  }
+
+  public MagicPoint(final int amount) {
+    this.currentAmount = amount;
+    this.originalMaxAmount = amount;
+    this.maxIncrements = new ArrayList<>();
   }
 
   /** @return 現在の魔法力残量 */

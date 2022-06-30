@@ -5,6 +5,7 @@ import com.example.sample.domain.model.Tile;
 import com.example.sample.domain.model.gamemode.GameMode;
 import com.example.sample.domain.model.gamemode.GameModeType;
 import com.example.sample.presentation.battle.BattleController;
+import com.example.sample.presentation.clear.GameClearController;
 import com.example.sample.presentation.itemlist.ItemListController;
 import com.example.sample.presentation.worldmap.WorldMapController;
 import org.springframework.stereotype.Component;
@@ -37,16 +38,19 @@ public class GamePanel extends JPanel implements Runnable {
 
   private final BattleController battleController;
 
+  private final GameClearController gameClearController;
+
   private boolean isFinished = false;
 
   private final GameMode gameMode = new GameMode(GameModeType.WORLD_MAP);
   Font arial30 = new Font("Arial", Font.PLAIN, 30);
 
-  public GamePanel(KeyInputHandler keyInputHandler, WorldMapController worldMapController, ItemListController itemListController, BattleController battleController) {
+  public GamePanel(KeyInputHandler keyInputHandler, WorldMapController worldMapController, ItemListController itemListController, BattleController battleController, GameClearController gameClearController) {
     this.keyInputHandler = keyInputHandler;
     this.worldMapController = worldMapController;
     this.itemListController = itemListController;
     this.battleController = battleController;
+    this.gameClearController = gameClearController;
     this.setPreferredSize(new Dimension(screenWidth, screenHeight));
     this.setBackground(Color.black);
     this.setDoubleBuffered(true);
@@ -107,9 +111,7 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     if (gameMode.isGameCleared()) {
-      if (keyInputHandler.getKeyInputType() == KeyInputType.DECIDE) {
-        System.exit(0);
-      }
+      gameClearController.update(keyInputType);
       return;
     }
 
@@ -129,9 +131,7 @@ public class GamePanel extends JPanel implements Runnable {
     worldMapController.draw(g2);
 
     if (gameMode.isGameCleared()) {
-      g2.drawString("クリア!", screenWidth / 2 - Tile.TILE_SIZE * 3, screenHeight / 2);
-      g2.setColor(Color.black);
-      g2.drawString("> Press Enter to Quit Game", screenWidth / 2 - Tile.TILE_SIZE * 3, screenHeight / 2 + Tile.TILE_SIZE * 3);
+      gameClearController.draw(g2);
     }
 
     if (gameMode.isDisplayingItemList()) {

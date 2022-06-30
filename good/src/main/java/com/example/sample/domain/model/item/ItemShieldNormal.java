@@ -4,7 +4,6 @@ import com.example.sample.domain.model.Collision;
 import com.example.sample.domain.model.Location;
 import com.example.sample.domain.model.battle.DefensePower;
 import com.example.sample.domain.model.event.EquipArmorPlayerEvent;
-import com.example.sample.domain.model.event.EquipWeaponEvent;
 import com.example.sample.domain.model.event.Event;
 import lombok.Getter;
 
