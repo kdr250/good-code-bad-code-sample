@@ -59,9 +59,11 @@ public class BattleView {
     g2.setFont(g2.getFont().deriveFont(24f));
     for (int i = 0; i < player.getPlayerBattleStatus().getMagicPoint().max(); i++) {
       if (i < player.getPlayerBattleStatus().getMagicPoint().current()) {
+        // TODO: ItemImageを使うこと
         g2.drawString("⭐️", playerLifeBarX + i * 15, playerLifeBarY + 20);
         //g2.drawImage(crystalFull, playerLifeBarX + i * 15, playerLifeBarY + 20, 30, 30, null);
       } else {
+        // TODO: ItemImageを使うこと
         g2.drawString("★", playerLifeBarX + i * 15, playerLifeBarY + 20);
         //g2.drawImage(crystalBlank, playerLifeBarX + i * 15, playerLifeBarY + 20, 30, 30, null);
       }
@@ -114,116 +116,5 @@ public class BattleView {
       g2.drawString("プレイヤーの敗北！", Tile.TILE_SIZE + 30, GamePanel.screenHeight / 2 + Tile.TILE_SIZE);
       g2.drawString("> Press Enter", Tile.TILE_SIZE + 30, GamePanel.screenHeight / 2 + Tile.TILE_SIZE * 2);
     }
-
-//    else if (subState == 1) {
-//      isLackOfMana = false;
-//      String description = player.techniques[commandNum] instanceof MagicType ?
-//          GamePanel.magicManager.description((MagicType) player.techniques[commandNum]) :
-//          GamePanel.physicalAttackManager.description((PhysicalAttackType) player.techniques[commandNum]);
-//      g2.drawString(description, Tile.TILE_SIZE + 30, GamePanel.screenHeight / 2 + Tile.TILE_SIZE);
-//      for (int i = 0; i < player.techniques.length; i++) {
-//        String name = player.techniques[i] instanceof MagicType ?
-//            GamePanel.magicManager.getName((MagicType) player.techniques[i]) :
-//            GamePanel.physicalAttackManager.getName((PhysicalAttackType) player.techniques[i]);
-//        g2.drawString(name, Tile.TILE_SIZE + Tile.TILE_SIZE * 10, GamePanel.screenHeight / 2 + Tile.TILE_SIZE * (i + 1));
-//      }
-//      g2.drawString(">", Tile.TILE_SIZE + Tile.TILE_SIZE * 10 - 15, GamePanel.screenHeight / 2 + Tile.TILE_SIZE * (commandNum + 1));
-//      if (GamePanel.keyManager.enterPressed) {
-//        GamePanel.keyManager.enterPressed = false;
-//        int consumeMagicPoint = player.techniques[commandNum] instanceof MagicType ?
-//            GamePanel.magicManager.costMagicPoint((MagicType) player.techniques[commandNum]) : 0;
-//        if (player.magicPoint >= consumeMagicPoint) {
-//          BattleTechnique technique = player.techniques[commandNum];
-//          if (technique instanceof PhysicalAttackType) {
-//            enemy.hitPoint -= attackPowerByPhysicalAttack((PhysicalAttackType)technique, player);
-//          } else if (technique instanceof MagicType) {
-//            player.magicPoint -= GamePanel.magicManager.costMagicPoint((MagicType)technique);
-//            enemy.hitPoint -= attackPower((MagicType)technique, player);
-//          }
-//        } else {
-//          isLackOfMana = true;
-//        }
-//        subState = 2;
-//        return;
-//      }
-//    }
-//    else if (subState == 2) {
-//      if (isLackOfMana) {
-//        g2.drawString("魔力が足りない!", Tile.TILE_SIZE + 30, GamePanel.screenHeight / 2 + Tile.TILE_SIZE);
-//      } else {
-//        int damage = 0;
-//        BattleTechnique technique = player.techniques[commandNum];
-//        if (technique instanceof PhysicalAttackType) {
-//          damage = attackPowerByPhysicalAttack((PhysicalAttackType)technique, player);
-//        } else if (technique instanceof MagicType) {
-//          damage = attackPower((MagicType)technique, player);
-//        }
-//        g2.drawString(enemy.name + "に" + damage + "ダメージ！", Tile.TILE_SIZE + 30, GamePanel.screenHeight / 2 + Tile.TILE_SIZE);
-//      }
-//      g2.drawString("> Press Enter", Tile.TILE_SIZE + 30, GamePanel.screenHeight / 2 + Tile.TILE_SIZE * 2);
-//      if (GamePanel.keyManager.enterPressed) {
-//        GamePanel.keyManager.enterPressed = false;
-//        if (isLackOfMana) {
-//          subState = 1;
-//          commandNum = 0;
-//          return;
-//        }
-//        else if (enemy.hitPoint <= 0) {
-//          enemy.addItemToItemList(player.inventory);
-//          subState = 4;
-//          commandNum = 0;
-//          return;
-//        }
-//        int damageAmount = Math.max(enemy.attack.value() - player.totalDefense(), 1);
-//        /** ×リスト2.7 どこかに書かれるヒットポイント減少ロジック */
-//        player.hitPoint = player.hitPoint - damageAmount;
-//        subState = 3;
-//        commandNum = 0;
-//      }
-//    }
-//    else if (subState == 3) {
-//      g2.drawString("プレイヤーに" + Math.max(enemy.attack.value() - player.totalDefense(), 1) + "ダメージ！", Tile.TILE_SIZE + 30, GamePanel.screenHeight / 2 + Tile.TILE_SIZE);
-//      if (player.hitPoint <= 0) {
-//        g2.drawString("敗北！防具が壊れた！", Tile.TILE_SIZE + 30, GamePanel.screenHeight / 2 + Tile.TILE_SIZE * 2);
-//        player.deleteEquipmentFromItemList();
-//        player.takeOffAllEquipments();
-//      }
-//      g2.drawString("> Press Enter", Tile.TILE_SIZE + 30, GamePanel.screenHeight / 2 + Tile.TILE_SIZE * 3);
-//      if (GamePanel.keyManager.enterPressed) {
-//        GamePanel.keyManager.enterPressed = false;
-//        if (player.hitPoint <= 0) {
-//          GamePanel.gameState = GamePanel.gameOverState;
-//          subState = 0;
-//          commandNum = 0;
-//          return;
-//        }
-//        subState = 0;
-//        commandNum = 0;
-//      }
-//    }
-//    else if (subState == 4) {
-//      String text;
-//      if (enemy.hitPoint <= 0) {
-//        levelUp();
-//        text = "勝利！ " + player.inventory.get(player.inventory.size() - 1).name + "を手に入れた!";
-//      } else {
-//        text = "逃げた!";
-//      }
-//      g2.drawString(text, Tile.TILE_SIZE + 30, GamePanel.screenHeight / 2 + Tile.TILE_SIZE);
-//      g2.drawString("> Press Enter", Tile.TILE_SIZE + 30, GamePanel.screenHeight / 2 + Tile.TILE_SIZE * 2);
-//      if (GamePanel.keyManager.enterPressed) {
-//        GamePanel.gameState = GamePanel.playState;
-//        subState = 0;
-//        commandNum = 0;
-//        GamePanel.keyManager.enterPressed = false;
-//        player.exp += enemy.exp;
-//        for (int i = 0; i < GamePanel.monsters.length; i++) {
-//          if (enemy == GamePanel.monsters[i]) {
-//            enemy = null;
-//            GamePanel.monsters[i] = null;
-//          }
-//        }
-//      }
-//    }
   }
 }
