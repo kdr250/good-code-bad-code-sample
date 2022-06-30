@@ -14,16 +14,9 @@ public class BattleView {
   private final Player player;
   private final Enemy enemy;
 
-  private BattleViewState battleViewState;
-  private PlayerActionChoice playerActionChoice;
-  private PlayerTechniqueChoice playerTechniqueChoice;
-
   public BattleView(final Player player, final Enemy enemy) {
     this.player = player;
     this.enemy = enemy;
-    battleViewState = BattleViewState.SELECTING_PLAYER_ACTION;
-    playerActionChoice = PlayerActionChoice.ATTACK;
-    playerTechniqueChoice = PlayerTechniqueChoice.ONE;
   }
 
   public void draw(Graphics2D g2, BattleViewState battleViewState, PlayerActionChoice playerActionChoice, PlayerTechniqueChoice playerTechniqueChoice) {
@@ -99,6 +92,11 @@ public class BattleView {
 
     if (battleViewState == BattleViewState.PLAYER_TECHNIQUE_RESULT) {
       g2.drawString("敵にXXダメージ！", Tile.TILE_SIZE + 30, GamePanel.screenHeight / 2 + Tile.TILE_SIZE);
+      g2.drawString("> Press Enter", Tile.TILE_SIZE + 30, GamePanel.screenHeight / 2 + Tile.TILE_SIZE * 2);
+    }
+
+    if (battleViewState == BattleViewState.PLAYER_TECHNIQUE_FAIL) {
+      g2.drawString("魔力が足りない！", Tile.TILE_SIZE + 30, GamePanel.screenHeight / 2 + Tile.TILE_SIZE);
       g2.drawString("> Press Enter", Tile.TILE_SIZE + 30, GamePanel.screenHeight / 2 + Tile.TILE_SIZE * 2);
     }
 

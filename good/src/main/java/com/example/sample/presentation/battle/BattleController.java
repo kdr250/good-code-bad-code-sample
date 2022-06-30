@@ -80,7 +80,13 @@ public class BattleController {
         case DECIDE:
           // TODO: Player->Enemyへのダメージ処理
           // TODO: Enemyの生存判定処理
-          battleViewState = BattleViewState.PLAYER_TECHNIQUE_RESULT;
+          // TODO: 後で削除すること
+          int random = (int)(Math.random() * 100);
+          if (random < 33) {
+            battleViewState = BattleViewState.PLAYER_TECHNIQUE_RESULT;
+          } else {
+            battleViewState = BattleViewState.PLAYER_TECHNIQUE_FAIL;
+          }
           return;
       }
     }
@@ -96,6 +102,13 @@ public class BattleController {
         }
         return;
       }
+    }
+
+    if (battleViewState == BattleViewState.PLAYER_TECHNIQUE_FAIL) {
+      if (keyInputType == KeyInputType.DECIDE) {
+        battleViewState = BattleViewState.SELECTING_PLAYER_TECHNIQUE;
+      }
+      return;
     }
 
     if (battleViewState == BattleViewState.ENEMY_ACTION_RESULT) {
