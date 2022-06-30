@@ -1,0 +1,10 @@
+package com.example.sample.presentation.battle;
+
+public enum BattleViewState {
+  SELECTING_PLAYER_ACTION,
+  SELECTING_PLAYER_TECHNIQUE,
+  PLAYER_TECHNIQUE_RESULT,
+  ENEMY_ACTION_RESULT,
+  BATTLE_RESULT_PLAYER_WIN,
+  BATTLE_RESULT_PLAYER_LOSE;
+}

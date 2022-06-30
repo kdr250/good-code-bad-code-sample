@@ -3,9 +3,11 @@ package com.example.sample.presentation.battle;
 import com.example.sample.domain.model.Enemy;
 import com.example.sample.domain.model.Player;
 import com.example.sample.domain.model.Tile;
+import com.example.sample.domain.model.technique.Technique;
 import com.example.sample.presentation.GamePanel;
 
 import java.awt.*;
+import java.util.List;
 
 public class BattleView {
 
@@ -24,11 +26,11 @@ public class BattleView {
     playerTechniqueChoice = PlayerTechniqueChoice.ONE;
   }
 
-  public void draw(Graphics2D g2) {
-    drawBattleScreen(g2);
+  public void draw(Graphics2D g2, BattleViewState battleViewState, PlayerActionChoice playerActionChoice, PlayerTechniqueChoice playerTechniqueChoice) {
+    drawBattleScreen(g2, battleViewState, playerActionChoice, playerTechniqueChoice);
   }
 
-  private void drawBattleScreen(Graphics2D g2) {
+  private void drawBattleScreen(Graphics2D g2, BattleViewState battleViewState, PlayerActionChoice playerActionChoice, PlayerTechniqueChoice playerTechniqueChoice) {
     g2.setColor(Color.black);
     g2.fillRect(Tile.TILE_SIZE, Tile.TILE_SIZE, GamePanel.screenWidth - Tile.TILE_SIZE * 2, GamePanel.screenHeight - Tile.TILE_SIZE * 2);
     // モンスターの画像
@@ -83,12 +85,38 @@ public class BattleView {
       g2.drawString("にげる", Tile.TILE_SIZE + Tile.TILE_SIZE * 10, GamePanel.screenHeight / 2 + Tile.TILE_SIZE * 2);
 
       g2.drawString(">", Tile.TILE_SIZE + Tile.TILE_SIZE * 10 - 15, GamePanel.screenHeight / 2 + Tile.TILE_SIZE * (playerActionChoice.ordinal() + 1));
-//      if (GamePanel.keyManager.enterPressed) {
-//        subState = commandNum == 0 ? 1 : 4;
-//        commandNum = 0;
-//        GamePanel.keyManager.enterPressed = false;
-//      }
     }
+
+    if (battleViewState == BattleViewState.SELECTING_PLAYER_TECHNIQUE) {
+      List<Technique> playerTechniques = player.getPlayerBattleStatus().getPlayerTechniques().getList();
+      for (int i = 0; i < playerTechniques.size(); i++) {
+        Technique technique = playerTechniques.get(i);
+        g2.drawString(technique.displayName(), Tile.TILE_SIZE + Tile.TILE_SIZE * 10, GamePanel.screenHeight / 2 + Tile.TILE_SIZE * (i + 1));
+        if (i == playerTechniqueChoice.ordinal()) g2.drawString(technique.description(), Tile.TILE_SIZE + 30, GamePanel.screenHeight / 2 + Tile.TILE_SIZE);
+      }
+      g2.drawString(">", Tile.TILE_SIZE + Tile.TILE_SIZE * 10 - 15, GamePanel.screenHeight / 2 + Tile.TILE_SIZE * (playerTechniqueChoice.ordinal() + 1));
+    }
+
+    if (battleViewState == BattleViewState.PLAYER_TECHNIQUE_RESULT) {
+      g2.drawString("敵にXXダメージ！", Tile.TILE_SIZE + 30, GamePanel.screenHeight / 2 + Tile.TILE_SIZE);
+      g2.drawString("> Press Enter", Tile.TILE_SIZE + 30, GamePanel.screenHeight / 2 + Tile.TILE_SIZE * 2);
+    }
+
+    if (battleViewState == BattleViewState.ENEMY_ACTION_RESULT) {
+      g2.drawString("プレイヤーにXXダメージ！", Tile.TILE_SIZE + 30, GamePanel.screenHeight / 2 + Tile.TILE_SIZE);
+      g2.drawString("> Press Enter", Tile.TILE_SIZE + 30, GamePanel.screenHeight / 2 + Tile.TILE_SIZE * 2);
+    }
+
+    if (battleViewState == BattleViewState.BATTLE_RESULT_PLAYER_WIN) {
+      g2.drawString("プレイヤーの勝利！", Tile.TILE_SIZE + 30, GamePanel.screenHeight / 2 + Tile.TILE_SIZE);
+      g2.drawString("> Press Enter", Tile.TILE_SIZE + 30, GamePanel.screenHeight / 2 + Tile.TILE_SIZE * 2);
+    }
+
+    if (battleViewState == BattleViewState.BATTLE_RESULT_PLAYER_LOSE) {
+      g2.drawString("プレイヤーの敗北！", Tile.TILE_SIZE + 30, GamePanel.screenHeight / 2 + Tile.TILE_SIZE);
+      g2.drawString("> Press Enter", Tile.TILE_SIZE + 30, GamePanel.screenHeight / 2 + Tile.TILE_SIZE * 2);
+    }
+
 //    else if (subState == 1) {
 //      isLackOfMana = false;
 //      String description = player.techniques[commandNum] instanceof MagicType ?
@@ -199,26 +227,5 @@ public class BattleView {
 //        }
 //      }
 //    }
-  }
-
-  private enum BattleViewState {
-    SELECTING_PLAYER_ACTION,
-    SELECTING_PLAYER_TECHNIQUE,
-    PLAYER_TECHNIQUE_RESULT,
-    ENEMY_ACTION_RESULT,
-    BATTLE_RESULT,
-    ESCAPE;
-  }
-
-  private enum PlayerActionChoice {
-    ATTACK,
-    ESCAPE;
-  }
-
-  private enum PlayerTechniqueChoice {
-    ONE,
-    TWO,
-    THREE,
-    FOUR;
   }
 }

@@ -84,8 +84,4 @@ public class Player implements Collidable {
   public boolean isOverlap(final Collidable collidable) {
     return collision.isCollide(collidable.getCollision());
   }
-
-  public int getLevel() {
-    return playerBattleStatus.getLevel().getValue();
-  }
 }

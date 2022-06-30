@@ -107,7 +107,7 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     if (gameMode.isBattle()) {
-      // TODO: Not yet implemented
+      battleController.update(keyInputType, gameMode);
     }
 
     if (gameMode.isGameCleared()) {

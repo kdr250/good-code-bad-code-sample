@@ -1,7 +1,7 @@
 package com.example.sample.domain.model.technique.magic;
 
-import com.example.sample.domain.model.Player;
 import com.example.sample.domain.model.battle.AttackPower;
+import com.example.sample.domain.model.battle.Level;
 import com.example.sample.domain.model.battle.MagicPoint;
 
 public class HellFire implements Magic {
@@ -12,13 +12,18 @@ public class HellFire implements Magic {
   }
 
   @Override
-  public MagicPoint costMagicPoint(Player player) {
+  public MagicPoint costMagicPoint(final Level level) {
     return new MagicPoint(6);
   }
 
   @Override
-  public AttackPower attackPower(Player player) {
-    final int value = 5 + player.getLevel() * 2;
+  public AttackPower attackPower(final Level level) {
+    final int value = 5 + level.getValue() * 2;
     return new AttackPower(value);
+  }
+
+  @Override
+  public String description() {
+    return "強化炎攻撃 消費魔力6";
   }
 }

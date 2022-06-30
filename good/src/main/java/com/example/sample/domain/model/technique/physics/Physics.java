@@ -1,12 +1,11 @@
-package com.example.sample.domain.model.technique.magic;
+package com.example.sample.domain.model.technique.physics;
 
 import com.example.sample.domain.model.battle.AttackPower;
 import com.example.sample.domain.model.battle.Level;
 import com.example.sample.domain.model.battle.MagicPoint;
 
-public interface Magic {
+public interface Physics {
   String name();
-  MagicPoint costMagicPoint(Level level);
   AttackPower attackPower(Level level);
   String description();
 }

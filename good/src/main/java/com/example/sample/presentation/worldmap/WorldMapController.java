@@ -38,6 +38,7 @@ import com.example.sample.presentation.GamePanel;
 import com.example.sample.presentation.KeyInputType;
 import com.example.sample.presentation.battle.BattleController;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 import java.awt.*;
@@ -49,19 +50,19 @@ import java.util.stream.Collectors;
 @Component
 public class WorldMapController {
 
+  private final ApplicationContext applicationContext;
+
   private Player player;
   private final PlayerQueryService playerQueryService;
   private Npc npc;
   private final NpcQueryService npcQueryService;
-  private Enemy enemy;
+  private List<Enemy> enemyList = new ArrayList<>();
   private final EnemyQueryService enemyQueryService;
   private List<Item> fieldItemList = new ArrayList<>();
   private final ItemQueryService itemQueryService;
 
   private final WorldMapQueryService worldMapQueryService;
   private WorldMap worldMap;
-
-  private final BattleController battleController;
 
   public void start() {
     // TODO: 動作確認用、後でリファクタリングすること
@@ -71,7 +72,8 @@ public class WorldMapController {
     NpcAnimation npcAnimation = npcQueryService.find();
     npc = new Npc(new Location(Tile.TILE_SIZE * 21, Tile.TILE_SIZE * 20), npcAnimation);
     EnemyAnimation enemyAnimation = enemyQueryService.find();
-    enemy = new Enemy("スライム", new Location(Tile.TILE_SIZE * 9, Tile.TILE_SIZE * 30), enemyAnimation, new EnemyBattleStatus(new HitPoint(6), new AttackPower(2)));
+    Enemy enemy = new Enemy("スライム", new Location(Tile.TILE_SIZE * 9, Tile.TILE_SIZE * 30), enemyAnimation, new EnemyBattleStatus(new HitPoint(6), new AttackPower(2)));
+    enemyList.add(enemy);
     ItemImage itemImage = itemQueryService.find(ItemType.POTION_RED);
     Item potionRed = new ItemPotionRed(new Location(Tile.TILE_SIZE * 22, Tile.TILE_SIZE * 7), itemImage);
     fieldItemList.add(potionRed);
@@ -125,30 +127,36 @@ public class WorldMapController {
     } else {
       player.changeDirection(vector);
     }
-    if (player.isOverlap(enemy)) {
-      gameMode.battle();
-      battleController.start(player, enemy);
+    for (Enemy enemy : enemyList) {
+      if (player.isOverlap(enemy)) {
+        gameMode.battle();
+        BattleController battleController = (BattleController) applicationContext.getBean("battleController");
+        battleController.start(player, enemy);
+      }
     }
 
     Location npcWillMoveLocation = npc.getLocation().shift(npc.getNpcMovement().getVector());
     List<Collidable> collidableListForNpc = worldMap.getTilesFromLocation(npcWillMoveLocation);
     collidableListForNpc.add(player);
-    collidableListForPlayer.add(enemy);
+    collidableListForPlayer.addAll(enemyList);
     if (npc.updateMovementThenCanMove(collidableListForNpc)) {
       npc.move();
     } else {
       npc.changeDirection();
     }
 
-    Location enemyWillMoveLocation = enemy.getLocation().shift(enemy.getEnemyMovement().getVector());
-    List<Collidable> collidableListForEnemy = worldMap.getTilesFromLocation(enemyWillMoveLocation);
-    collidableListForEnemy.add(npc);
-    if (enemy.updateMovementThenCanMove(collidableListForEnemy)) {
-      enemy.move();
-    }
-    if (player.isOverlap(enemy)) {
-      gameMode.battle();
-      battleController.start(player, enemy);
+    for (Enemy enemy : enemyList) {
+      Location enemyWillMoveLocation = enemy.getLocation().shift(enemy.getEnemyMovement().getVector());
+      List<Collidable> collidableListForEnemy = worldMap.getTilesFromLocation(enemyWillMoveLocation);
+      collidableListForEnemy.add(npc);
+      if (enemy.updateMovementThenCanMove(collidableListForEnemy)) {
+        enemy.move();
+      }
+      if (player.isOverlap(enemy)) {
+        gameMode.battle();
+        BattleController battleController = (BattleController) applicationContext.getBean("battleController");
+        battleController.start(player, enemy);
+      }
     }
   }
 
@@ -182,7 +190,7 @@ public class WorldMapController {
         g2.drawImage(npc.getAnimatedImage(), GamePanel.screenCenterX + diffX, GamePanel.screenCenterY + diffY, null);
       }
 
-      if (enemy != null) {
+      for (Enemy enemy : enemyList) {
         Location enemyLocation = enemy.getLocation();
         int diffXForEnemy = enemyLocation.getX() - playerLocation.getX();
         int diffYForEnemy = enemyLocation.getY() - playerLocation.getY();
@@ -212,7 +220,7 @@ public class WorldMapController {
     return player;
   }
 
-  public Enemy getEnemy() {
-    return enemy;
+  public void removeEnemy(Enemy enemy) {
+    enemyList.remove(enemy);
   }
 }
