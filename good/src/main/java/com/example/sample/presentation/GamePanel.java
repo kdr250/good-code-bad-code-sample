@@ -2,16 +2,10 @@ package com.example.sample.presentation;
 
 import com.example.sample.domain.model.Player;
 import com.example.sample.domain.model.Tile;
-import com.example.sample.domain.model.event.Event;
-import com.example.sample.domain.model.event.PlayerEvent;
 import com.example.sample.domain.model.gamemode.GameMode;
 import com.example.sample.domain.model.gamemode.GameModeType;
-import com.example.sample.domain.model.item.Consumable;
-import com.example.sample.domain.model.item.Equipment;
-import com.example.sample.domain.model.item.Item;
-import com.example.sample.presentation.battle.BattleView;
-import com.example.sample.presentation.itemlist.ItemListView;
-import com.example.sample.presentation.itemlist.ItemListViewChoice;
+import com.example.sample.presentation.battle.BattleController;
+import com.example.sample.presentation.itemlist.ItemListController;
 import com.example.sample.presentation.worldmap.WorldMapController;
 import org.springframework.stereotype.Component;
 
@@ -39,19 +33,20 @@ public class GamePanel extends JPanel implements Runnable {
 
   private final WorldMapController worldMapController;
 
+  private final ItemListController itemListController;
+
+  private final BattleController battleController;
 
   private boolean isFinished = false;
 
   private final GameMode gameMode = new GameMode(GameModeType.WORLD_MAP);
   Font arial30 = new Font("Arial", Font.PLAIN, 30);
 
-  // TODO: Viewの動作確認用、リファクタリングすること
-  private ItemListView itemListView;
-  private BattleView battleView;
-
-  public GamePanel(KeyInputHandler keyInputHandler, WorldMapController worldMapController) {
+  public GamePanel(KeyInputHandler keyInputHandler, WorldMapController worldMapController, ItemListController itemListController, BattleController battleController) {
     this.keyInputHandler = keyInputHandler;
     this.worldMapController = worldMapController;
+    this.itemListController = itemListController;
+    this.battleController = battleController;
     this.setPreferredSize(new Dimension(screenWidth, screenHeight));
     this.setBackground(Color.black);
     this.setDoubleBuffered(true);
@@ -62,8 +57,6 @@ public class GamePanel extends JPanel implements Runnable {
   public void startGameThread() {
 
     worldMapController.start();
-
-    itemListView = new ItemListView(worldMapController.getPlayer());
 
     gameThread = new Thread(this);
     gameThread.start();
@@ -102,35 +95,15 @@ public class GamePanel extends JPanel implements Runnable {
 
     if (keyInputType == KeyInputType.DISPLAY_ITEM_LIST) {
       gameMode.displayItemList();
+      itemListController.start(player);
     }
 
     if (gameMode.isDisplayingItemList()) {
-      if (itemListView.countUpFpsThenIsKeyInputAllowed()) {
-        if (keyInputType == KeyInputType.DECIDE) {
-          ItemListViewChoice choice = itemListView.choice();
-          if (choice == ItemListViewChoice.BACK) {
-            gameMode.worldMap();
-            return;
-          }
-          Item item = itemListView.selectingItem();
-          if (item instanceof Consumable) {
-            Event event = ((Consumable) item).consume();
-            if (event instanceof PlayerEvent) {
-              ((PlayerEvent) event).execute(player);
-            }
-          }
-          if (item instanceof Equipment) {
-            Event event = ((Equipment) item).equip();
-            if (event instanceof PlayerEvent) {
-              ((PlayerEvent) event).execute(player);
-            }
-          }
-          return;
-        } else {
-          itemListView.moveCursor(keyInputType);
-        }
-      }
-      return;
+      itemListController.update(keyInputType, gameMode);
+    }
+
+    if (gameMode.isBattle()) {
+      // TODO: Not yet implemented
     }
 
     if (gameMode.isGameCleared()) {
@@ -162,14 +135,11 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     if (gameMode.isDisplayingItemList()) {
-      itemListView.draw(g2);
+      itemListController.draw(g2);
     }
 
     if (gameMode.isBattle()) {
-      if (battleView == null) {
-        battleView = new BattleView(worldMapController.getPlayer(), worldMapController.getEnemy());
-      }
-      battleView.draw(g2);
+      battleController.draw(g2);
     }
 
     g2.dispose();

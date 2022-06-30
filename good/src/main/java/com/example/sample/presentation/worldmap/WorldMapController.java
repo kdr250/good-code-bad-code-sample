@@ -36,6 +36,7 @@ import com.example.sample.domain.model.item.ItemType;
 import com.example.sample.domain.model.item.ItemWeapon;
 import com.example.sample.presentation.GamePanel;
 import com.example.sample.presentation.KeyInputType;
+import com.example.sample.presentation.battle.BattleController;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -59,6 +60,8 @@ public class WorldMapController {
 
   private final WorldMapQueryService worldMapQueryService;
   private WorldMap worldMap;
+
+  private final BattleController battleController;
 
   public void start() {
     // TODO: 動作確認用、後でリファクタリングすること
@@ -116,7 +119,7 @@ public class WorldMapController {
 
     List<Collidable> collidableListForPlayer = worldMap.getTilesFromLocation(playerWillMoveLocation);
     collidableListForPlayer.add(npc);
-    collidableListForPlayer.addAll(fieldItemList.stream().filter(item -> item instanceof Interactive).collect(Collectors.toList()));
+    collidableListForPlayer.addAll(fieldItemList.stream().filter(Interactive.class::isInstance).collect(Collectors.toList()));
     if (player.canMove(collidableListForPlayer, vector)) {
       player.move(vector);
     } else {
@@ -124,6 +127,7 @@ public class WorldMapController {
     }
     if (player.isOverlap(enemy)) {
       gameMode.battle();
+      battleController.start(player, enemy);
     }
 
     Location npcWillMoveLocation = npc.getLocation().shift(npc.getNpcMovement().getVector());
@@ -144,6 +148,7 @@ public class WorldMapController {
     }
     if (player.isOverlap(enemy)) {
       gameMode.battle();
+      battleController.start(player, enemy);
     }
   }
 
