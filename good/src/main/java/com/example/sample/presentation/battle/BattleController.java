@@ -28,7 +28,7 @@ public class BattleController {
 
   private int fpsCounter = 0;
 
-  public void start(Player player, Enemy enemy) {
+  public void setUp(Player player, Enemy enemy) {
     this.player = player;
     this.enemy = enemy;
     this.battleView = new BattleView(player, enemy);

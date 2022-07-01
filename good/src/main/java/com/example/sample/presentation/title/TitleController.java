@@ -23,14 +23,14 @@ public class TitleController {
 
   private PlayerAnimation playerAnimation;
 
-  public void start() {
+  public void setUp() {
     playerAnimation = playerQueryService.find();
   }
 
   public void update(KeyInputType keyInputType, GameMode gameMode) {
     if (keyInputType == KeyInputType.DECIDE) {
       WorldMapController worldMapController = (WorldMapController) applicationContext.getBean("worldMapController");
-      worldMapController.start();
+      worldMapController.setUp();
       gameMode.worldMap();
     }
   }

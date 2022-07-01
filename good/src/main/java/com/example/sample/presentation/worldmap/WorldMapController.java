@@ -64,7 +64,7 @@ public class WorldMapController {
   private final WorldMapQueryService worldMapQueryService;
   private WorldMap worldMap;
 
-  public void start() {
+  public void setUp() {
     // TODO: 動作確認用、後でリファクタリングすること
     worldMap = this.worldMapQueryService.find();
     PlayerAnimation playerAnimation = playerQueryService.find();
@@ -131,7 +131,7 @@ public class WorldMapController {
       if (player.isOverlap(enemy)) {
         gameMode.battle();
         BattleController battleController = (BattleController) applicationContext.getBean("battleController");
-        battleController.start(player, enemy);
+        battleController.setUp(player, enemy);
       }
     }
 
@@ -155,7 +155,7 @@ public class WorldMapController {
       if (player.isOverlap(enemy)) {
         gameMode.battle();
         BattleController battleController = (BattleController) applicationContext.getBean("battleController");
-        battleController.start(player, enemy);
+        battleController.setUp(player, enemy);
       }
     }
   }

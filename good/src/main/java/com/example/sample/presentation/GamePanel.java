@@ -63,7 +63,7 @@ public class GamePanel extends JPanel implements Runnable {
 
   public void startGameThread() {
 
-    titleController.start();
+    titleController.setUp();
 
     gameThread = new Thread(this);
     gameThread.start();
@@ -103,7 +103,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     if (keyInputType == KeyInputType.DISPLAY_ITEM_LIST) {
       gameMode.displayItemList();
-      itemListController.start();
+      itemListController.setUp();
     }
 
     if (gameMode.isDisplayingItemList()) {
