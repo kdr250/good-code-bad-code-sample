@@ -37,6 +37,7 @@ import com.example.sample.domain.model.item.ItemWeapon;
 import com.example.sample.presentation.GamePanel;
 import com.example.sample.presentation.KeyInputType;
 import com.example.sample.presentation.battle.BattleController;
+import com.example.sample.presentation.itemlist.ItemListController;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
@@ -95,6 +96,12 @@ public class WorldMapController {
   }
 
   public void update(KeyInputType keyInputType, GameMode gameMode) {
+    if (keyInputType == KeyInputType.DISPLAY_ITEM_LIST) {
+      gameMode.displayItemList();
+      ItemListController itemListController = applicationContext.getBean(ItemListController.class);
+      itemListController.setUp();
+    }
+
     Vector vector = keyInputType.getVector();
     Location playerWillMoveLocation = player.getLocation().shift(vector);
 

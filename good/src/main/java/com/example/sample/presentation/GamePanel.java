@@ -31,15 +31,10 @@ public class GamePanel extends JPanel implements Runnable {
   private Thread gameThread;
 
   private final KeyInputHandler keyInputHandler;
-
   private final TitleController titleController;
-
   private final WorldMapController worldMapController;
-
   private final ItemListController itemListController;
-
   private final BattleController battleController;
-
   private final GameClearController gameClearController;
 
   private boolean isFinished = false;
@@ -97,56 +92,49 @@ public class GamePanel extends JPanel implements Runnable {
   private void update() {
     KeyInputType keyInputType = keyInputHandler.getKeyInputType();
 
-    if (gameMode.isDisplayingTitle()) {
-      titleController.update(keyInputType, gameMode);
-    }
-
-    if (keyInputType == KeyInputType.DISPLAY_ITEM_LIST) {
-      gameMode.displayItemList();
-      itemListController.setUp();
-    }
-
-    if (gameMode.isDisplayingItemList()) {
-      itemListController.update(keyInputType, gameMode);
-    }
-
-    if (gameMode.isBattle()) {
-      battleController.update(keyInputType, gameMode);
-    }
-
-    if (gameMode.isGameCleared()) {
-      gameClearController.update(keyInputType);
-      return;
-    }
-
-    if (gameMode.isWorldMap()) {
-      worldMapController.update(keyInputType, gameMode);
+    switch (gameMode.getGameModeType()) {
+      case DISPLAY_TITLE:
+        titleController.update(keyInputType, gameMode);
+        return;
+      case WORLD_MAP:
+        worldMapController.update(keyInputType, gameMode);
+        return;
+      case DISPLAY_ITEM_LIST:
+        itemListController.update(keyInputType, gameMode);
+        return;
+      case BATTLE:
+        battleController.update(keyInputType, gameMode);
+        return;
+      case GAME_CLEAR:
+        gameClearController.update(keyInputType);
     }
   }
 
+  @Override
   public void paintComponent(Graphics g) {
     super.paintComponent(g);
     Graphics2D g2 = (Graphics2D)g;
     g2.setFont(arial30);
     g2.setColor(Color.white);
 
-    if (gameMode.isDisplayingTitle()) {
-      titleController.draw(g2);
-      return;
-    }
-
-    worldMapController.draw(g2);
-
-    if (gameMode.isGameCleared()) {
-      gameClearController.draw(g2);
-    }
-
-    if (gameMode.isDisplayingItemList()) {
-      itemListController.draw(g2);
-    }
-
-    if (gameMode.isBattle()) {
-      battleController.draw(g2);
+    switch (gameMode.getGameModeType()) {
+      case DISPLAY_TITLE:
+        titleController.draw(g2);
+        break;
+      case WORLD_MAP:
+        worldMapController.draw(g2);
+        break;
+      case DISPLAY_ITEM_LIST:
+        worldMapController.draw(g2);
+        itemListController.draw(g2);
+        break;
+      case BATTLE:
+        worldMapController.draw(g2);
+        battleController.draw(g2);
+        break;
+      case GAME_CLEAR:
+        worldMapController.draw(g2);
+        gameClearController.draw(g2);
     }
 
     g2.dispose();
