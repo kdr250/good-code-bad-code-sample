@@ -8,17 +8,25 @@ import com.example.sample.domain.model.item.Consumable;
 import com.example.sample.domain.model.item.Equipment;
 import com.example.sample.domain.model.item.Item;
 import com.example.sample.presentation.KeyInputType;
+import com.example.sample.presentation.worldmap.WorldMapController;
+import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 import java.awt.*;
 
+@RequiredArgsConstructor
 @Component
 public class ItemListController {
+
+  private final ApplicationContext applicationContext;
+
   private Player player;
   private ItemListView itemListView;
 
-  public void start(Player player) {
-    this.player = player;
+  public void start() {
+    WorldMapController worldMapController = (WorldMapController) applicationContext.getBean("worldMapController");
+    this.player = worldMapController.getPlayer();
     this.itemListView = new ItemListView(player);
   }
 

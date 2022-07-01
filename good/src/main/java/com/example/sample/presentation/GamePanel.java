@@ -7,6 +7,7 @@ import com.example.sample.domain.model.gamemode.GameModeType;
 import com.example.sample.presentation.battle.BattleController;
 import com.example.sample.presentation.clear.GameClearController;
 import com.example.sample.presentation.itemlist.ItemListController;
+import com.example.sample.presentation.title.TitleController;
 import com.example.sample.presentation.worldmap.WorldMapController;
 import org.springframework.stereotype.Component;
 
@@ -32,6 +33,8 @@ public class GamePanel extends JPanel implements Runnable {
 
   private final KeyInputHandler keyInputHandler;
 
+  private final TitleController titleController;
+
   private final WorldMapController worldMapController;
 
   private final ItemListController itemListController;
@@ -42,11 +45,12 @@ public class GamePanel extends JPanel implements Runnable {
 
   private boolean isFinished = false;
 
-  private final GameMode gameMode = new GameMode(GameModeType.WORLD_MAP);
+  private final GameMode gameMode = new GameMode(GameModeType.DISPLAY_TITLE);
   Font arial30 = new Font("Arial", Font.PLAIN, 30);
 
-  public GamePanel(KeyInputHandler keyInputHandler, WorldMapController worldMapController, ItemListController itemListController, BattleController battleController, GameClearController gameClearController) {
+  public GamePanel(KeyInputHandler keyInputHandler, TitleController titleController, WorldMapController worldMapController, ItemListController itemListController, BattleController battleController, GameClearController gameClearController) {
     this.keyInputHandler = keyInputHandler;
+    this.titleController = titleController;
     this.worldMapController = worldMapController;
     this.itemListController = itemListController;
     this.battleController = battleController;
@@ -60,7 +64,7 @@ public class GamePanel extends JPanel implements Runnable {
 
   public void startGameThread() {
 
-    worldMapController.start();
+    titleController.start();
 
     gameThread = new Thread(this);
     gameThread.start();
@@ -94,12 +98,13 @@ public class GamePanel extends JPanel implements Runnable {
   private void update() {
     KeyInputType keyInputType = keyInputHandler.getKeyInputType();
 
-    // TODO: 動作確認用、後でリファクタリングすること
-    Player player = worldMapController.getPlayer();
+    if (gameMode.isDisplayingTitle()) {
+      titleController.update(keyInputType, gameMode);
+    }
 
     if (keyInputType == KeyInputType.DISPLAY_ITEM_LIST) {
       gameMode.displayItemList();
-      itemListController.start(player);
+      itemListController.start();
     }
 
     if (gameMode.isDisplayingItemList()) {
@@ -126,7 +131,10 @@ public class GamePanel extends JPanel implements Runnable {
     g2.setFont(arial30);
     g2.setColor(Color.white);
 
-    // TODO: 動作確認用、後でリファクタリングすること
+    if (gameMode.isDisplayingTitle()) {
+      titleController.draw(g2);
+      return;
+    }
 
     worldMapController.draw(g2);
 

@@ -10,6 +10,14 @@ public class GameMode {
     this.gameModeType = gameModeType;
   }
 
+  public void displayTitle() {
+    gameModeType = GameModeType.DISPLAY_TITLE;
+  }
+
+  public boolean isDisplayingTitle() {
+    return gameModeType == GameModeType.DISPLAY_TITLE;
+  }
+
   public void worldMap() {
     gameModeType = GameModeType.WORLD_MAP;
   }
