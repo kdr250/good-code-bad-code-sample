@@ -2,9 +2,12 @@ package com.example.sample.domain.model;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.checkerframework.common.value.qual.IntRange;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @RequiredArgsConstructor
 @Getter
@@ -15,16 +18,14 @@ public class WorldMap {
     int tileX = location.getX() / Tile.TILE_SIZE;
     int tileY = location.getY() / Tile.TILE_SIZE;
 
-    Tile tile1 = tiles[tileY][tileX];
-    Tile tile2 = tiles[tileY + 1][tileX];
-    Tile tile3 = tiles[tileY][tileX + 1];
-    Tile tile4 = tiles[tileY + 1][tileX + 1];
+    return IntStream.rangeClosed(0, 3)
+      .mapToObj(number -> getTile(number, tileX, tileY))
+      .filter(tile -> tile.contains(location))
+      .collect(Collectors.toList());
+  }
 
-    List<Collidable> tileList = new ArrayList<>();
-    if (tile1.contains(location)) tileList.add(tile1);
-    if (tile2.contains(location)) tileList.add(tile2);
-    if (tile3.contains(location)) tileList.add(tile3);
-    if (tile4.contains(location)) tileList.add(tile4);
-    return tileList;
+  private Tile getTile(int number, int tileX, int tileY) {
+    char[] binaryChars = String.format("%2s", Integer.toBinaryString(number)).replace(" ", "0").toCharArray();
+    return tiles[tileY + (binaryChars[0] - '0')][tileX + (binaryChars[1] - '0')];
   }
 }
