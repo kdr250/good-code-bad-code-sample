@@ -44,7 +44,7 @@ public class PlayerItems {
     return items.stream().anyMatch(item -> item instanceof Key);
   }
 
-  public PlayerItems deleteKeyIfExists() {
+  public PlayerItems removeKeyIfExists() {
     Optional<Item> key = items.stream().filter(item -> item instanceof Key).findFirst();
     if (key.isEmpty()) return this;
     List<Item> deleting = new ArrayList<>(items);

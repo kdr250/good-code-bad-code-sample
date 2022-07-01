@@ -78,7 +78,7 @@ public class Player implements Collidable {
   }
 
   public void removeKey() {
-    playerItems = playerItems.deleteKeyIfExists();
+    playerItems = playerItems.removeKeyIfExists();
   }
 
   public boolean isOverlap(final Collidable collidable) {
