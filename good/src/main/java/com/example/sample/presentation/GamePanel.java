@@ -1,6 +1,5 @@
 package com.example.sample.presentation;
 
-import com.example.sample.domain.model.Player;
 import com.example.sample.domain.model.Tile;
 import com.example.sample.domain.model.gamemode.GameMode;
 import com.example.sample.domain.model.gamemode.GameModeType;
