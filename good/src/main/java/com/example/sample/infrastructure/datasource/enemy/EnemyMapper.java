@@ -9,4 +9,6 @@ import java.util.List;
 public interface EnemyMapper {
 
   List<EnemyImageDto> selectEnemyImageDto(@Param("names") List<String> names);
+
+  List<EnemyDto> selectEnemyDto(@Param("worldId") Integer worldId);
 }

@@ -15,6 +15,7 @@ CREATE TABLE IF NOT EXISTS tb_world_map (
 
 CREATE TABLE IF NOT EXISTS tb_enemy (
     id INTEGER PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
     world_map_id INTEGER NOT NULL,
     location_id INTEGER NOT NULL,
     CONSTRAINT fk_enemy_world_map_id FOREIGN KEY (world_map_id) REFERENCES tb_world_map(id) ON DELETE RESTRICT ON UPDATE RESTRICT,

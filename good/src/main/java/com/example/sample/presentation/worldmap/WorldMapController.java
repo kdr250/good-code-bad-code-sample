@@ -55,7 +55,7 @@ public class WorldMapController {
   private final PlayerQueryService playerQueryService;
   private List<Npc> npcList;
   private final NpcQueryService npcQueryService;
-  private List<Enemy> enemyList = new ArrayList<>();
+  private List<Enemy> enemyList;
   private final EnemyQueryService enemyQueryService;
   private List<Item> fieldItemList = new ArrayList<>();
   private final ItemQueryService itemQueryService;
@@ -70,9 +70,7 @@ public class WorldMapController {
     worldMap = worldMapQueryService.find();
     player = playerQueryService.find();
     npcList = npcQueryService.find();
-    EnemyAnimation enemyAnimation = enemyQueryService.find();
-    Enemy enemy = new Enemy("スライム", new Location(Tile.TILE_SIZE * 9, Tile.TILE_SIZE * 30), enemyAnimation, new EnemyBattleStatus(new HitPoint(6), new AttackPower(2)));
-    enemyList.add(enemy);
+    enemyList = enemyQueryService.find();
     ItemImage itemImage = itemQueryService.find(ItemType.POTION_RED);
     Item potionRed = new ItemPotionRed(new Location(Tile.TILE_SIZE * 22, Tile.TILE_SIZE * 7), itemImage);
     fieldItemList.add(potionRed);

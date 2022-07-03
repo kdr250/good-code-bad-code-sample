@@ -15,13 +15,13 @@ public class Enemy implements Collidable {
   private final EnemyMovement enemyMovement;
   private final EnemyBattleStatus enemyBattleStatus;
 
-  public Enemy(final String name, final Location location, final EnemyAnimation enemyAnimation, final EnemyBattleStatus enemyBattleStatus) {
+  public Enemy(final String name, final Location location, final EnemyAnimation enemyAnimation) {
     this.name = name;
     this.location = location;
     collision = new Collision(location);
     this.enemyAnimation = enemyAnimation;
     enemyMovement = new EnemyMovement();
-    this.enemyBattleStatus = enemyBattleStatus;
+    this.enemyBattleStatus = EnemyBattleStatus.initialize();
   }
 
   public void move() {
