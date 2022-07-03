@@ -169,29 +169,29 @@ public class WorldMapController {
       ) {
         g2.drawImage(npc.getAnimatedImage(), GamePanel.screenCenterX + diffX, GamePanel.screenCenterY + diffY, null);
       }
+    }
 
-      for (Enemy enemy : enemyList) {
-        Location enemyLocation = enemy.getLocation();
-        int diffXForEnemy = enemyLocation.getX() - playerLocation.getX();
-        int diffYForEnemy = enemyLocation.getY() - playerLocation.getY();
-        if (
+    for (Enemy enemy : enemyList) {
+      Location enemyLocation = enemy.getLocation();
+      int diffXForEnemy = enemyLocation.getX() - playerLocation.getX();
+      int diffYForEnemy = enemyLocation.getY() - playerLocation.getY();
+      if (
           Math.abs(diffXForEnemy) <= GamePanel.screenWidth / 2 + Tile.TILE_SIZE &&
-          Math.abs(diffYForEnemy) <= GamePanel.screenHeight / 2 + Tile.TILE_SIZE
-        ) {
-          g2.drawImage(enemy.getAnimatedImage(), GamePanel.screenCenterX + diffXForEnemy, GamePanel.screenCenterY + diffYForEnemy, null);
-        }
+              Math.abs(diffYForEnemy) <= GamePanel.screenHeight / 2 + Tile.TILE_SIZE
+      ) {
+        g2.drawImage(enemy.getAnimatedImage(), GamePanel.screenCenterX + diffXForEnemy, GamePanel.screenCenterY + diffYForEnemy, null);
       }
+    }
 
-      for (Item item : fieldItemList) {
-        Location potionRedLocation = item.getLocation();
-        int diffXForPotionRed = potionRedLocation.getX() - playerLocation.getX();
-        int diffYForPotionRed = potionRedLocation.getY() - playerLocation.getY();
-        if (
+    for (Item item : fieldItemList) {
+      Location potionRedLocation = item.getLocation();
+      int diffXForPotionRed = potionRedLocation.getX() - playerLocation.getX();
+      int diffYForPotionRed = potionRedLocation.getY() - playerLocation.getY();
+      if (
           Math.abs(diffXForPotionRed) <= GamePanel.screenWidth / 2 + Tile.TILE_SIZE &&
-          Math.abs(diffYForPotionRed) <= GamePanel.screenHeight / 2 + Tile.TILE_SIZE
-        ) {
-          g2.drawImage(item.getImage(), GamePanel.screenCenterX + diffXForPotionRed, GamePanel.screenCenterY + diffYForPotionRed, null);
-        }
+              Math.abs(diffYForPotionRed) <= GamePanel.screenHeight / 2 + Tile.TILE_SIZE
+      ) {
+        g2.drawImage(item.getImage(), GamePanel.screenCenterX + diffXForPotionRed, GamePanel.screenCenterY + diffYForPotionRed, null);
       }
     }
 
