@@ -10,7 +10,6 @@ import com.example.sample.domain.model.Enemy;
 import com.example.sample.domain.model.EnemyAnimation;
 import com.example.sample.domain.model.Location;
 import com.example.sample.domain.model.Npc;
-import com.example.sample.domain.model.NpcAnimation;
 import com.example.sample.domain.model.Player;
 import com.example.sample.domain.model.Tile;
 import com.example.sample.domain.model.Vector;
@@ -54,7 +53,7 @@ public class WorldMapController {
 
   private Player player;
   private final PlayerQueryService playerQueryService;
-  private Npc npc;
+  private List<Npc> npcList;
   private final NpcQueryService npcQueryService;
   private List<Enemy> enemyList = new ArrayList<>();
   private final EnemyQueryService enemyQueryService;
@@ -68,10 +67,9 @@ public class WorldMapController {
 
   public void setUp() {
     // TODO: 動作確認用、後でリファクタリングすること
-    worldMap = this.worldMapQueryService.find();
+    worldMap = worldMapQueryService.find();
     player = playerQueryService.find();
-    NpcAnimation npcAnimation = npcQueryService.find();
-    npc = new Npc(new Location(Tile.TILE_SIZE * 21, Tile.TILE_SIZE * 20), npcAnimation);
+    npcList = npcQueryService.find();
     EnemyAnimation enemyAnimation = enemyQueryService.find();
     Enemy enemy = new Enemy("スライム", new Location(Tile.TILE_SIZE * 9, Tile.TILE_SIZE * 30), enemyAnimation, new EnemyBattleStatus(new HitPoint(6), new AttackPower(2)));
     enemyList.add(enemy);
@@ -132,7 +130,7 @@ public class WorldMapController {
     }
 
     List<Collidable> collidableListForPlayer = worldMap.getTilesFromLocation(playerWillMoveLocation);
-    collidableListForPlayer.add(npc);
+    collidableListForPlayer.addAll(npcList);
     collidableListForPlayer.addAll(fieldItemList.stream().filter(Interactive.class::isInstance).collect(Collectors.toList()));
     if (player.canMove(collidableListForPlayer, vector)) {
       player.move(vector);
@@ -147,20 +145,22 @@ public class WorldMapController {
       }
     }
 
-    Location npcWillMoveLocation = npc.getLocation().shift(npc.getNpcMovement().getVector());
-    List<Collidable> collidableListForNpc = worldMap.getTilesFromLocation(npcWillMoveLocation);
-    collidableListForNpc.add(player);
-    collidableListForPlayer.addAll(enemyList);
-    if (npc.updateMovementThenCanMove(collidableListForNpc)) {
-      npc.move();
-    } else {
-      npc.changeDirection();
+    for (Npc npc : npcList) {
+      Location npcWillMoveLocation = npc.getLocation().shift(npc.getNpcMovement().getVector());
+      List<Collidable> collidableListForNpc = worldMap.getTilesFromLocation(npcWillMoveLocation);
+      collidableListForNpc.add(player);
+      collidableListForPlayer.addAll(enemyList);
+      if (npc.updateMovementThenCanMove(collidableListForNpc)) {
+        npc.move();
+      } else {
+        npc.changeDirection();
+      }
     }
 
     for (Enemy enemy : enemyList) {
       Location enemyWillMoveLocation = enemy.getLocation().shift(enemy.getEnemyMovement().getVector());
       List<Collidable> collidableListForEnemy = worldMap.getTilesFromLocation(enemyWillMoveLocation);
-      collidableListForEnemy.add(npc);
+      collidableListForEnemy.addAll(npcList);
       if (enemy.updateMovementThenCanMove(collidableListForEnemy)) {
         enemy.move();
       }
@@ -191,7 +191,8 @@ public class WorldMapController {
     }
     g2.drawImage(player.getAnimatedImage(), GamePanel.screenCenterX, GamePanel.screenCenterY, null);
 
-    if (npc != null) {
+
+    for (Npc npc : npcList) {
       Location npcLocation = npc.getLocation();
       int diffX = npcLocation.getX() - playerLocation.getX();
       int diffY = npcLocation.getY() - playerLocation.getY();

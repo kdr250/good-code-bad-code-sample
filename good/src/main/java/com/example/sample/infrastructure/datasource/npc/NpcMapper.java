@@ -9,4 +9,6 @@ import java.util.List;
 public interface NpcMapper {
 
   List<NpcImageDto> selectNpcImageDto(@Param("names") List<String> names);
+
+  List<NpcDto> selectNpcDto(@Param("worldId") Integer worldId);
 }
