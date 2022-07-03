@@ -3,6 +3,7 @@ package com.example.sample.presentation.battle;
 import com.example.sample.domain.model.Enemy;
 import com.example.sample.domain.model.Player;
 import com.example.sample.domain.model.Tile;
+import com.example.sample.domain.model.item.ItemImage;
 import com.example.sample.domain.model.technique.Technique;
 import com.example.sample.presentation.GamePanel;
 
@@ -13,10 +14,14 @@ public class BattleView {
 
   private final Player player;
   private final Enemy enemy;
+  private final ItemImage crystalBlank;
+  private final ItemImage crystalFull;
 
-  public BattleView(final Player player, final Enemy enemy) {
+  public BattleView(final Player player, final Enemy enemy, final ItemImage crystalBlank, final ItemImage crystalFull) {
     this.player = player;
     this.enemy = enemy;
+    this.crystalBlank = crystalBlank;
+    this.crystalFull = crystalFull;
   }
 
   public void draw(Graphics2D g2, BattleViewState battleViewState, PlayerActionChoice playerActionChoice, PlayerTechniqueChoice playerTechniqueChoice) {
@@ -59,13 +64,9 @@ public class BattleView {
     g2.setFont(g2.getFont().deriveFont(24f));
     for (int i = 0; i < player.getPlayerBattleStatus().getMagicPoint().max(); i++) {
       if (i < player.getPlayerBattleStatus().getMagicPoint().current()) {
-        // TODO: ItemImageを使うこと
-        g2.drawString("⭐️", playerLifeBarX + i * 15, playerLifeBarY + 20);
-        //g2.drawImage(crystalFull, playerLifeBarX + i * 15, playerLifeBarY + 20, 30, 30, null);
+        g2.drawImage(crystalFull.getBufferedImage(), playerLifeBarX + i * 15, playerLifeBarY + 20, 30, 30, null);
       } else {
-        // TODO: ItemImageを使うこと
-        g2.drawString("★", playerLifeBarX + i * 15, playerLifeBarY + 20);
-        //g2.drawImage(crystalBlank, playerLifeBarX + i * 15, playerLifeBarY + 20, 30, 30, null);
+        g2.drawImage(crystalBlank.getBufferedImage(), playerLifeBarX + i * 15, playerLifeBarY + 20, 30, 30, null);
       }
     }
 

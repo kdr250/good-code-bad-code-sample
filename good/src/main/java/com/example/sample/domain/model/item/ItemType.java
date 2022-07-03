@@ -14,7 +14,9 @@ public enum ItemType {
   POTION_RED,
   POTION_BLUE,
   SHIELD_NORMAL,
-  SHIELD_BLUE;
+  SHIELD_BLUE,
+  CRYSTAL_BLANK,
+  CRYSTAL_FULL;
 
   public static List<String> names() {
     return Arrays.stream(values()).map(ItemType::name).collect(Collectors.toList());

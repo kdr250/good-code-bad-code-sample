@@ -20,6 +20,9 @@ public class GameClearController {
   }
 
   public void draw(Graphics2D g2) {
+    g2.setFont(arial30);
+    g2.setColor(Color.white);
+
     String text = "宝物を見つけた!";
     int textLength = (int)g2.getFontMetrics().getStringBounds(text, g2).getWidth();
     int x = GamePanel.screenWidth / 2 - textLength / 2;

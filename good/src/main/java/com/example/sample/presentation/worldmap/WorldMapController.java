@@ -65,6 +65,8 @@ public class WorldMapController {
   private final WorldMapQueryService worldMapQueryService;
   private WorldMap worldMap;
 
+  private PlayerStatusView playerStatusView;
+
   public void setUp() {
     // TODO: 動作確認用、後でリファクタリングすること
     worldMap = this.worldMapQueryService.find();
@@ -93,6 +95,11 @@ public class WorldMapController {
     ItemImage itemImageSword = itemQueryService.find(ItemType.WEAPON);
     Item sword = new ItemWeapon(new AttackPower(2), new Location(Tile.TILE_SIZE * 24, Tile.TILE_SIZE * 7), itemImageSword);
     fieldItemList.add(sword);
+
+    ItemImage itemImageCrystalBlank = itemQueryService.find(ItemType.CRYSTAL_BLANK);
+    ItemImage itemImageCrystalFull = itemQueryService.find(ItemType.CRYSTAL_FULL);
+
+    playerStatusView = new PlayerStatusView(player, itemImageCrystalBlank, itemImageCrystalFull);
   }
 
   public void update(KeyInputType keyInputType, GameMode gameMode) {
@@ -138,7 +145,7 @@ public class WorldMapController {
       if (player.isOverlap(enemy)) {
         gameMode.battle();
         BattleController battleController = (BattleController) applicationContext.getBean("battleController");
-        battleController.setUp(player, enemy);
+        battleController.setUp(player, enemy, playerStatusView.getCrystalBlank(), playerStatusView.getCrystalFull());
       }
     }
 
@@ -162,7 +169,7 @@ public class WorldMapController {
       if (player.isOverlap(enemy)) {
         gameMode.battle();
         BattleController battleController = (BattleController) applicationContext.getBean("battleController");
-        battleController.setUp(player, enemy);
+        battleController.setUp(player, enemy, playerStatusView.getCrystalBlank(), playerStatusView.getCrystalFull());
       }
     }
   }
@@ -221,6 +228,8 @@ public class WorldMapController {
         }
       }
     }
+
+    playerStatusView.draw(g2);
   }
 
   public Player getPlayer() {

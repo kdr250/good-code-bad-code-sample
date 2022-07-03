@@ -5,6 +5,12 @@ CREATE TABLE IF NOT EXISTS tb_world_map (
     tiles TEXT NOT NULL
 );
 
+--CREATE TABLE IF NOT EXISTS tb_world_map_placement (
+--    id INTEGER PRIMARY KEY,
+--    FOREIGN KEY fk_world_map_id (world_map_id) REFERENCES tb_world_map(id),
+--    name VARCHAR(100)
+--);
+
 CREATE TABLE IF NOT EXISTS tb_tile_image (
     id INTEGER PRIMARY KEY,
     name VARCHAR(100) UNIQUE NOT NULL,

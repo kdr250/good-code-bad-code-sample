@@ -13,6 +13,7 @@ import java.util.stream.IntStream;
 @Getter
 public class WorldMap {
   private final Tile[][] tiles;
+  //private final PlayerStart playerStart;
 
   public List<Collidable> getTilesFromLocation(final Location location) {
     int tileX = location.getX() / Tile.TILE_SIZE;

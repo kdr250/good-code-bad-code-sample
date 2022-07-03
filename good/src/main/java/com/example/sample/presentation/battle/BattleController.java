@@ -3,6 +3,7 @@ package com.example.sample.presentation.battle;
 import com.example.sample.domain.model.Enemy;
 import com.example.sample.domain.model.Player;
 import com.example.sample.domain.model.gamemode.GameMode;
+import com.example.sample.domain.model.item.ItemImage;
 import com.example.sample.presentation.KeyInputType;
 import com.example.sample.presentation.worldmap.WorldMapController;
 import lombok.RequiredArgsConstructor;
@@ -28,10 +29,10 @@ public class BattleController {
 
   private int fpsCounter = 0;
 
-  public void setUp(Player player, Enemy enemy) {
+  public void setUp(Player player, Enemy enemy, ItemImage crystalBlank, ItemImage crystalFull) {
     this.player = player;
     this.enemy = enemy;
-    this.battleView = new BattleView(player, enemy);
+    this.battleView = new BattleView(player, enemy, crystalBlank, crystalFull);
     battleViewState = BattleViewState.SELECTING_PLAYER_ACTION;
     playerActionChoice = PlayerActionChoice.ATTACK;
     playerTechniqueChoice = PlayerTechniqueChoice.ONE;

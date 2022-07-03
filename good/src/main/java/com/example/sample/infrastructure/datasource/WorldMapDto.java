@@ -1,11 +1,9 @@
 package com.example.sample.infrastructure.datasource;
 
-import com.example.sample.domain.model.Collision;
 import com.example.sample.domain.model.Location;
 import com.example.sample.domain.model.Tile;
 import com.example.sample.domain.model.TileType;
 import com.example.sample.domain.model.WorldMap;
-import com.example.sample.presentation.GamePanel;
 
 import java.awt.image.BufferedImage;
 import java.util.Map;
