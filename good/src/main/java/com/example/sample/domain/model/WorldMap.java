@@ -2,9 +2,7 @@ package com.example.sample.domain.model;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import org.checkerframework.common.value.qual.IntRange;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -13,7 +11,7 @@ import java.util.stream.IntStream;
 @Getter
 public class WorldMap {
   private final Tile[][] tiles;
-  //private final PlayerStart playerStart;
+  private final Location playerStartLocation;
 
   public List<Collidable> getTilesFromLocation(final Location location) {
     int tileX = location.getX() / Tile.TILE_SIZE;

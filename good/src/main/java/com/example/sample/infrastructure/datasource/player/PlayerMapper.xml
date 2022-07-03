@@ -3,16 +3,6 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.example.sample.infrastructure.datasource.player.PlayerMapper">
-
-    <select id="selectWorldMapDto" resultType="com.example.sample.infrastructure.datasource.WorldMapDto">
-        SELECT
-        tiles as "tiles",
-        horizontal_size as "horizontalSize",
-        vertical_size as "vertical_size"
-        FROM tb_world_map
-        WHERE id = #{worldId}
-    </select>
-
     <select id="selectPlayerImageDto" resultType="com.example.sample.infrastructure.datasource.player.PlayerImageDto">
         SELECT
         name,

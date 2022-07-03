@@ -71,7 +71,7 @@ public class WorldMapController {
     // TODO: 動作確認用、後でリファクタリングすること
     worldMap = this.worldMapQueryService.find();
     PlayerAnimation playerAnimation = playerQueryService.find();
-    player = new Player(new Location(Tile.TILE_SIZE * 23, Tile.TILE_SIZE * 21), playerAnimation);
+    player = new Player(worldMap.getPlayerStartLocation(), playerAnimation);
     NpcAnimation npcAnimation = npcQueryService.find();
     npc = new Npc(new Location(Tile.TILE_SIZE * 21, Tile.TILE_SIZE * 20), npcAnimation);
     EnemyAnimation enemyAnimation = enemyQueryService.find();

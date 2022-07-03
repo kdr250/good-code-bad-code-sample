@@ -10,6 +10,8 @@ import java.util.Map;
 
 public class WorldMapDto {
   private String tiles;
+  private int playerStartX;
+  private int playerStartY;
   private int horizontalSize;
   private int verticalSize;
 
@@ -28,6 +30,8 @@ public class WorldMapDto {
       }
     }
 
-    return new WorldMap(result);
+    Location playerStart = new Location(playerStartX * Tile.TILE_SIZE, playerStartY * Tile.TILE_SIZE);
+
+    return new WorldMap(result, playerStart);
   }
 }
