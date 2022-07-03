@@ -24,7 +24,7 @@ public class TitleController {
   private PlayerAnimation playerAnimation;
 
   public void setUp() {
-    playerAnimation = playerQueryService.find();
+    playerAnimation = playerQueryService.findAnimation();
   }
 
   public void update(KeyInputType keyInputType, GameMode gameMode) {

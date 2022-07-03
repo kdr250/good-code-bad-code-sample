@@ -12,7 +12,6 @@ import com.example.sample.domain.model.Location;
 import com.example.sample.domain.model.Npc;
 import com.example.sample.domain.model.NpcAnimation;
 import com.example.sample.domain.model.Player;
-import com.example.sample.domain.model.PlayerAnimation;
 import com.example.sample.domain.model.Tile;
 import com.example.sample.domain.model.Vector;
 import com.example.sample.domain.model.WorldMap;
@@ -70,8 +69,7 @@ public class WorldMapController {
   public void setUp() {
     // TODO: 動作確認用、後でリファクタリングすること
     worldMap = this.worldMapQueryService.find();
-    PlayerAnimation playerAnimation = playerQueryService.find();
-    player = new Player(worldMap.getPlayerStartLocation(), playerAnimation);
+    player = playerQueryService.find();
     NpcAnimation npcAnimation = npcQueryService.find();
     npc = new Npc(new Location(Tile.TILE_SIZE * 21, Tile.TILE_SIZE * 20), npcAnimation);
     EnemyAnimation enemyAnimation = enemyQueryService.find();

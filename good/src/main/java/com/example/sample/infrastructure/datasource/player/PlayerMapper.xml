@@ -9,4 +9,13 @@
         image,
         FROM tb_player_image
     </select>
+
+    <select id="selectPlayerDto" resultType="com.example.sample.infrastructure.datasource.player.PlayerDto">
+        SELECT
+        x as "locationX",
+        y as "locationY"
+        FROM tb_world_map
+        INNER JOIN tb_location on tb_world_map.player_start_location_id = tb_location.id
+        WHERE tb_world_map.id = #{worldId}
+    </select>
 </mapper>

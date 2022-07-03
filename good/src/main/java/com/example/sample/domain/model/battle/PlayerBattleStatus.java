@@ -30,7 +30,7 @@ public class PlayerBattleStatus {
     HitPoint hItPoint = new HitPoint(6);
     AttackPower attackPower = new AttackPower(1);
     DefensePower defensePower = new DefensePower(1);
-    MagicPoint magicPoint = new MagicPoint(4, 4);
+    MagicPoint magicPoint = new MagicPoint(4);
     Level level = Level.initialize();
     Experience experience = new Experience(1, 5);
     Equipments equipments = new Equipments();

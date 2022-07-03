@@ -7,12 +7,9 @@
     <select id="selectWorldMapDto" resultType="com.example.sample.infrastructure.datasource.WorldMapDto">
         SELECT
         tiles as "tiles",
-        x as "playerStartX",
-        y as "playerStartY",
         horizontal_size as "horizontalSize",
         vertical_size as "vertical_size"
         FROM tb_world_map
-        INNER JOIN tb_location on tb_world_map.player_start_location_id = tb_location.id
         WHERE tb_world_map.id = #{worldId}
     </select>
 
