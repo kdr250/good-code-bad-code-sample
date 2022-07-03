@@ -60,7 +60,7 @@ public class BattleController {
             battleViewState = BattleViewState.SELECTING_PLAYER_TECHNIQUE;
           }
           if (playerActionChoice == PlayerActionChoice.ESCAPE) {
-            WorldMapController worldMapController = (WorldMapController) applicationContext.getBean("worldMapController");
+            WorldMapController worldMapController = applicationContext.getBean(WorldMapController.class);
             worldMapController.removeEnemy(enemy);
             gameMode.worldMap();
           }
@@ -128,7 +128,7 @@ public class BattleController {
     if (battleViewState == BattleViewState.BATTLE_RESULT_PLAYER_WIN) {
       if (keyInputType == KeyInputType.DECIDE) {
         // TODO: 経験値・レベルUP
-        WorldMapController worldMapController = (WorldMapController) applicationContext.getBean("worldMapController");
+        WorldMapController worldMapController = applicationContext.getBean(WorldMapController.class);
         worldMapController.removeEnemy(enemy);
         gameMode.worldMap();
         return;
@@ -138,7 +138,7 @@ public class BattleController {
     if (battleViewState == BattleViewState.BATTLE_RESULT_PLAYER_LOSE) {
       if (keyInputType == KeyInputType.DECIDE) {
         // TODO: 装備をdeactivateしてスタート位置に戻す
-        WorldMapController worldMapController = (WorldMapController) applicationContext.getBean("worldMapController");
+        WorldMapController worldMapController = applicationContext.getBean(WorldMapController.class);
         worldMapController.removeEnemy(enemy);
         gameMode.worldMap();
         return;

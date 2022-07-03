@@ -29,7 +29,7 @@ public class TitleController {
 
   public void update(KeyInputType keyInputType, GameMode gameMode) {
     if (keyInputType == KeyInputType.DECIDE) {
-      WorldMapController worldMapController = (WorldMapController) applicationContext.getBean("worldMapController");
+      WorldMapController worldMapController = applicationContext.getBean(WorldMapController.class);
       worldMapController.setUp();
       gameMode.worldMap();
     }

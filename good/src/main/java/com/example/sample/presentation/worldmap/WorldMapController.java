@@ -7,31 +7,20 @@ import com.example.sample.application.service.PlayerQueryService;
 import com.example.sample.application.service.WorldMapQueryService;
 import com.example.sample.domain.model.Collidable;
 import com.example.sample.domain.model.Enemy;
-import com.example.sample.domain.model.EnemyAnimation;
 import com.example.sample.domain.model.Location;
 import com.example.sample.domain.model.Npc;
 import com.example.sample.domain.model.Player;
 import com.example.sample.domain.model.Tile;
 import com.example.sample.domain.model.Vector;
 import com.example.sample.domain.model.WorldMap;
-import com.example.sample.domain.model.battle.AttackPower;
-import com.example.sample.domain.model.battle.DefensePower;
-import com.example.sample.domain.model.battle.EnemyBattleStatus;
-import com.example.sample.domain.model.battle.HitPoint;
 import com.example.sample.domain.model.event.Event;
 import com.example.sample.domain.model.event.GameModeEvent;
 import com.example.sample.domain.model.event.PlayerEvent;
 import com.example.sample.domain.model.gamemode.GameMode;
 import com.example.sample.domain.model.item.Interactive;
 import com.example.sample.domain.model.item.Item;
-import com.example.sample.domain.model.item.ItemChest;
-import com.example.sample.domain.model.item.ItemDoor;
 import com.example.sample.domain.model.item.ItemImage;
-import com.example.sample.domain.model.item.ItemKey;
-import com.example.sample.domain.model.item.ItemPotionRed;
-import com.example.sample.domain.model.item.ItemShieldNormal;
 import com.example.sample.domain.model.item.ItemType;
-import com.example.sample.domain.model.item.ItemWeapon;
 import com.example.sample.presentation.GamePanel;
 import com.example.sample.presentation.KeyInputType;
 import com.example.sample.presentation.battle.BattleController;
@@ -41,7 +30,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -50,49 +38,29 @@ import java.util.stream.Collectors;
 public class WorldMapController {
 
   private final ApplicationContext applicationContext;
-
-  private Player player;
+  private final WorldMapQueryService worldMapQueryService;
   private final PlayerQueryService playerQueryService;
-  private List<Npc> npcList;
   private final NpcQueryService npcQueryService;
-  private List<Enemy> enemyList;
   private final EnemyQueryService enemyQueryService;
-  private List<Item> fieldItemList = new ArrayList<>();
   private final ItemQueryService itemQueryService;
 
-  private final WorldMapQueryService worldMapQueryService;
   private WorldMap worldMap;
+  private Player player;
+  private List<Npc> npcList;
+  private List<Enemy> enemyList;
+  private List<Item> fieldItemList;
 
   private PlayerStatusView playerStatusView;
 
   public void setUp() {
-    // TODO: 動作確認用、後でリファクタリングすること
     worldMap = worldMapQueryService.find();
     player = playerQueryService.find();
     npcList = npcQueryService.find();
     enemyList = enemyQueryService.find();
-    ItemImage itemImage = itemQueryService.find(ItemType.POTION_RED);
-    Item potionRed = new ItemPotionRed(new Location(Tile.TILE_SIZE * 22, Tile.TILE_SIZE * 7), itemImage);
-    fieldItemList.add(potionRed);
-    ItemImage itemImageKey = itemQueryService.find(ItemType.KEY);
-    Item key = new ItemKey(new Location(Tile.TILE_SIZE * 22, Tile.TILE_SIZE * 9), itemImageKey);
-    fieldItemList.add(key);
-    ItemImage itemImageDoor = itemQueryService.find(ItemType.DOOR);
-    Item door = new ItemDoor(new Location(Tile.TILE_SIZE * 10, Tile.TILE_SIZE * 11), itemImageDoor);
-    fieldItemList.add(door);
-    ItemImage itemImageChest = itemQueryService.find(ItemType.CHEST);
-    Item chest = new ItemChest(new Location(Tile.TILE_SIZE * 10, Tile.TILE_SIZE * 7), itemImageChest);
-    fieldItemList.add(chest);
-    ItemImage itemImageShield = itemQueryService.find(ItemType.SHIELD_NORMAL);
-    Item shieldNormal = new ItemShieldNormal(new DefensePower(2), new Location(Tile.TILE_SIZE * 23, Tile.TILE_SIZE * 7), itemImageShield);
-    fieldItemList.add(shieldNormal);
-    ItemImage itemImageSword = itemQueryService.find(ItemType.WEAPON);
-    Item sword = new ItemWeapon(new AttackPower(2), new Location(Tile.TILE_SIZE * 24, Tile.TILE_SIZE * 7), itemImageSword);
-    fieldItemList.add(sword);
+    fieldItemList = itemQueryService.find();
 
-    ItemImage itemImageCrystalBlank = itemQueryService.find(ItemType.CRYSTAL_BLANK);
-    ItemImage itemImageCrystalFull = itemQueryService.find(ItemType.CRYSTAL_FULL);
-
+    ItemImage itemImageCrystalBlank = itemQueryService.findImage(ItemType.CRYSTAL_BLANK);
+    ItemImage itemImageCrystalFull = itemQueryService.findImage(ItemType.CRYSTAL_FULL);
     playerStatusView = new PlayerStatusView(player, itemImageCrystalBlank, itemImageCrystalFull);
   }
 
@@ -101,6 +69,7 @@ public class WorldMapController {
       gameMode.displayItemList();
       ItemListController itemListController = applicationContext.getBean(ItemListController.class);
       itemListController.setUp();
+      return;
     }
 
     Vector vector = keyInputType.getVector();
@@ -138,7 +107,7 @@ public class WorldMapController {
     for (Enemy enemy : enemyList) {
       if (player.isOverlap(enemy)) {
         gameMode.battle();
-        BattleController battleController = (BattleController) applicationContext.getBean("battleController");
+        BattleController battleController = applicationContext.getBean(BattleController.class);
         battleController.setUp(player, enemy, playerStatusView.getCrystalBlank(), playerStatusView.getCrystalFull());
       }
     }
@@ -164,14 +133,14 @@ public class WorldMapController {
       }
       if (player.isOverlap(enemy)) {
         gameMode.battle();
-        BattleController battleController = (BattleController) applicationContext.getBean("battleController");
+        BattleController battleController = applicationContext.getBean(BattleController.class);
         battleController.setUp(player, enemy, playerStatusView.getCrystalBlank(), playerStatusView.getCrystalFull());
       }
     }
   }
 
   public void draw(Graphics2D g2) {
-    if (player == null && worldMap == null) return;
+    if (player == null || worldMap == null) return;
 
     Location playerLocation = player.getLocation();
     for (Tile[] tiles : worldMap.getTiles()) {

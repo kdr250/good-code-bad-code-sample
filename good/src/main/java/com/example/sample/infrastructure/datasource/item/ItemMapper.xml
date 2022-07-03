@@ -13,4 +13,14 @@
             #{name}
         </foreach>
     </select>
+
+    <select id="selectItemDto" resultType="com.example.sample.infrastructure.datasource.item.ItemDto">
+        SELECT
+        name,
+        x as "locationX",
+        y as "locationY"
+        FROM tb_item
+        INNER JOIN tb_location on tb_item.location_id = tb_location.id
+        WHERE tb_item.world_map_id = #{worldId}
+    </select>
 </mapper>

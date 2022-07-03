@@ -30,6 +30,15 @@ CREATE TABLE IF NOT EXISTS tb_npc (
     CONSTRAINT fk_npc_location_id_npc FOREIGN KEY (location_id) REFERENCES tb_location(id) ON DELETE RESTRICT ON UPDATE RESTRICT
 );
 
+CREATE TABLE IF NOT EXISTS tb_item (
+    id INTEGER PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    world_map_id INTEGER NOT NULL,
+    location_id INTEGER NOT NULL,
+    CONSTRAINT fk_item_world_map_id FOREIGN KEY (world_map_id) REFERENCES tb_world_map(id) ON DELETE RESTRICT ON UPDATE RESTRICT,
+    CONSTRAINT fk_item_location_id_npc FOREIGN KEY (location_id) REFERENCES tb_location(id) ON DELETE RESTRICT ON UPDATE RESTRICT
+);
+
 CREATE TABLE IF NOT EXISTS tb_tile_image (
     id INTEGER PRIMARY KEY,
     name VARCHAR(100) UNIQUE NOT NULL,

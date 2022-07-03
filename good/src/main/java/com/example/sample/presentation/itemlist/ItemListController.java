@@ -25,7 +25,7 @@ public class ItemListController {
   private ItemListView itemListView;
 
   public void setUp() {
-    WorldMapController worldMapController = (WorldMapController) applicationContext.getBean("worldMapController");
+    WorldMapController worldMapController = applicationContext.getBean(WorldMapController.class);
     this.player = worldMapController.getPlayer();
     this.itemListView = new ItemListView(player);
   }

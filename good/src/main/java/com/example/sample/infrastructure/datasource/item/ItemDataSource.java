@@ -1,12 +1,16 @@
 package com.example.sample.infrastructure.datasource.item;
 
 import com.example.sample.application.repository.ItemRepository;
+import com.example.sample.domain.model.item.Item;
 import com.example.sample.domain.model.item.ItemImage;
 import com.example.sample.domain.model.item.ItemType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Repository
@@ -15,11 +19,23 @@ public class ItemDataSource implements ItemRepository {
 
   private final ItemMapper itemMapper;
 
-  // TODO: 要リファクタリング
+  private static final int WORLD_ID = 1;
+
   @Override
-  public List<ItemImage> find() {
+  public List<Item> find() {
+    Map<ItemType, BufferedImage> imageMap = itemMapper.selectItemImageDto(ItemType.names()).stream()
+        .collect(Collectors.toMap(ItemImageDto::itemType, ItemImageDto::bufferedImage));
+
+    return itemMapper.selectItemDto(WORLD_ID).stream()
+        .map(itemDto -> itemDto.toItem(imageMap))
+        .collect(Collectors.toList());
+  }
+
+  @Override
+  public ItemImage findImage(ItemType itemType) {
     return itemMapper.selectItemImageDto(ItemType.names()).stream()
       .map(ItemImageDto::toItemImage)
-      .collect(Collectors.toList());
+        .filter(i -> i.getItemType() == itemType)
+        .findFirst().orElseThrow(IllegalArgumentException::new);
   }
 }

@@ -16,6 +16,7 @@
 
     <select id="selectEnemyDto" resultType="com.example.sample.infrastructure.datasource.enemy.EnemyDto">
         SELECT
+        name,
         x as "locationX",
         y as "locationY"
         FROM tb_enemy

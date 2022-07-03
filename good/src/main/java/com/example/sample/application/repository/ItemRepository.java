@@ -1,11 +1,13 @@
 package com.example.sample.application.repository;
 
+import com.example.sample.domain.model.item.Item;
 import com.example.sample.domain.model.item.ItemImage;
+import com.example.sample.domain.model.item.ItemType;
 
 import java.util.List;
 
 public interface ItemRepository {
+  List<Item> find();
 
-  // TODO: 要リファクタリング
-  public List<ItemImage> find();
+  ItemImage findImage(ItemType itemType);
 }

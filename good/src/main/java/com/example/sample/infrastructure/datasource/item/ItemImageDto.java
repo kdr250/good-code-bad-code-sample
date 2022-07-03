@@ -19,11 +19,11 @@ public class ItemImageDto {
     return new ItemImage(itemType(), bufferedImage());
   }
 
-  private ItemType itemType() {
+  public ItemType itemType() {
     return ItemType.valueOf(name);
   }
 
-  private BufferedImage bufferedImage() {
+  public BufferedImage bufferedImage() {
     byte[] decodedBytes = Base64.getDecoder().decode(image);
     ByteArrayInputStream bis = new ByteArrayInputStream(decodedBytes);
     try {

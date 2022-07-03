@@ -8,5 +8,7 @@ import java.util.List;
 @Mapper
 public interface ItemMapper {
 
-  public List<ItemImageDto> selectItemImageDto(@Param("names") List<String> names);
+  List<ItemImageDto> selectItemImageDto(@Param("names") List<String> names);
+
+  List<ItemDto> selectItemDto(@Param("worldId") Integer worldId);
 }
