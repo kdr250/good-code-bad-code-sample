@@ -18,7 +18,7 @@ public class EnemyDataSource implements EnemyRepository {
 
   private final EnemyMapper enemyMapper;
 
-  private static final int WORLD_ID = 1;
+  private static final int FIRST_WORLD_ID = 1;
 
   @Override
   public List<Enemy> find() {
@@ -27,7 +27,7 @@ public class EnemyDataSource implements EnemyRepository {
             .collect(Collectors.toMap(EnemyImageDto::toEnemyAnimationType, EnemyImageDto::bufferedImage));
     EnemyAnimation enemyAnimation = new EnemyAnimation(animationMap);
 
-    return enemyMapper.selectEnemyDto(WORLD_ID).stream()
+    return enemyMapper.selectEnemyDto(FIRST_WORLD_ID).stream()
       .map(enemyDto -> enemyDto.toEnemy(enemyAnimation))
       .collect(Collectors.toList());
   }

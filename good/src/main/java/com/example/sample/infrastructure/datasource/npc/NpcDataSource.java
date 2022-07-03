@@ -18,7 +18,7 @@ public class NpcDataSource implements NpcRepository {
 
   private final NpcMapper npcMapper;
 
-  private static final int WORLD_ID = 1;
+  private static final int FIRST_WORLD_ID = 1;
 
   public List<Npc> find() {
     Map<NpcAnimationType, BufferedImage> animationMap =
@@ -26,7 +26,7 @@ public class NpcDataSource implements NpcRepository {
         .collect(Collectors.toMap(NpcImageDto::toNpcAnimationType, NpcImageDto::bufferedImage));
     NpcAnimation npcAnimation = new NpcAnimation(animationMap);
 
-    return npcMapper.selectNpcDto(WORLD_ID).stream()
+    return npcMapper.selectNpcDto(FIRST_WORLD_ID).stream()
       .map(dto -> dto.toNpc(npcAnimation)).collect(Collectors.toList());
   }
 }

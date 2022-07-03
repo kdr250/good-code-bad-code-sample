@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 public class PlayerDataSource implements PlayerRepository {
   private final PlayerMapper playerMapper;
 
-  private static final int WORLD_ID = 1;
+  private static final int FIRST_WORLD_ID = 1;
 
   @Override
   public Player find() {
@@ -25,7 +25,7 @@ public class PlayerDataSource implements PlayerRepository {
         .collect(Collectors.toMap(PlayerImageDto::toPlayerAnimationType, PlayerImageDto::bufferedImage));
     PlayerAnimation playerAnimation = new PlayerAnimation(animationMap);
 
-    PlayerDto playerDto = playerMapper.selectPlayerDto(WORLD_ID);
+    PlayerDto playerDto = playerMapper.selectPlayerDto(FIRST_WORLD_ID);
     Location location = playerDto.getLocation();
 
     return new Player(location, playerAnimation);

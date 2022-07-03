@@ -12,6 +12,6 @@ public class WorldMapQueryService {
   private final WorldMapRepository worldMapRepository;
 
   public WorldMap find() {
-    return worldMapRepository.find(1);
+    return worldMapRepository.find();
   }
 }

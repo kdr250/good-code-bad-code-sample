@@ -15,12 +15,14 @@ import java.util.stream.Collectors;
 public class WorldMapDataSource implements WorldMapRepository {
   private final WorldMapMapper worldMapMapper;
 
+  private static final int FIRST_WORLD_ID = 1;
+
   @Override
-  public WorldMap find(Integer worldId) {
+  public WorldMap find() {
     Map<TileType, BufferedImage> imageMap = worldMapMapper.selectTileImageDto(TileType.names())
         .stream().collect(Collectors.toMap(TileImageDto::toTileType, TileImageDto::bufferedImage));
 
-    WorldMapDto worldMapDto = worldMapMapper.selectWorldMapDto(worldId);
+    WorldMapDto worldMapDto = worldMapMapper.selectWorldMapDto(FIRST_WORLD_ID);
     return worldMapDto.toWorldMap(imageMap);
   }
 }
