@@ -4,6 +4,8 @@ import com.example.sample.domain.model.Player;
 import com.example.sample.domain.model.Tile;
 import com.example.sample.domain.model.item.Equipment;
 import com.example.sample.domain.model.item.Item;
+import com.example.sample.domain.model.item.ItemShieldNormal;
+import com.example.sample.domain.model.item.ItemWeapon;
 import com.example.sample.presentation.GamePanel;
 import com.example.sample.presentation.KeyInputType;
 
@@ -128,15 +130,15 @@ public class ItemListView {
     g2.drawString(value, textX, textY);
     textY += lineHeight;
 
-    if (player.getPlayerBattleStatus().getEquipments().getHead() != Equipment.EMPTY) {
-      g2.drawImage(player.getPlayerBattleStatus().getEquipments().getHead().getImage(), tailX - Tile.TILE_SIZE, textY - 24, null);
+    if (player.getPlayerBattleStatus().getEquipments().getWeapon() != ItemWeapon.EMPTY) {
+      g2.drawImage(player.getPlayerBattleStatus().getEquipments().getWeapon().getImage(), tailX - Tile.TILE_SIZE, textY - 24, null);
     }
     textY += Tile.TILE_SIZE;
-    if (player.getPlayerBattleStatus().getEquipments().getArmor() != Equipment.EMPTY) {
+    if (player.getPlayerBattleStatus().getEquipments().getArmor() != ItemWeapon.EMPTY) {
       g2.drawImage(player.getPlayerBattleStatus().getEquipments().getArmor().getImage(), tailX - Tile.TILE_SIZE, textY - 24, null);
     }
     textY += Tile.TILE_SIZE;
-    if (player.getPlayerBattleStatus().getEquipments().getArm() != Equipment.EMPTY) {
+    if (player.getPlayerBattleStatus().getEquipments().getArm() != ItemShieldNormal.EMPTY) {
       g2.drawImage(player.getPlayerBattleStatus().getEquipments().getArm().getImage(), tailX - Tile.TILE_SIZE, textY - 24, null);
     }
   }

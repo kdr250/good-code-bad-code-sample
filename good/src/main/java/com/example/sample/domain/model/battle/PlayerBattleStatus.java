@@ -1,6 +1,7 @@
 package com.example.sample.domain.model.battle;
 
 import com.example.sample.domain.model.item.Equipment;
+import com.example.sample.domain.model.item.EquipmentType;
 import com.example.sample.domain.model.technique.PlayerTechniques;
 import lombok.Getter;
 
@@ -42,17 +43,20 @@ public class PlayerBattleStatus {
     hitPoint = hitPoint.recover(recoveryAmount);
   }
 
+  public void recoveryMagicPoint(final int recoveryAmount) {
+    magicPoint.recover(recoveryAmount);
+  }
+
   public void equip(Equipment equipment) {
-    // TODO: 他のも追加
-    equipments.equipArmor(equipment);
+    magicPoint.addMaxIncrements(equipment.maxMagicPointIncrement());
+    equipments.equip(equipment);
   }
 
-  public boolean hasEquipment(Equipment equipment) {
-    return equipments.has(equipment);
+  public boolean hasEquipment(EquipmentType equipmentType) {
+    return equipments.has(equipmentType);
   }
 
-  // TODO: 他のも追加
-  public void deactivateArmor() {
-    equipments.deactivateArmor();
+  public Equipment getEquipment(EquipmentType equipmentType) {
+    return equipments.getEquipment(equipmentType);
   }
 }

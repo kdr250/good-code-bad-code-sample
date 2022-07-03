@@ -3,10 +3,14 @@ INSERT IGNORE INTO tb_location VALUES
 (2, 21, 20), --NPC
 (3, 9, 30), --スライム
 (4, 22, 7), --赤ポーション
-(5, 10, 11), --ドア
-(6, 10, 7), --宝箱
-(7, 23, 7), --普通の盾
-(8, 24, 7) --剣
+(5, 23, 7), --青ポーション
+(6, 10, 11), --ドア
+(7, 10, 7), --宝箱
+(8, 24, 7), --普通の盾
+(9, 25, 7), --青い盾
+(10, 25, 8), --鎧
+(11, 26, 7), --剣
+(12, 23, 8) --魔法の杖
 ;
 
 INSERT IGNORE INTO tb_world_map VALUES
@@ -61,10 +65,14 @@ INSERT IGNORE INTO tb_enemy VALUES
 
 INSERT IGNORE INTO tb_item VALUES
 (1, 'POTION_RED', 1, 4),
-(2, 'DOOR', 1, 5),
-(3, 'CHEST', 1, 6),
-(4, 'SHIELD_NORMAL', 1, 7),
-(5, 'WEAPON', 1, 8)
+(2, 'POTION_BLUE', 1, 5),
+(3, 'DOOR', 1, 6),
+(4, 'CHEST', 1, 7),
+(5, 'SHIELD_NORMAL', 1, 8),
+(6, 'SHIELD_BLUE', 1, 9),
+(7, 'BODY_ARMOR', 1, 10),
+(8, 'WEAPON', 1, 11),
+(9, 'MAGICAL_WEAPON', 1, 12)
 ;
 
 INSERT IGNORE INTO tb_tile_image VALUES

@@ -13,12 +13,12 @@ public class ItemKey implements Key {
   private final Collision collision; // TODO: 敵からドロップするので後で削除すること
   private final ItemImage itemImage;
 
-  public ItemKey(Location location, ItemImage itemImage) {
+  public ItemKey(ItemImage itemImage) {
     if (itemImage.getItemType() != ItemType.KEY) {
       throw new IllegalArgumentException();
     }
-    this.location = location;
-    collision = new Collision(location);
+    this.location = Location.EMPTY;
+    this.collision = new Collision(location);
     this.itemImage = itemImage;
   }
 

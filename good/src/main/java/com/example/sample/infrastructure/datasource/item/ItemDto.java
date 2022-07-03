@@ -3,13 +3,16 @@ package com.example.sample.infrastructure.datasource.item;
 import com.example.sample.domain.model.Location;
 import com.example.sample.domain.model.Tile;
 import com.example.sample.domain.model.battle.AttackPower;
-import com.example.sample.domain.model.battle.DefensePower;
 import com.example.sample.domain.model.item.Item;
+import com.example.sample.domain.model.item.ItemArmor;
 import com.example.sample.domain.model.item.ItemChest;
 import com.example.sample.domain.model.item.ItemDoor;
 import com.example.sample.domain.model.item.ItemImage;
 import com.example.sample.domain.model.item.ItemKey;
+import com.example.sample.domain.model.item.ItemMagicalWeapon;
+import com.example.sample.domain.model.item.ItemPotionBlue;
 import com.example.sample.domain.model.item.ItemPotionRed;
+import com.example.sample.domain.model.item.ItemShieldBlue;
 import com.example.sample.domain.model.item.ItemShieldNormal;
 import com.example.sample.domain.model.item.ItemType;
 import com.example.sample.domain.model.item.ItemWeapon;
@@ -33,7 +36,7 @@ public class ItemDto {
 
     switch (itemType) {
       case KEY:
-        return new ItemKey(getLocation(), itemImage);
+        return new ItemKey(itemImage);
       case CHEST:
         return new ItemChest(getLocation(), itemImage);
       case DOOR:
@@ -41,17 +44,17 @@ public class ItemDto {
       case WEAPON:
         return new ItemWeapon(new AttackPower(2), getLocation(), itemImage);
       case MAGICAL_WEAPON:
-        return null; // TODO: Not Yet Implemented
+        return new ItemMagicalWeapon(new AttackPower(3), getLocation(), itemImage);
       case BODY_ARMOR:
-        return null; // TODO: Not Yet Implemented
+        return new ItemArmor(getLocation(), itemImage);
       case POTION_RED:
         return new ItemPotionRed(getLocation(), itemImage);
       case POTION_BLUE:
-        return null; // TODO: Not Yet Implemented
+        return new ItemPotionBlue(getLocation(), itemImage);
       case SHIELD_NORMAL:
-        return new ItemShieldNormal(new DefensePower(2), getLocation(), itemImage);
+        return new ItemShieldNormal(getLocation(), itemImage);
       case SHIELD_BLUE:
-        return null; // TODO: Not Yet Implemented
+        return new ItemShieldBlue(getLocation(), itemImage);
       default:
         throw new IllegalArgumentException();
     }

@@ -52,4 +52,12 @@ public class MagicPoint {
   public void recover(final int recoveryAmount) {
     currentAmount = Math.min(currentAmount + recoveryAmount, max());
   }
+
+  /**
+   * 魔法力最大値を増やす
+   * @param maxIncrement 最大値増量
+   */
+  public void addMaxIncrements(final int maxIncrement) {
+    maxIncrements.add(maxIncrement);
+  }
 }
