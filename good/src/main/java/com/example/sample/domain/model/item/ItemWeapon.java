@@ -63,4 +63,14 @@ public class ItemWeapon implements Equipment {
   public int maxMagicPointIncrement() {
     return 0;
   }
+
+  @Override
+  public int attack() {
+    return attackPower.getValue();
+  }
+
+  @Override
+  public int defense() {
+    return 0;
+  }
 }

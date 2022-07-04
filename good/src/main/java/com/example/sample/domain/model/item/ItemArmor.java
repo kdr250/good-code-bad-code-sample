@@ -52,4 +52,14 @@ public class ItemArmor implements Equipment {
   public int maxMagicPointIncrement() {
     return 0;
   }
+
+  @Override
+  public int attack() {
+    return 0;
+  }
+
+  @Override
+  public int defense() {
+    return defensePower.getValue();
+  }
 }

@@ -60,4 +60,12 @@ public class MagicPoint {
   public void addMaxIncrements(final int maxIncrement) {
     maxIncrements.add(maxIncrement);
   }
+
+  public void consume(final int consumeAmount) {
+    currentAmount = Math.max(currentAmount - consumeAmount, MIN);
+  }
+
+  public boolean canAttack(final int cost) {
+    return currentAmount >= cost;
+  }
 }

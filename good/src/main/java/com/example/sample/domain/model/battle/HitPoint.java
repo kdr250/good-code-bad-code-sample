@@ -43,4 +43,8 @@ public class HitPoint {
     final int corrected = Math.min(maxValue, recovered);
     return new HitPoint(corrected, maxValue);
   }
+
+  public boolean isZero() {
+    return value == MIN;
+  }
 }

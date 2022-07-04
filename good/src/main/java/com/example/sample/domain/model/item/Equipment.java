@@ -8,4 +8,8 @@ public interface Equipment extends Item {
   EquipmentType getEquipmentType();
 
   int maxMagicPointIncrement();
+
+  int attack();
+
+  int defense();
 }

@@ -43,4 +43,16 @@ public class Enemy implements Collidable {
   public BufferedImage getImage() {
     return enemyAnimation.getImage();
   }
+
+  public void damageHitPoint(final int damageAmount) {
+    enemyBattleStatus.damageHitPoint(damageAmount);
+  }
+
+  public int attack() {
+    return enemyBattleStatus.attack();
+  }
+
+  public boolean isDead() {
+    return enemyBattleStatus.isDead();
+  }
 }

@@ -97,4 +97,12 @@ public class Equipments {
         throw new IllegalArgumentException();
     }
   }
+
+  public int totalAttack() {
+    return weapon.attack() + armor.attack() + arm.attack();
+  }
+
+  public int totalDefense() {
+    return armor.defense() + arm.defense() + weapon.defense();
+  }
 }

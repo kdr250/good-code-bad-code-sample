@@ -4,6 +4,8 @@ import com.example.sample.domain.model.battle.PlayerBattleStatus;
 import com.example.sample.domain.model.item.Equipment;
 import com.example.sample.domain.model.item.EquipmentType;
 import com.example.sample.domain.model.item.Item;
+import com.example.sample.domain.model.technique.Technique;
+import com.example.sample.domain.model.technique.physics.Physics;
 import com.example.sample.domain.type.Direction;
 import lombok.Getter;
 
@@ -11,7 +13,7 @@ import java.awt.image.BufferedImage;
 import java.util.List;
 
 /**
- * プレイヤーを表現するクラス
+ * プレイヤー
  */
 @Getter
 public class Player implements Collidable {
@@ -64,6 +66,10 @@ public class Player implements Collidable {
     playerBattleStatus.recoveryHitPoint(recoveryAmount);
   }
 
+  public void damageHitPoint(final int damageAmount) {
+    playerBattleStatus.damageHitPoint(damageAmount);
+  }
+
   public void recoverMagicPoint(final int recoveryAmount) {
     playerBattleStatus.recoveryMagicPoint(recoveryAmount);
   }
@@ -86,5 +92,25 @@ public class Player implements Collidable {
 
   public boolean isOverlap(final Collidable collidable) {
     return collision.isCollide(collidable.getCollision());
+  }
+
+  public boolean canAttack(Technique technique) {
+    return playerBattleStatus.canAttack(technique);
+  }
+
+  public void consumeCostForAttack(Technique technique) {
+    playerBattleStatus.consumeCostForAttack(technique);
+  }
+
+  public int attack(Technique technique) {
+    return playerBattleStatus.totalAttack(technique);
+  }
+
+  public int defense() {
+    return playerBattleStatus.totalDefense();
+  }
+
+  public boolean isDead() {
+    return playerBattleStatus.isDead();
   }
 }

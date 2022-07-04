@@ -17,4 +17,16 @@ public class EnemyBattleStatus {
     AttackPower attackPower = new AttackPower(2);
     return new EnemyBattleStatus(hitPoint, attackPower);
   }
+
+  public void damageHitPoint(final int damageAmount) {
+    hitPoint = hitPoint.damage(damageAmount);
+  }
+
+  public int attack() {
+    return attackPower.getValue();
+  }
+
+  public boolean isDead() {
+    return hitPoint.isZero();
+  }
 }

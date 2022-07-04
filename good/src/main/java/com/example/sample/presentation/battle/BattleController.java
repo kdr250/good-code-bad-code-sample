@@ -1,9 +1,12 @@
 package com.example.sample.presentation.battle;
 
+import com.example.sample.application.service.EnemyDomainService;
+import com.example.sample.application.service.PlayerDomainService;
 import com.example.sample.domain.model.Enemy;
 import com.example.sample.domain.model.Player;
 import com.example.sample.domain.model.gamemode.GameMode;
 import com.example.sample.domain.model.item.ItemImage;
+import com.example.sample.domain.model.technique.Technique;
 import com.example.sample.presentation.KeyInputType;
 import com.example.sample.presentation.worldmap.WorldMapController;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +20,8 @@ import java.awt.*;
 public class BattleController {
 
   private final ApplicationContext applicationContext;
+  private final PlayerDomainService playerDomainService;
+  private final EnemyDomainService enemyDomainService;
 
   private Player player;
   private Enemy enemy;
@@ -79,16 +84,16 @@ public class BattleController {
           playerTechniqueChoice = playerTechniqueChoice.down();
           break;
         case DECIDE:
-          // TODO: Player->Enemyへのダメージ処理
-          // TODO: Enemyの生存判定処理
-          // TODO: 後で削除すること
-          int random = (int)(Math.random() * 100);
-          if (random < 33) {
-            battleViewState = BattleViewState.PLAYER_TECHNIQUE_RESULT;
-          } else {
+          Technique technique = player.getPlayerBattleStatus().getPlayerTechniques().getList().get(playerTechniqueChoice.ordinal());
+
+          if (!player.canAttack(technique)) {
             battleViewState = BattleViewState.PLAYER_TECHNIQUE_FAIL;
+            return;
           }
-          return;
+
+          player.consumeCostForAttack(technique);
+          enemyDomainService.applyDamage(enemy, player.attack(technique));
+          battleViewState = BattleViewState.PLAYER_TECHNIQUE_RESULT;
       }
     }
 
