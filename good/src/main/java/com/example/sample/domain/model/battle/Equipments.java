@@ -20,9 +20,9 @@ public class Equipments {
   private Equipment weapon;
 
   public Equipments() {
-    armor = ItemWeapon.EMPTY;
-    arm = ItemShieldNormal.EMPTY;
-    weapon = ItemWeapon.EMPTY;
+    armor = Equipment.EMPTY;
+    arm = Equipment.EMPTY;
+    weapon = Equipment.EMPTY;
   }
 
   /**
@@ -53,9 +53,25 @@ public class Equipments {
    * 全装備を解除する
    */
   public void deactivateAll() {
-    armor = ItemWeapon.EMPTY;
-    arm = ItemShieldNormal.EMPTY;
-    weapon = ItemWeapon.EMPTY;
+    armor = Equipment.EMPTY;
+    arm = Equipment.EMPTY;
+    weapon = Equipment.EMPTY;
+  }
+
+  public void deactivate(EquipmentType equipmentType) {
+    switch (equipmentType) {
+      case ARMOR:
+        armor = Equipment.EMPTY;
+        break;
+      case ARM:
+        arm = Equipment.EMPTY;
+        break;
+      case WEAPON:
+        weapon = Equipment.EMPTY;
+        break;
+      default:
+        throw new IllegalArgumentException();
+    }
   }
 
   public void equip(Equipment equipment) {
@@ -75,11 +91,11 @@ public class Equipments {
   public boolean has(EquipmentType equipmentType) {
     switch (equipmentType) {
       case ARMOR:
-        return armor != ItemWeapon.EMPTY;
+        return armor != Equipment.EMPTY;
       case ARM:
-        return arm != ItemShieldNormal.EMPTY;
+        return arm != Equipment.EMPTY;
       case WEAPON:
-        return weapon != ItemWeapon.EMPTY;
+        return weapon != Equipment.EMPTY;
       default:
         throw new IllegalArgumentException();
     }

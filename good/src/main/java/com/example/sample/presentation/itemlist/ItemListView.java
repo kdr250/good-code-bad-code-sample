@@ -2,10 +2,7 @@ package com.example.sample.presentation.itemlist;
 
 import com.example.sample.domain.model.Player;
 import com.example.sample.domain.model.Tile;
-import com.example.sample.domain.model.item.Equipment;
 import com.example.sample.domain.model.item.Item;
-import com.example.sample.domain.model.item.ItemShieldNormal;
-import com.example.sample.domain.model.item.ItemWeapon;
 import com.example.sample.presentation.GamePanel;
 import com.example.sample.presentation.KeyInputType;
 
@@ -70,7 +67,7 @@ public class ItemListView {
     final int lineHeight = 35;
 
     // 項目名
-    g2.drawString("レベル", textX, textY);
+    g2.drawString("Lv", textX, textY);
     textY += lineHeight;
     g2.drawString("HP", textX, textY);
     textY += lineHeight;
@@ -82,7 +79,7 @@ public class ItemListView {
     textY += lineHeight;
     g2.drawString("経験値", textX, textY);
     textY += lineHeight;
-    g2.drawString("レベルUP", textX, textY);
+    g2.drawString("次Lvまで", textX, textY);
     textY += lineHeight + 10;
     g2.drawString("武器", textX, textY);
     textY += lineHeight + 15;
@@ -109,13 +106,12 @@ public class ItemListView {
     g2.drawString(value, textX, textY);
     textY += lineHeight;
 
-    value = String.valueOf(player.getPlayerBattleStatus().getAttackPower().getValue());
+    value = String.valueOf(player.totalAttack());
     textX = getXForAlignToRightText(value, tailX, g2);
     g2.drawString(value, textX, textY);
     textY += lineHeight;
 
-    // TODO: トータルの防御力に修正すること
-    value = String.valueOf(player.getPlayerBattleStatus().getDefensePower().getValue());
+    value = String.valueOf(player.totalDefense());
     textX = getXForAlignToRightText(value, tailX, g2);
     g2.drawString(value, textX, textY);
     textY += lineHeight;
@@ -125,20 +121,20 @@ public class ItemListView {
     g2.drawString(value, textX, textY);
     textY += lineHeight;
 
-    value = String.valueOf(player.getPlayerBattleStatus().getExperience().getNextLevelValue());
+    value = String.valueOf(player.getPlayerBattleStatus().getExperience().untilNextLevel());
     textX = getXForAlignToRightText(value, tailX, g2);
     g2.drawString(value, textX, textY);
     textY += lineHeight;
 
-    if (player.getPlayerBattleStatus().getEquipments().getWeapon() != ItemWeapon.EMPTY) {
+    if (!player.getPlayerBattleStatus().getEquipments().getWeapon().isEmpty()) {
       g2.drawImage(player.getPlayerBattleStatus().getEquipments().getWeapon().getImage(), tailX - Tile.TILE_SIZE, textY - 24, null);
     }
     textY += Tile.TILE_SIZE;
-    if (player.getPlayerBattleStatus().getEquipments().getArmor() != ItemWeapon.EMPTY) {
+    if (!player.getPlayerBattleStatus().getEquipments().getArmor().isEmpty()) {
       g2.drawImage(player.getPlayerBattleStatus().getEquipments().getArmor().getImage(), tailX - Tile.TILE_SIZE, textY - 24, null);
     }
     textY += Tile.TILE_SIZE;
-    if (player.getPlayerBattleStatus().getEquipments().getArm() != ItemShieldNormal.EMPTY) {
+    if (!player.getPlayerBattleStatus().getEquipments().getArm().isEmpty()) {
       g2.drawImage(player.getPlayerBattleStatus().getEquipments().getArm().getImage(), tailX - Tile.TILE_SIZE, textY - 24, null);
     }
   }
@@ -169,8 +165,8 @@ public class ItemListView {
       slotX += slotSize;
 
       if (i == itemListIndex) {
-        int slotCol = itemListIndex % 4;
-        int slotRow = itemListIndex / 4;
+        int slotCol = itemListIndex % 5;
+        int slotRow = itemListIndex / 5;
         // カーソル
         int cursorX = slotXStart + (slotSize * slotCol);
         int cursorY = slotYStart + (slotSize * slotRow);

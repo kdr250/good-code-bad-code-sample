@@ -94,7 +94,9 @@ public class BattleView {
     }
 
     if (battleViewState == BattleViewState.PLAYER_TECHNIQUE_RESULT) {
-      g2.drawString("敵にXXダメージ！", Tile.TILE_SIZE + 30, GamePanel.screenHeight / 2 + Tile.TILE_SIZE);
+      Technique technique = player.getPlayerBattleStatus().getPlayerTechniques().getList().get(playerTechniqueChoice.ordinal());
+
+      g2.drawString("敵に" + player.totalAttack(technique) + "ダメージ！", Tile.TILE_SIZE + 30, GamePanel.screenHeight / 2 + Tile.TILE_SIZE);
       g2.drawString("> Press Enter", Tile.TILE_SIZE + 30, GamePanel.screenHeight / 2 + Tile.TILE_SIZE * 2);
     }
 
@@ -104,12 +106,17 @@ public class BattleView {
     }
 
     if (battleViewState == BattleViewState.ENEMY_ACTION_RESULT) {
-      g2.drawString("プレイヤーにXXダメージ！", Tile.TILE_SIZE + 30, GamePanel.screenHeight / 2 + Tile.TILE_SIZE);
+      g2.drawString("プレイヤーに" + enemy.attack() + "ダメージ！", Tile.TILE_SIZE + 30, GamePanel.screenHeight / 2 + Tile.TILE_SIZE);
       g2.drawString("> Press Enter", Tile.TILE_SIZE + 30, GamePanel.screenHeight / 2 + Tile.TILE_SIZE * 2);
     }
 
     if (battleViewState == BattleViewState.BATTLE_RESULT_PLAYER_WIN) {
       g2.drawString("プレイヤーの勝利！", Tile.TILE_SIZE + 30, GamePanel.screenHeight / 2 + Tile.TILE_SIZE);
+      g2.drawString("> Press Enter", Tile.TILE_SIZE + 30, GamePanel.screenHeight / 2 + Tile.TILE_SIZE * 2);
+    }
+
+    if (battleViewState == BattleViewState.BATTLE_RESULT_PLAYER_LEVEL_UP) {
+      g2.drawString("レベルアップ！ LV." + player.getPlayerBattleStatus().getLevel().getValue() + "になった！" , Tile.TILE_SIZE + 30, GamePanel.screenHeight / 2 + Tile.TILE_SIZE);
       g2.drawString("> Press Enter", Tile.TILE_SIZE + 30, GamePanel.screenHeight / 2 + Tile.TILE_SIZE * 2);
     }
 

@@ -1,7 +1,5 @@
 package com.example.sample.presentation.battle;
 
-import com.example.sample.application.service.EnemyDomainService;
-import com.example.sample.application.service.PlayerDomainService;
 import com.example.sample.domain.model.Enemy;
 import com.example.sample.domain.model.Player;
 import com.example.sample.domain.model.gamemode.GameMode;
@@ -20,17 +18,15 @@ import java.awt.*;
 public class BattleController {
 
   private final ApplicationContext applicationContext;
-  private final PlayerDomainService playerDomainService;
-  private final EnemyDomainService enemyDomainService;
 
   private Player player;
   private Enemy enemy;
 
   private BattleView battleView;
 
-  private BattleViewState battleViewState;
-  private PlayerActionChoice playerActionChoice;
-  private PlayerTechniqueChoice playerTechniqueChoice;
+  private BattleViewState battleViewState = BattleViewState.SELECTING_PLAYER_ACTION;
+  private PlayerActionChoice playerActionChoice = PlayerActionChoice.ATTACK;
+  private PlayerTechniqueChoice playerTechniqueChoice = PlayerTechniqueChoice.ONE;
 
   private int fpsCounter = 0;
 
@@ -92,20 +88,21 @@ public class BattleController {
           }
 
           player.consumeCostForAttack(technique);
-          enemyDomainService.applyDamage(enemy, player.attack(technique));
+          enemy.damageHitPoint(player.totalAttack(technique));
           battleViewState = BattleViewState.PLAYER_TECHNIQUE_RESULT;
+          return;
       }
     }
 
     if (battleViewState == BattleViewState.PLAYER_TECHNIQUE_RESULT) {
       if (keyInputType == KeyInputType.DECIDE) {
-        // TODO: 後で削除すること
-        int random = (int)(Math.random() * 100);
-        if (random > 50) {
-          battleViewState = BattleViewState.ENEMY_ACTION_RESULT;
-        } else {
+        if (enemy.isDead()) {
           battleViewState = BattleViewState.BATTLE_RESULT_PLAYER_WIN;
+          return;
         }
+
+        player.damageHitPoint(enemy.attack());
+        battleViewState = BattleViewState.ENEMY_ACTION_RESULT;
         return;
       }
     }
@@ -119,20 +116,32 @@ public class BattleController {
 
     if (battleViewState == BattleViewState.ENEMY_ACTION_RESULT) {
       if (keyInputType == KeyInputType.DECIDE) {
-        // TODO: Playerの生存判定処理
-        int random = (int)(Math.random() * 100);
-        if (random > 50) {
-          battleViewState = BattleViewState.SELECTING_PLAYER_ACTION;
-        } else {
+        if (player.isDead()) {
           battleViewState = BattleViewState.BATTLE_RESULT_PLAYER_LOSE;
+          return;
         }
+
+        battleViewState = BattleViewState.SELECTING_PLAYER_ACTION;
         return;
       }
     }
 
     if (battleViewState == BattleViewState.BATTLE_RESULT_PLAYER_WIN) {
       if (keyInputType == KeyInputType.DECIDE) {
-        // TODO: 経験値・レベルUP
+        boolean isLevelUp = player.gainExperienceAndIsLevelUp(enemy.getEnemyBattleStatus().getExperience().getValue());
+        if (isLevelUp) {
+          battleViewState = BattleViewState.BATTLE_RESULT_PLAYER_LEVEL_UP;
+          return;
+        }
+        WorldMapController worldMapController = applicationContext.getBean(WorldMapController.class);
+        worldMapController.removeEnemy(enemy);
+        gameMode.worldMap();
+        return;
+      }
+    }
+
+    if (battleViewState == BattleViewState.BATTLE_RESULT_PLAYER_LEVEL_UP) {
+      if (keyInputType == KeyInputType.DECIDE) {
         WorldMapController worldMapController = applicationContext.getBean(WorldMapController.class);
         worldMapController.removeEnemy(enemy);
         gameMode.worldMap();
@@ -142,9 +151,9 @@ public class BattleController {
 
     if (battleViewState == BattleViewState.BATTLE_RESULT_PLAYER_LOSE) {
       if (keyInputType == KeyInputType.DECIDE) {
-        // TODO: 装備をdeactivateしてスタート位置に戻す
+        player.deactivateAllEquipments();
         WorldMapController worldMapController = applicationContext.getBean(WorldMapController.class);
-        worldMapController.removeEnemy(enemy);
+        worldMapController.restart();
         gameMode.worldMap();
         return;
       }

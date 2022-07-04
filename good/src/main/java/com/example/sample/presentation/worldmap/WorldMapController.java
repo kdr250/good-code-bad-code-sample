@@ -17,6 +17,7 @@ import com.example.sample.domain.model.event.Event;
 import com.example.sample.domain.model.event.GameModeEvent;
 import com.example.sample.domain.model.event.PlayerEvent;
 import com.example.sample.domain.model.gamemode.GameMode;
+import com.example.sample.domain.model.gamemode.GameModeType;
 import com.example.sample.domain.model.item.Interactive;
 import com.example.sample.domain.model.item.Item;
 import com.example.sample.domain.model.item.ItemImage;
@@ -52,7 +53,10 @@ public class WorldMapController {
 
   private PlayerStatusView playerStatusView;
 
-  public void setUp() {
+  private Location playerStartLocation;
+  private GameMode gameMode;
+
+  public void setUp(GameMode gameMode) {
     worldMap = worldMapQueryService.find();
     player = playerQueryService.find();
     npcList = npcQueryService.find();
@@ -62,6 +66,9 @@ public class WorldMapController {
     ItemImage itemImageCrystalBlank = itemQueryService.findImage(ItemType.CRYSTAL_BLANK);
     ItemImage itemImageCrystalFull = itemQueryService.findImage(ItemType.CRYSTAL_FULL);
     playerStatusView = new PlayerStatusView(player, itemImageCrystalBlank, itemImageCrystalFull);
+
+    playerStartLocation = player.getLocation();
+    this.gameMode = gameMode;
   }
 
   public void update(KeyInputType keyInputType, GameMode gameMode) {
@@ -195,7 +202,9 @@ public class WorldMapController {
       }
     }
 
-    playerStatusView.draw(g2);
+    if (gameMode.getGameModeType() == GameModeType.WORLD_MAP) {
+      playerStatusView.draw(g2);
+    }
   }
 
   public Player getPlayer() {
@@ -204,5 +213,13 @@ public class WorldMapController {
 
   public void removeEnemy(Enemy enemy) {
     enemyList.remove(enemy);
+  }
+
+  public void restart() {
+    player.warp(playerStartLocation);
+    player.recoverHitPointMax();
+    player.recoverMagicPointMax();
+    enemyList = enemyQueryService.find();
+    fieldItemList = itemQueryService.find();
   }
 }

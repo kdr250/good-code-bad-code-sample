@@ -39,6 +39,10 @@ public class Player implements Collidable {
     direction = vector.direction();
   }
 
+  public void warp(final Location location) {
+    this.location = location;
+  }
+
   public boolean canMove(final List<Collidable> collidableList, final Vector vector) {
     return collidableList.stream().noneMatch(c -> collision.willCollide(c.getCollision(), vector));
   }
@@ -57,7 +61,10 @@ public class Player implements Collidable {
 
   public void changeEquipment(Equipment equipment) {
     EquipmentType equipmentType = equipment.getEquipmentType();
-    if (playerBattleStatus.hasEquipment(equipmentType)) pickUp(playerBattleStatus.getEquipment(equipmentType));
+    if (playerBattleStatus.hasEquipment(equipmentType)) {
+      Equipment deactivatedEquipment = playerBattleStatus.deactivateEquipment(equipmentType);
+      pickUp(deactivatedEquipment);
+    }
     playerBattleStatus.equip(equipment);
     removeItem(equipment);
   }
@@ -66,12 +73,20 @@ public class Player implements Collidable {
     playerBattleStatus.recoveryHitPoint(recoveryAmount);
   }
 
+  public void recoverHitPointMax() {
+    playerBattleStatus.recoveryHitPointMax();
+  }
+
   public void damageHitPoint(final int damageAmount) {
     playerBattleStatus.damageHitPoint(damageAmount);
   }
 
   public void recoverMagicPoint(final int recoveryAmount) {
     playerBattleStatus.recoveryMagicPoint(recoveryAmount);
+  }
+
+  public void recoverMagicPointMax() {
+    playerBattleStatus.recoverMagicPointMax();
   }
 
   public void pickUp(Item item) {
@@ -102,15 +117,27 @@ public class Player implements Collidable {
     playerBattleStatus.consumeCostForAttack(technique);
   }
 
-  public int attack(Technique technique) {
+  public int totalAttack(Technique technique) {
     return playerBattleStatus.totalAttack(technique);
   }
 
-  public int defense() {
+  public int totalAttack() {
+    return playerBattleStatus.totalAttack();
+  }
+
+  public int totalDefense() {
     return playerBattleStatus.totalDefense();
   }
 
   public boolean isDead() {
     return playerBattleStatus.isDead();
+  }
+
+  public void deactivateAllEquipments() {
+    playerBattleStatus.deactivateAllEquipments();
+  }
+
+  public boolean gainExperienceAndIsLevelUp(final int experienceIncrement) {
+    return playerBattleStatus.gainExperienceAndIsLevelUp(experienceIncrement);
   }
 }

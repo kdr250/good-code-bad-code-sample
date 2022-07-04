@@ -44,6 +44,10 @@ public class HitPoint {
     return new HitPoint(corrected, maxValue);
   }
 
+  public HitPoint recoverMax() {
+    return new HitPoint(maxValue);
+  }
+
   public boolean isZero() {
     return value == MIN;
   }

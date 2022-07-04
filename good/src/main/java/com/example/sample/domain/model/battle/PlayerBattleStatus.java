@@ -48,12 +48,21 @@ public class PlayerBattleStatus {
     hitPoint = hitPoint.recover(recoveryAmount);
   }
 
+  public void recoveryHitPointMax() {
+    hitPoint = hitPoint.recoverMax();
+  }
+
   public void damageHitPoint(final int damageAmount) {
-    hitPoint = hitPoint.damage(damageAmount);
+    int damage = Math.max(damageAmount - totalDefense(), 1);
+    hitPoint = hitPoint.damage(damage);
   }
 
   public void recoveryMagicPoint(final int recoveryAmount) {
     magicPoint.recover(recoveryAmount);
+  }
+
+  public void recoverMagicPointMax() {
+    magicPoint.recoverOriginalMax();
   }
 
   public void equip(Equipment equipment) {
@@ -87,20 +96,14 @@ public class PlayerBattleStatus {
   public int totalAttack(Technique technique) {
     int baseAttack = attackPower.getValue();
     int equipmentsAttack = equipments.totalAttack();
+    int techniqueAttack = technique.attack(level);
+    return baseAttack + equipmentsAttack + techniqueAttack;
+  }
 
-    if (technique instanceof PhysicsType) {
-      Physics physicsTechnique = ((PhysicsType)technique).getPhysics();
-      int techniqueAttack = physicsTechnique.attackPower(level).getValue();
-      return baseAttack + equipmentsAttack + techniqueAttack;
-    }
-    if (technique instanceof MagicType) {
-      Magic magicTechnique = ((MagicType)technique).getMagic();
-      magicPoint.consume(magicTechnique.costMagicPoint(level).current());
-      int techniqueAttack = magicTechnique.attackPower(level).getValue();
-      return baseAttack + equipmentsAttack + techniqueAttack;
-    }
-
-    throw new IllegalArgumentException();
+  public int totalAttack() {
+    int baseAttack = attackPower.getValue();
+    int equipmentsAttack = equipments.totalAttack();
+    return baseAttack + equipmentsAttack;
   }
 
   public int totalDefense() {
@@ -109,5 +112,23 @@ public class PlayerBattleStatus {
 
   public boolean isDead() {
     return hitPoint.isZero();
+  }
+
+  public Equipment deactivateEquipment(EquipmentType equipmentType) {
+    Equipment equipment = equipments.getEquipment(equipmentType);
+    magicPoint.removeMaxIncrements(equipment.maxMagicPointIncrement());
+    equipments.deactivate(equipmentType);
+    return equipment;
+  }
+
+  public void deactivateAllEquipments() {
+    equipments.deactivateAll();
+  }
+
+  public boolean gainExperienceAndIsLevelUp(final int experienceIncrement) {
+    boolean needsLevelUp = experience.needsLevelUpIfGained(experienceIncrement);
+    experience = experience.gain(experienceIncrement);
+    if (needsLevelUp) level = level.increase();
+    return needsLevelUp;
   }
 }

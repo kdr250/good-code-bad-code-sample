@@ -5,6 +5,5 @@ public enum GameModeType {
   WORLD_MAP,
   BATTLE,
   DISPLAY_ITEM_LIST,
-  GAME_CLEAR,
-  GAME_OVER;
+  GAME_CLEAR;
 }

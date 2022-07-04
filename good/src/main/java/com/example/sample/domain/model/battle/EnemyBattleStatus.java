@@ -5,17 +5,20 @@ import lombok.Getter;
 @Getter
 public class EnemyBattleStatus {
   private HitPoint hitPoint;
-  private AttackPower attackPower;
+  private final AttackPower attackPower;
+  private final Experience experience;
 
-  private EnemyBattleStatus(final HitPoint hItPoint, final AttackPower attackPower) {
+  private EnemyBattleStatus(final HitPoint hItPoint, final AttackPower attackPower, final Experience experience) {
     this.hitPoint = hItPoint;
     this.attackPower = attackPower;
+    this.experience = experience;
   }
 
   public static EnemyBattleStatus initialize() {
     HitPoint hitPoint = new HitPoint(6);
     AttackPower attackPower = new AttackPower(2);
-    return new EnemyBattleStatus(hitPoint, attackPower);
+    Experience experience = Experience.enemyExperience(2);
+    return new EnemyBattleStatus(hitPoint, attackPower, experience);
   }
 
   public void damageHitPoint(final int damageAmount) {

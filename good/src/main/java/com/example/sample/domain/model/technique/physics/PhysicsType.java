@@ -1,5 +1,6 @@
 package com.example.sample.domain.model.technique.physics;
 
+import com.example.sample.domain.model.battle.Level;
 import com.example.sample.domain.model.technique.Technique;
 
 public enum PhysicsType implements Technique {
@@ -24,5 +25,10 @@ public enum PhysicsType implements Technique {
   @Override
   public String description() {
     return physics.description();
+  }
+
+  @Override
+  public int attack(Level level) {
+    return physics.attackPower(level).getValue();
   }
 }
