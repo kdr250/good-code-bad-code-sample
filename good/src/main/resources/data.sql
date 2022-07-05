@@ -1,17 +1,19 @@
 INSERT IGNORE INTO tb_location VALUES
 (1, 23, 21), --プレイヤー
 (2, 21, 20), --NPC
-(3, 9, 30), --スライム
-(4, 22, 7), --赤ポーション
-(5, 23, 7), --青ポーション
-(6, 10, 11), --ドア
-(7, 10, 7), --宝箱
-(8, 24, 7), --普通の盾
-(9, 25, 7), --青い盾
-(10, 25, 8), --鎧
-(11, 26, 7), --剣
-(12, 23, 8) --魔法の杖
-;
+(3, 14, 21), --スライム
+(4, 9, 30), --スライム
+(5, 12, 33), --スライム
+(6, 8, 20), --スライム
+(7, 22, 7), --赤ポーション
+(8, 23, 7), --青ポーション
+(9, 10, 11), --ドア
+(10, 10, 7), --宝箱
+(11, 24, 7), --普通の盾
+(12, 25, 7), --青い盾
+(13, 25, 8), --鎧
+(14, 26, 7), --剣
+(15, 23, 8); --魔法の杖
 
 INSERT IGNORE INTO tb_world_map VALUES
 (   1, 1, 32, 39, CONCAT(
@@ -61,19 +63,22 @@ INSERT IGNORE INTO tb_npc VALUES
 (1, 1, 2);
 
 INSERT IGNORE INTO tb_enemy VALUES
-(1, 'スライム', 1, 3);
+(1, 'スライム', 1, 3),
+(2, 'スライム', 1, 4),
+(3, 'スライム', 1, 5),
+(4, 'スライム', 1, 6);
+
 
 INSERT IGNORE INTO tb_item VALUES
-(1, 'POTION_RED', 1, 4),
-(2, 'POTION_BLUE', 1, 5),
-(3, 'DOOR', 1, 6),
-(4, 'CHEST', 1, 7),
-(5, 'SHIELD_NORMAL', 1, 8),
-(6, 'SHIELD_BLUE', 1, 9),
-(7, 'BODY_ARMOR', 1, 10),
-(8, 'WEAPON', 1, 11),
-(9, 'MAGICAL_WEAPON', 1, 12)
-;
+(1, 'POTION_RED', 1, 7),
+(2, 'POTION_BLUE', 1, 8),
+(3, 'DOOR', 1, 9),
+(4, 'CHEST', 1, 10),
+(5, 'SHIELD_NORMAL', 1, 11),
+(6, 'SHIELD_BLUE', 1, 12),
+(7, 'BODY_ARMOR', 1, 13),
+(8, 'WEAPON', 1, 14),
+(9, 'MAGICAL_WEAPON', 1, 15);
 
 INSERT IGNORE INTO tb_tile_image VALUES
 (1, 'GRASS', 'iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAIAAACQkWg2AAABhGlDQ1BJQ0MgcHJvZmlsZQAAKJF9kT1Iw0AcxV9btVIiDnYQcchQnVoQFXHUKhShQqgVWnUwufQLmhiSFBdHwbXg4Mdi1cHFWVcHV0EQ/ABxdHJSdJES/5cUWsR4cNyPd/ced++AYKPKNKtrDNB028ykkmIuvyKGX9EDARHEIcjMMmYlKQ3f8XWPAF/vEjzL/9yfo08tWAwIiMQzzDBt4nXiqU3b4LxPHGVlWSU+J46bdEHiR64rHr9xLrkc5JlRM5uZI44Si6UOVjqYlU2NeJI4pmo65QdzHquctzhr1Rpr3ZO/UCjoy0tcpzmMFBawCAkiFNRQQRU2ErTqpFjI0H7Sxz/k+iVyKeSqgJFjHhvQILt+8D/43a1VnBj3koQk0P3iOB8jQHgXaNYd5/vYcZonQOgZuNLb/o0GMP1Jer2txY6A/m3g4rqtKXvA5Q4w+GTIpuxKIZrBYhF4P6NvygMDt0Bk1euttY/TByBLXaVvgINDYLRE2Ws+7+7t7O3fM63+fgBBKXKT6IBY5wAAAAlwSFlzAAAuIwAALiMBeKU/dgAAAAd0SU1FB+YGDAsgETo+85YAAAAZdEVYdENvbW1lbnQAQ3JlYXRlZCB3aXRoIEdJTVBXgQ4XAAAARklEQVQoz2OMnRPLQApgYiARUKbhCctFEjRAVBPUwwJnyfzRHyBPozmSiRjVyHpY8GvA9BidI46Y6GMi6EucEUdk9JHsBwBCyBTSQsxaywAAAABJRU5ErkJggg=='),
