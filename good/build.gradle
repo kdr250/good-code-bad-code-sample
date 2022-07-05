@@ -49,7 +49,10 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
     // H2 Database
-    implementation("com.h2database:h2")
+    implementation 'com.h2database:h2'
+
+    // Apache Commons Lang
+    implementation 'org.apache.commons:commons-lang3:3.12.0'
 }
 
 application {
