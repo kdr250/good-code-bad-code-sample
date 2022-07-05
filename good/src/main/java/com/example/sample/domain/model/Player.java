@@ -109,6 +109,10 @@ public class Player implements Collidable {
     return collision.isCollide(collidable.getCollision());
   }
 
+  public List<Technique> techniques() {
+    return playerBattleStatus.techniques();
+  }
+
   public boolean canAttack(Technique technique) {
     return playerBattleStatus.canAttack(technique);
   }

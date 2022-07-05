@@ -84,7 +84,7 @@ public class BattleView {
     }
 
     if (battleViewState == BattleViewState.SELECTING_PLAYER_TECHNIQUE) {
-      List<Technique> playerTechniques = player.getPlayerBattleStatus().getPlayerTechniques().getList();
+      List<Technique> playerTechniques = player.techniques();
       for (int i = 0; i < playerTechniques.size(); i++) {
         Technique technique = playerTechniques.get(i);
         g2.drawString(technique.displayName(), Tile.TILE_SIZE + Tile.TILE_SIZE * 10, GamePanel.screenHeight / 2 + Tile.TILE_SIZE * (i + 1));
@@ -94,7 +94,7 @@ public class BattleView {
     }
 
     if (battleViewState == BattleViewState.PLAYER_TECHNIQUE_RESULT) {
-      Technique technique = player.getPlayerBattleStatus().getPlayerTechniques().getList().get(playerTechniqueChoice.ordinal());
+      Technique technique = player.techniques().get(playerTechniqueChoice.ordinal());
 
       g2.drawString("敵に" + player.totalAttack(technique) + "ダメージ！", Tile.TILE_SIZE + 30, GamePanel.screenHeight / 2 + Tile.TILE_SIZE);
       g2.drawString("> Press Enter", Tile.TILE_SIZE + 30, GamePanel.screenHeight / 2 + Tile.TILE_SIZE * 2);

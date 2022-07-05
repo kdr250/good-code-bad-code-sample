@@ -10,6 +10,8 @@ import com.example.sample.domain.model.technique.physics.Physics;
 import com.example.sample.domain.model.technique.physics.PhysicsType;
 import lombok.Getter;
 
+import java.util.List;
+
 @Getter
 public class PlayerBattleStatus {
   private HitPoint hitPoint;
@@ -74,8 +76,8 @@ public class PlayerBattleStatus {
     return equipments.has(equipmentType);
   }
 
-  public Equipment getEquipment(EquipmentType equipmentType) {
-    return equipments.getEquipment(equipmentType);
+  public List<Technique> techniques() {
+    return playerTechniques.getList();
   }
 
   public boolean canAttack(Technique technique) {

@@ -84,7 +84,7 @@ public class BattleController {
           playerTechniqueChoice = playerTechniqueChoice.down();
           break;
         case DECIDE:
-          Technique technique = player.getPlayerBattleStatus().getPlayerTechniques().getList().get(playerTechniqueChoice.ordinal());
+          Technique technique = player.techniques().get(playerTechniqueChoice.ordinal());
 
           if (!player.canAttack(technique)) {
             battleViewState = BattleViewState.PLAYER_TECHNIQUE_FAIL;
