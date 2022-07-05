@@ -112,7 +112,8 @@ public class BattleView {
 
     if (battleViewState == BattleViewState.BATTLE_RESULT_PLAYER_WIN) {
       g2.drawString("プレイヤーの勝利！", Tile.TILE_SIZE + 30, GamePanel.screenHeight / 2 + Tile.TILE_SIZE);
-      g2.drawString("> Press Enter", Tile.TILE_SIZE + 30, GamePanel.screenHeight / 2 + Tile.TILE_SIZE * 2);
+      g2.drawString(enemy.dropItemType().name() + "を手に入れた!", Tile.TILE_SIZE + 30, GamePanel.screenHeight / 2 + Tile.TILE_SIZE * 2);
+      g2.drawString("> Press Enter", Tile.TILE_SIZE + 30, GamePanel.screenHeight / 2 + Tile.TILE_SIZE * 3);
     }
 
     if (battleViewState == BattleViewState.BATTLE_RESULT_PLAYER_LEVEL_UP) {

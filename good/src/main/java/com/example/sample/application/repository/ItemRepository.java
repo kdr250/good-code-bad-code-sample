@@ -9,5 +9,7 @@ import java.util.List;
 public interface ItemRepository {
   List<Item> find();
 
+  Item find(ItemType itemType);
+
   ItemImage findImage(ItemType itemType);
 }

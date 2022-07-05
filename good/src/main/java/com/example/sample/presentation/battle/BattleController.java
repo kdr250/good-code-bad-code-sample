@@ -1,9 +1,12 @@
 package com.example.sample.presentation.battle;
 
+import com.example.sample.application.service.ItemQueryService;
 import com.example.sample.domain.model.Enemy;
 import com.example.sample.domain.model.Player;
 import com.example.sample.domain.model.gamemode.GameMode;
+import com.example.sample.domain.model.item.Item;
 import com.example.sample.domain.model.item.ItemImage;
+import com.example.sample.domain.model.item.ItemType;
 import com.example.sample.domain.model.technique.Technique;
 import com.example.sample.presentation.KeyInputType;
 import com.example.sample.presentation.worldmap.WorldMapController;
@@ -18,6 +21,7 @@ import java.awt.*;
 public class BattleController {
 
   private final ApplicationContext applicationContext;
+  private final ItemQueryService itemQueryService;
 
   private Player player;
   private Enemy enemy;
@@ -97,6 +101,8 @@ public class BattleController {
     if (battleViewState == BattleViewState.PLAYER_TECHNIQUE_RESULT) {
       if (keyInputType == KeyInputType.DECIDE) {
         if (enemy.isDead()) {
+          Item dropItem = itemQueryService.find(enemy.dropItemType());
+          player.pickUp(dropItem);
           battleViewState = BattleViewState.BATTLE_RESULT_PLAYER_WIN;
           return;
         }

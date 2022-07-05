@@ -9,8 +9,8 @@ import java.awt.image.BufferedImage;
 @Getter
 public class ItemKey implements Key {
 
-  private final Location location; // TODO: 敵からドロップするので後で削除すること
-  private final Collision collision; // TODO: 敵からドロップするので後で削除すること
+  private final Location location;
+  private final Collision collision;
   private final ItemImage itemImage;
 
   public ItemKey(ItemImage itemImage) {

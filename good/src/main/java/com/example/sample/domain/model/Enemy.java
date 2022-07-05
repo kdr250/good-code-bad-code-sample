@@ -1,6 +1,7 @@
 package com.example.sample.domain.model;
 
 import com.example.sample.domain.model.battle.EnemyBattleStatus;
+import com.example.sample.domain.model.item.ItemType;
 import lombok.Getter;
 
 import java.awt.image.BufferedImage;
@@ -54,5 +55,9 @@ public class Enemy implements Collidable {
 
   public boolean isDead() {
     return enemyBattleStatus.isDead();
+  }
+
+  public ItemType dropItemType() {
+    return enemyBattleStatus.getDropItemType();
   }
 }

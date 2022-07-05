@@ -19,6 +19,10 @@ public class ItemQueryService {
     return itemRepository.find();
   }
 
+  public Item find(ItemType itemType) {
+    return itemRepository.find(itemType);
+  }
+
   public ItemImage findImage(ItemType itemType) {
     return itemRepository.findImage(itemType);
   }
