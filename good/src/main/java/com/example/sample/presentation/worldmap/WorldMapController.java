@@ -27,6 +27,7 @@ import com.example.sample.presentation.KeyInputType;
 import com.example.sample.presentation.battle.BattleController;
 import com.example.sample.presentation.itemlist.ItemListController;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.tuple.Triple;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
@@ -149,56 +150,36 @@ public class WorldMapController {
   public void draw(Graphics2D g2) {
     if (player == null || worldMap == null) return;
 
-    Location playerLocation = player.getLocation();
     for (Tile[] tiles : worldMap.getTiles()) {
       for (Tile tile : tiles) {
-        Location tileLocation = tile.getLocation();
-        int diffX = tileLocation.getX() - playerLocation.getX();
-        int diffY = tileLocation.getY() - playerLocation.getY();
-        if (
-            Math.abs(diffX) <= GamePanel.screenWidth / 2 + Tile.TILE_SIZE &&
-                Math.abs(diffY) <= GamePanel.screenHeight / 2 + Tile.TILE_SIZE
-        ) {
-          g2.drawImage(tile.getBufferedImage(), GamePanel.screenCenterX + diffX, GamePanel.screenCenterY + diffY, null);
+        Triple<Boolean, Integer, Integer> result = canDisplayAndDifferenceFromPlayer(tile.getLocation());
+        if (result.getLeft()) {
+          g2.drawImage(tile.getBufferedImage(), GamePanel.screenCenterX + result.getMiddle(), GamePanel.screenCenterY + result.getRight(), null);
         }
       }
     }
+
     g2.drawImage(player.getAnimatedImage(), GamePanel.screenCenterX, GamePanel.screenCenterY, null);
 
 
     for (Npc npc : npcList) {
-      Location npcLocation = npc.getLocation();
-      int diffX = npcLocation.getX() - playerLocation.getX();
-      int diffY = npcLocation.getY() - playerLocation.getY();
-      if (
-        Math.abs(diffX) <= GamePanel.screenWidth / 2 + Tile.TILE_SIZE &&
-        Math.abs(diffY) <= GamePanel.screenHeight / 2 + Tile.TILE_SIZE
-      ) {
-        g2.drawImage(npc.getAnimatedImage(), GamePanel.screenCenterX + diffX, GamePanel.screenCenterY + diffY, null);
+      Triple<Boolean, Integer, Integer> result = canDisplayAndDifferenceFromPlayer(npc.getLocation());
+      if (result.getLeft()) {
+        g2.drawImage(npc.getAnimatedImage(), GamePanel.screenCenterX + result.getMiddle(), GamePanel.screenCenterY + result.getRight(), null);
       }
     }
 
     for (Enemy enemy : enemyList) {
-      Location enemyLocation = enemy.getLocation();
-      int diffXForEnemy = enemyLocation.getX() - playerLocation.getX();
-      int diffYForEnemy = enemyLocation.getY() - playerLocation.getY();
-      if (
-          Math.abs(diffXForEnemy) <= GamePanel.screenWidth / 2 + Tile.TILE_SIZE &&
-              Math.abs(diffYForEnemy) <= GamePanel.screenHeight / 2 + Tile.TILE_SIZE
-      ) {
-        g2.drawImage(enemy.getAnimatedImage(), GamePanel.screenCenterX + diffXForEnemy, GamePanel.screenCenterY + diffYForEnemy, null);
+      Triple<Boolean, Integer, Integer> result = canDisplayAndDifferenceFromPlayer(enemy.getLocation());
+      if (result.getLeft()) {
+        g2.drawImage(enemy.getAnimatedImage(), GamePanel.screenCenterX + result.getMiddle(), GamePanel.screenCenterY + result.getRight(), null);
       }
     }
 
     for (Item item : fieldItemList) {
-      Location potionRedLocation = item.getLocation();
-      int diffXForPotionRed = potionRedLocation.getX() - playerLocation.getX();
-      int diffYForPotionRed = potionRedLocation.getY() - playerLocation.getY();
-      if (
-          Math.abs(diffXForPotionRed) <= GamePanel.screenWidth / 2 + Tile.TILE_SIZE &&
-              Math.abs(diffYForPotionRed) <= GamePanel.screenHeight / 2 + Tile.TILE_SIZE
-      ) {
-        g2.drawImage(item.getImage(), GamePanel.screenCenterX + diffXForPotionRed, GamePanel.screenCenterY + diffYForPotionRed, null);
+      Triple<Boolean, Integer, Integer> result = canDisplayAndDifferenceFromPlayer(item.getLocation());
+      if (result.getLeft()) {
+        g2.drawImage(item.getImage(), GamePanel.screenCenterX + result.getMiddle(), GamePanel.screenCenterY + result.getRight(), null);
       }
     }
 
@@ -221,5 +202,15 @@ public class WorldMapController {
     player.recoverMagicPointMax();
     enemyList = enemyQueryService.find();
     fieldItemList = itemQueryService.find();
+  }
+
+  private Triple<Boolean, Integer, Integer> canDisplayAndDifferenceFromPlayer(Location location) {
+    Location playerLocation = player.getLocation();
+    int diffX = location.getX() - playerLocation.getX();
+    int diffY = location.getY() - playerLocation.getY();
+    boolean canDisplay = Math.abs(diffX) <= GamePanel.screenWidth / 2 + Tile.TILE_SIZE &&
+      Math.abs(diffY) <= GamePanel.screenHeight / 2 + Tile.TILE_SIZE;
+
+    return Triple.of(canDisplay, diffX, diffY);
   }
 }
