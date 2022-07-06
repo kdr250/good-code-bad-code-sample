@@ -88,7 +88,6 @@ public class WorldMapController {
     }
 
     Vector vector = keyInputType.getVector();
-    for (Item item : fieldItemList) {
     List<Collidable> collidableList = createCollidableList(player.getLocation().shift(vector));
 
     // プレイヤー
