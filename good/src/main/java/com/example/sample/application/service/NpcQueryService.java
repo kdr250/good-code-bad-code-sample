@@ -2,6 +2,7 @@ package com.example.sample.application.service;
 
 import com.example.sample.application.repository.NpcRepository;
 import com.example.sample.domain.model.Npc;
+import com.example.sample.domain.model.Npcs;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +14,7 @@ public class NpcQueryService {
 
   private final NpcRepository npcRepository;
 
-  public List<Npc> find() {
+  public Npcs find() {
     return npcRepository.find();
   }
 }

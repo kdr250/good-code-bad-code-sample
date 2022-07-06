@@ -1,9 +1,7 @@
 package com.example.sample.application.repository;
 
-import com.example.sample.domain.model.Enemy;
-
-import java.util.List;
+import com.example.sample.domain.model.Enemies;
 
 public interface EnemyRepository {
-  List<Enemy> find();
+  Enemies find();
 }

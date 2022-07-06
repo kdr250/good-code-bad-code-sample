@@ -1,6 +1,7 @@
 package com.example.sample.infrastructure.datasource.item;
 
 import com.example.sample.application.repository.ItemRepository;
+import com.example.sample.domain.model.Items;
 import com.example.sample.domain.model.item.Item;
 import com.example.sample.domain.model.item.ItemImage;
 import com.example.sample.domain.model.item.ItemType;
@@ -21,13 +22,15 @@ public class ItemDataSource implements ItemRepository {
   private static final int FIRST_WORLD_ID = 1;
 
   @Override
-  public List<Item> find() {
+  public Items find() {
     Map<ItemType, BufferedImage> imageMap = itemMapper.selectItemImageDtoList(ItemType.names()).stream()
         .collect(Collectors.toMap(ItemImageDto::itemType, ItemImageDto::bufferedImage));
 
-    return itemMapper.selectItemDtoList(FIRST_WORLD_ID).stream()
+    List<Item> result = itemMapper.selectItemDtoList(FIRST_WORLD_ID).stream()
         .map(itemDto -> itemDto.toItem(imageMap))
         .collect(Collectors.toList());
+
+    return new Items(result);
   }
 
   @Override

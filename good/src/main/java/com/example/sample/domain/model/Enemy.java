@@ -34,7 +34,7 @@ public class Enemy implements Collidable {
   public boolean updateMovementThenCanMove(final List<Collidable> collidableList) {
     enemyMovement.update();
     Vector vector = enemyMovement.getVector();
-    return collidableList.stream().noneMatch(c -> collision.willCollide(c.getCollision(), vector));
+    return collidableList.stream().filter(collidable -> this != collidable).noneMatch(c -> collision.willCollide(c.getCollision(), vector));
   }
 
   public BufferedImage getAnimatedImage() {

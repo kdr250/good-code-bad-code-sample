@@ -1,6 +1,7 @@
 package com.example.sample.infrastructure.datasource.enemy;
 
 import com.example.sample.application.repository.EnemyRepository;
+import com.example.sample.domain.model.Enemies;
 import com.example.sample.domain.model.Enemy;
 import com.example.sample.domain.model.EnemyAnimation;
 import com.example.sample.domain.model.EnemyAnimationType;
@@ -21,14 +22,16 @@ public class EnemyDataSource implements EnemyRepository {
   private static final int FIRST_WORLD_ID = 1;
 
   @Override
-  public List<Enemy> find() {
+  public Enemies find() {
     Map<EnemyAnimationType, BufferedImage> animationMap =
         enemyMapper.selectEnemyImageDto(EnemyAnimationType.names()).stream()
             .collect(Collectors.toMap(EnemyImageDto::toEnemyAnimationType, EnemyImageDto::bufferedImage));
     EnemyAnimation enemyAnimation = new EnemyAnimation(animationMap);
 
-    return enemyMapper.selectEnemyDto(FIRST_WORLD_ID).stream()
-      .map(enemyDto -> enemyDto.toEnemy(enemyAnimation))
-      .collect(Collectors.toList());
+    List<Enemy> result = enemyMapper.selectEnemyDto(FIRST_WORLD_ID).stream()
+        .map(enemyDto -> enemyDto.toEnemy(enemyAnimation))
+        .collect(Collectors.toList());
+
+    return new Enemies(result);
   }
 }

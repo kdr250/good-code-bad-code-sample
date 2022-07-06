@@ -6,7 +6,6 @@ import com.example.sample.domain.model.Player;
 import com.example.sample.domain.model.gamemode.GameMode;
 import com.example.sample.domain.model.item.Item;
 import com.example.sample.domain.model.item.ItemImage;
-import com.example.sample.domain.model.item.ItemType;
 import com.example.sample.domain.model.technique.Technique;
 import com.example.sample.presentation.KeyInputType;
 import com.example.sample.presentation.worldmap.WorldMapController;
@@ -159,7 +158,7 @@ public class BattleController {
       if (keyInputType == KeyInputType.DECIDE) {
         player.deactivateAllEquipments();
         WorldMapController worldMapController = applicationContext.getBean(WorldMapController.class);
-        worldMapController.restart();
+        worldMapController.reset();
         gameMode.worldMap();
         return;
       }

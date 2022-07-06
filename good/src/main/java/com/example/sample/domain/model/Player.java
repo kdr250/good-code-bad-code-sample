@@ -11,6 +11,7 @@ import lombok.Getter;
 
 import java.awt.image.BufferedImage;
 import java.util.List;
+import java.util.function.Predicate;
 
 /**
  * プレイヤー
@@ -44,7 +45,11 @@ public class Player implements Collidable {
   }
 
   public boolean canMove(final List<Collidable> collidableList, final Vector vector) {
-    return collidableList.stream().noneMatch(c -> collision.willCollide(c.getCollision(), vector));
+    return collidableList.stream()
+        .filter(collidable -> this != collidable)
+        .filter(Predicate.not(Item.class::isInstance))
+        .filter(Predicate.not(Enemy.class::isInstance))
+        .noneMatch(collidable -> collision.willCollide(collidable.getCollision(), vector));
   }
 
   public void changeDirection(Vector vector) {

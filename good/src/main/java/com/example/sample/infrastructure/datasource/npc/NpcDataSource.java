@@ -4,6 +4,7 @@ import com.example.sample.application.repository.NpcRepository;
 import com.example.sample.domain.model.Npc;
 import com.example.sample.domain.model.NpcAnimation;
 import com.example.sample.domain.model.NpcAnimationType;
+import com.example.sample.domain.model.Npcs;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -20,13 +21,15 @@ public class NpcDataSource implements NpcRepository {
 
   private static final int FIRST_WORLD_ID = 1;
 
-  public List<Npc> find() {
+  public Npcs find() {
     Map<NpcAnimationType, BufferedImage> animationMap =
       npcMapper.selectNpcImageDto(NpcAnimationType.names()).stream()
         .collect(Collectors.toMap(NpcImageDto::toNpcAnimationType, NpcImageDto::bufferedImage));
     NpcAnimation npcAnimation = new NpcAnimation(animationMap);
 
-    return npcMapper.selectNpcDto(FIRST_WORLD_ID).stream()
+    List<Npc> result = npcMapper.selectNpcDto(FIRST_WORLD_ID).stream()
       .map(dto -> dto.toNpc(npcAnimation)).collect(Collectors.toList());
+
+    return new Npcs(result);
   }
 }
