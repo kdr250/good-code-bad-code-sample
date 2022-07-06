@@ -217,11 +217,6 @@ public class ItemListView {
     g2.drawRoundRect(x + 5, y + 5, width - 10, height - 10, 25, 25);
   }
 
-  private int getXForCenteredText(String text, Graphics2D g2) {
-    int length = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
-    return GamePanel.screenWidth / 2 - length / 2;
-  }
-
   private int getXForAlignToRightText(String text, int tailX, Graphics2D g2) {
     int length = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
     return tailX - length;

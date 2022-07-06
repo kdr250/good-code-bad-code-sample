@@ -25,10 +25,40 @@ public class BattleView {
   }
 
   public void draw(Graphics2D g2, BattleViewState battleViewState, PlayerActionChoice playerActionChoice, PlayerTechniqueChoice playerTechniqueChoice) {
-    drawBattleScreen(g2, battleViewState, playerActionChoice, playerTechniqueChoice);
+    drawPlayerAndEnemy(g2, battleViewState, playerActionChoice, playerTechniqueChoice);
+    drawDialogBox(g2);
+
+    switch (battleViewState) {
+      case SELECTING_PLAYER_ACTION:
+        drawSelectingPlayerAction(g2, playerActionChoice);
+        return;
+      case SELECTING_PLAYER_TECHNIQUE:
+        drawSelectingPlayerTechnique(g2, playerTechniqueChoice);
+        return;
+      case PLAYER_TECHNIQUE_RESULT:
+        drawPlayerTechniqueResult(g2, playerTechniqueChoice);
+        return;
+      case PLAYER_TECHNIQUE_FAIL:
+        drawPlayerTechniqueFail(g2);
+        return;
+      case ENEMY_ACTION_RESULT:
+        drawEnemyActionResult(g2);
+        return;
+      case BATTLE_RESULT_PLAYER_WIN:
+        drawBattleResultPlayerWin(g2);
+        return;
+      case BATTLE_RESULT_PLAYER_LEVEL_UP:
+        drawBattleResultPlayerLevelUp(g2);
+        return;
+      case BATTLE_RESULT_PLAYER_LOSE:
+        drawBattleResultPlayerLose(g2);
+        return;
+      default:
+        throw new IllegalArgumentException();
+    }
   }
 
-  private void drawBattleScreen(Graphics2D g2, BattleViewState battleViewState, PlayerActionChoice playerActionChoice, PlayerTechniqueChoice playerTechniqueChoice) {
+  private void drawPlayerAndEnemy(Graphics2D g2, BattleViewState battleViewState, PlayerActionChoice playerActionChoice, PlayerTechniqueChoice playerTechniqueChoice) {
     g2.setColor(Color.black);
     g2.fillRect(Tile.TILE_SIZE, Tile.TILE_SIZE, GamePanel.screenWidth - Tile.TILE_SIZE * 2, GamePanel.screenHeight - Tile.TILE_SIZE * 2);
     // モンスターの画像
@@ -69,61 +99,61 @@ public class BattleView {
         g2.drawImage(crystalBlank.getBufferedImage(), playerLifeBarX + i * 15, playerLifeBarY + 20, 30, 30, null);
       }
     }
+  }
 
+  private void drawDialogBox(Graphics2D g2) {
     g2.setFont(g2.getFont());
     g2.setStroke(new BasicStroke(3));
     g2.drawRoundRect(Tile.TILE_SIZE + 15, GamePanel.screenHeight / 2, Tile.TILE_SIZE * 9, Tile.TILE_SIZE * 5 - 15, 10, 10);
     g2.drawRoundRect(Tile.TILE_SIZE + Tile.TILE_SIZE * 9 + 30, GamePanel.screenHeight / 2, Tile.TILE_SIZE * 4, Tile.TILE_SIZE * 5 - 15, 10, 10);
+  }
 
-    if (battleViewState == BattleViewState.SELECTING_PLAYER_ACTION) {
-      g2.drawString(enemy.getName() + "が現れた", Tile.TILE_SIZE + 30, GamePanel.screenHeight / 2 + Tile.TILE_SIZE);
-      g2.drawString("戦う", Tile.TILE_SIZE + Tile.TILE_SIZE * 10, GamePanel.screenHeight / 2 + Tile.TILE_SIZE);
-      g2.drawString("にげる", Tile.TILE_SIZE + Tile.TILE_SIZE * 10, GamePanel.screenHeight / 2 + Tile.TILE_SIZE * 2);
+  private void drawSelectingPlayerAction(Graphics2D g2, PlayerActionChoice playerActionChoice) {
+    g2.drawString(enemy.getName() + "が現れた", Tile.TILE_SIZE + 30, GamePanel.screenHeight / 2 + Tile.TILE_SIZE);
+    g2.drawString("戦う", Tile.TILE_SIZE + Tile.TILE_SIZE * 10, GamePanel.screenHeight / 2 + Tile.TILE_SIZE);
+    g2.drawString("にげる", Tile.TILE_SIZE + Tile.TILE_SIZE * 10, GamePanel.screenHeight / 2 + Tile.TILE_SIZE * 2);
+    g2.drawString(">", Tile.TILE_SIZE + Tile.TILE_SIZE * 10 - 15, GamePanel.screenHeight / 2 + Tile.TILE_SIZE * (playerActionChoice.ordinal() + 1));
+  }
 
-      g2.drawString(">", Tile.TILE_SIZE + Tile.TILE_SIZE * 10 - 15, GamePanel.screenHeight / 2 + Tile.TILE_SIZE * (playerActionChoice.ordinal() + 1));
+  private void drawSelectingPlayerTechnique(Graphics2D g2, PlayerTechniqueChoice playerTechniqueChoice) {
+    List<Technique> playerTechniques = player.techniques();
+    for (int i = 0; i < playerTechniques.size(); i++) {
+      Technique technique = playerTechniques.get(i);
+      g2.drawString(technique.displayName(), Tile.TILE_SIZE + Tile.TILE_SIZE * 10, GamePanel.screenHeight / 2 + Tile.TILE_SIZE * (i + 1));
+      if (i == playerTechniqueChoice.ordinal()) g2.drawString(technique.description(), Tile.TILE_SIZE + 30, GamePanel.screenHeight / 2 + Tile.TILE_SIZE);
     }
+    g2.drawString(">", Tile.TILE_SIZE + Tile.TILE_SIZE * 10 - 15, GamePanel.screenHeight / 2 + Tile.TILE_SIZE * (playerTechniqueChoice.ordinal() + 1));
+  }
 
-    if (battleViewState == BattleViewState.SELECTING_PLAYER_TECHNIQUE) {
-      List<Technique> playerTechniques = player.techniques();
-      for (int i = 0; i < playerTechniques.size(); i++) {
-        Technique technique = playerTechniques.get(i);
-        g2.drawString(technique.displayName(), Tile.TILE_SIZE + Tile.TILE_SIZE * 10, GamePanel.screenHeight / 2 + Tile.TILE_SIZE * (i + 1));
-        if (i == playerTechniqueChoice.ordinal()) g2.drawString(technique.description(), Tile.TILE_SIZE + 30, GamePanel.screenHeight / 2 + Tile.TILE_SIZE);
-      }
-      g2.drawString(">", Tile.TILE_SIZE + Tile.TILE_SIZE * 10 - 15, GamePanel.screenHeight / 2 + Tile.TILE_SIZE * (playerTechniqueChoice.ordinal() + 1));
-    }
+  private void drawPlayerTechniqueResult(Graphics2D g2, PlayerTechniqueChoice playerTechniqueChoice) {
+    Technique technique = player.techniques().get(playerTechniqueChoice.ordinal());
+    g2.drawString("敵に" + player.totalAttack(technique) + "ダメージ！", Tile.TILE_SIZE + 30, GamePanel.screenHeight / 2 + Tile.TILE_SIZE);
+    g2.drawString("> Press Enter", Tile.TILE_SIZE + 30, GamePanel.screenHeight / 2 + Tile.TILE_SIZE * 2);
+  }
 
-    if (battleViewState == BattleViewState.PLAYER_TECHNIQUE_RESULT) {
-      Technique technique = player.techniques().get(playerTechniqueChoice.ordinal());
+  private void drawPlayerTechniqueFail(Graphics2D g2) {
+    g2.drawString("魔力が足りない！", Tile.TILE_SIZE + 30, GamePanel.screenHeight / 2 + Tile.TILE_SIZE);
+    g2.drawString("> Press Enter", Tile.TILE_SIZE + 30, GamePanel.screenHeight / 2 + Tile.TILE_SIZE * 2);
+  }
 
-      g2.drawString("敵に" + player.totalAttack(technique) + "ダメージ！", Tile.TILE_SIZE + 30, GamePanel.screenHeight / 2 + Tile.TILE_SIZE);
-      g2.drawString("> Press Enter", Tile.TILE_SIZE + 30, GamePanel.screenHeight / 2 + Tile.TILE_SIZE * 2);
-    }
+  private void drawEnemyActionResult(Graphics2D g2) {
+    g2.drawString("プレイヤーに" + enemy.attack() + "ダメージ！", Tile.TILE_SIZE + 30, GamePanel.screenHeight / 2 + Tile.TILE_SIZE);
+    g2.drawString("> Press Enter", Tile.TILE_SIZE + 30, GamePanel.screenHeight / 2 + Tile.TILE_SIZE * 2);
+  }
 
-    if (battleViewState == BattleViewState.PLAYER_TECHNIQUE_FAIL) {
-      g2.drawString("魔力が足りない！", Tile.TILE_SIZE + 30, GamePanel.screenHeight / 2 + Tile.TILE_SIZE);
-      g2.drawString("> Press Enter", Tile.TILE_SIZE + 30, GamePanel.screenHeight / 2 + Tile.TILE_SIZE * 2);
-    }
+  private void drawBattleResultPlayerWin(Graphics2D g2) {
+    g2.drawString("プレイヤーの勝利！", Tile.TILE_SIZE + 30, GamePanel.screenHeight / 2 + Tile.TILE_SIZE);
+    g2.drawString(enemy.dropItemType().name() + "を手に入れた!", Tile.TILE_SIZE + 30, GamePanel.screenHeight / 2 + Tile.TILE_SIZE * 2);
+    g2.drawString("> Press Enter", Tile.TILE_SIZE + 30, GamePanel.screenHeight / 2 + Tile.TILE_SIZE * 3);
+  }
 
-    if (battleViewState == BattleViewState.ENEMY_ACTION_RESULT) {
-      g2.drawString("プレイヤーに" + enemy.attack() + "ダメージ！", Tile.TILE_SIZE + 30, GamePanel.screenHeight / 2 + Tile.TILE_SIZE);
-      g2.drawString("> Press Enter", Tile.TILE_SIZE + 30, GamePanel.screenHeight / 2 + Tile.TILE_SIZE * 2);
-    }
+  private void drawBattleResultPlayerLevelUp(Graphics2D g2) {
+    g2.drawString("レベルアップ！ LV." + player.getPlayerBattleStatus().getLevel().getValue() + "になった！" , Tile.TILE_SIZE + 30, GamePanel.screenHeight / 2 + Tile.TILE_SIZE);
+    g2.drawString("> Press Enter", Tile.TILE_SIZE + 30, GamePanel.screenHeight / 2 + Tile.TILE_SIZE * 2);
+  }
 
-    if (battleViewState == BattleViewState.BATTLE_RESULT_PLAYER_WIN) {
-      g2.drawString("プレイヤーの勝利！", Tile.TILE_SIZE + 30, GamePanel.screenHeight / 2 + Tile.TILE_SIZE);
-      g2.drawString(enemy.dropItemType().name() + "を手に入れた!", Tile.TILE_SIZE + 30, GamePanel.screenHeight / 2 + Tile.TILE_SIZE * 2);
-      g2.drawString("> Press Enter", Tile.TILE_SIZE + 30, GamePanel.screenHeight / 2 + Tile.TILE_SIZE * 3);
-    }
-
-    if (battleViewState == BattleViewState.BATTLE_RESULT_PLAYER_LEVEL_UP) {
-      g2.drawString("レベルアップ！ LV." + player.getPlayerBattleStatus().getLevel().getValue() + "になった！" , Tile.TILE_SIZE + 30, GamePanel.screenHeight / 2 + Tile.TILE_SIZE);
-      g2.drawString("> Press Enter", Tile.TILE_SIZE + 30, GamePanel.screenHeight / 2 + Tile.TILE_SIZE * 2);
-    }
-
-    if (battleViewState == BattleViewState.BATTLE_RESULT_PLAYER_LOSE) {
-      g2.drawString("プレイヤーの敗北！", Tile.TILE_SIZE + 30, GamePanel.screenHeight / 2 + Tile.TILE_SIZE);
-      g2.drawString("> Press Enter", Tile.TILE_SIZE + 30, GamePanel.screenHeight / 2 + Tile.TILE_SIZE * 2);
-    }
+  private void drawBattleResultPlayerLose(Graphics2D g2) {
+    g2.drawString("プレイヤーの敗北！", Tile.TILE_SIZE + 30, GamePanel.screenHeight / 2 + Tile.TILE_SIZE);
+    g2.drawString("> Press Enter", Tile.TILE_SIZE + 30, GamePanel.screenHeight / 2 + Tile.TILE_SIZE * 2);
   }
 }
