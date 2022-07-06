@@ -37,7 +37,7 @@ public class GamePanel extends JPanel implements Runnable {
   private final BattleController battleController;
   private final GameClearController gameClearController;
 
-  private boolean isFinished = false;
+  private boolean isUpdateFinished = false;
 
   private final GameMode gameMode = new GameMode(GameModeType.DISPLAY_TITLE);
   Font arial30 = new Font("Arial", Font.PLAIN, 30);
@@ -75,16 +75,15 @@ public class GamePanel extends JPanel implements Runnable {
       delta += (currentTime - lastTime) / DRAW_INTERVAL;
       lastTime = currentTime;
 
-      // TODO: 要リファクタリング
-      if (!isFinished) {
+      if (!isUpdateFinished) {
         update();
-        isFinished = true;
+        isUpdateFinished = true;
       }
 
       if (delta >= 1) {
         repaint();
         delta--;
-        isFinished = false;
+        isUpdateFinished = false;
       }
     }
   }
