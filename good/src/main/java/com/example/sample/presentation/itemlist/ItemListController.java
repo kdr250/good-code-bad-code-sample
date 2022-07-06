@@ -43,7 +43,7 @@ public class ItemListController {
         }
         Item item = itemListView.selectingItem();
         if (item instanceof Consumable) {
-          com.example.sample.domain.model.event.Event event = ((Consumable) item).consume();
+          Event event = ((Consumable) item).consume();
           if (event instanceof PlayerEvent) {
             ((PlayerEvent) event).execute(player);
           }
