@@ -85,6 +85,8 @@ public class Equipments {
       case WEAPON:
         equipWeapon(equipment);
         break;
+      default:
+        throw new IllegalArgumentException();
     }
   }
 
