@@ -1,5 +1,7 @@
 package com.example.sample.domain.model;
 
+import com.example.sample.domain.model.worldmap.Location;
+import com.example.sample.domain.model.worldmap.Vector;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

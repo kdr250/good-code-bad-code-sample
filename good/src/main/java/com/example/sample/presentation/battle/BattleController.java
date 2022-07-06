@@ -1,12 +1,12 @@
 package com.example.sample.presentation.battle;
 
-import com.example.sample.application.service.ItemQueryService;
-import com.example.sample.domain.model.Enemy;
-import com.example.sample.domain.model.Player;
+import com.example.sample.application.service.item.ItemQueryService;
+import com.example.sample.domain.model.character.enemy.Enemy;
+import com.example.sample.domain.model.character.player.Player;
 import com.example.sample.domain.model.gamemode.GameMode;
 import com.example.sample.domain.model.item.Item;
 import com.example.sample.domain.model.item.ItemImage;
-import com.example.sample.domain.model.technique.Technique;
+import com.example.sample.domain.model.battle.technique.Technique;
 import com.example.sample.presentation.KeyInputType;
 import com.example.sample.presentation.worldmap.WorldMapController;
 import lombok.RequiredArgsConstructor;

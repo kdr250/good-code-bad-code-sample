@@ -1,7 +1,7 @@
 package com.example.sample.presentation.itemlist;
 
-import com.example.sample.domain.model.Player;
-import com.example.sample.domain.model.Tile;
+import com.example.sample.domain.model.character.player.Player;
+import com.example.sample.domain.model.worldmap.Tile;
 import com.example.sample.domain.model.item.Item;
 import com.example.sample.presentation.GamePanel;
 import com.example.sample.presentation.KeyInputType;

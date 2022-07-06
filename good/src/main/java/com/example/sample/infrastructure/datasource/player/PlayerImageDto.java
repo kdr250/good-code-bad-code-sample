@@ -1,7 +1,7 @@
 package com.example.sample.infrastructure.datasource.player;
 
-import com.example.sample.domain.model.PlayerAnimationType;
-import com.example.sample.domain.model.Tile;
+import com.example.sample.domain.model.character.player.PlayerAnimationType;
+import com.example.sample.domain.model.worldmap.Tile;
 
 import javax.imageio.ImageIO;
 import java.awt.*;

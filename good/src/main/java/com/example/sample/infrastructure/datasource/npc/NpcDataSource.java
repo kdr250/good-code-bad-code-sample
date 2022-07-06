@@ -1,10 +1,10 @@
 package com.example.sample.infrastructure.datasource.npc;
 
-import com.example.sample.application.repository.NpcRepository;
-import com.example.sample.domain.model.Npc;
-import com.example.sample.domain.model.NpcAnimation;
-import com.example.sample.domain.model.NpcAnimationType;
-import com.example.sample.domain.model.Npcs;
+import com.example.sample.application.repository.npc.NpcRepository;
+import com.example.sample.domain.model.character.npc.Npc;
+import com.example.sample.domain.model.character.npc.NpcAnimation;
+import com.example.sample.domain.model.character.npc.NpcAnimationType;
+import com.example.sample.domain.model.character.npc.Npcs;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 

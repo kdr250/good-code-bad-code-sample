@@ -1,10 +1,10 @@
 package com.example.sample.infrastructure.datasource.enemy;
 
-import com.example.sample.application.repository.EnemyRepository;
-import com.example.sample.domain.model.Enemies;
-import com.example.sample.domain.model.Enemy;
-import com.example.sample.domain.model.EnemyAnimation;
-import com.example.sample.domain.model.EnemyAnimationType;
+import com.example.sample.application.repository.enemy.EnemyRepository;
+import com.example.sample.domain.model.character.enemy.Enemies;
+import com.example.sample.domain.model.character.enemy.Enemy;
+import com.example.sample.domain.model.character.enemy.EnemyAnimation;
+import com.example.sample.domain.model.character.enemy.EnemyAnimationType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 

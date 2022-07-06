@@ -1,7 +1,7 @@
 package com.example.sample.infrastructure.datasource.enemy;
 
-import com.example.sample.domain.model.EnemyAnimationType;
-import com.example.sample.domain.model.Tile;
+import com.example.sample.domain.model.character.enemy.EnemyAnimationType;
+import com.example.sample.domain.model.worldmap.Tile;
 
 import javax.imageio.ImageIO;
 import java.awt.*;

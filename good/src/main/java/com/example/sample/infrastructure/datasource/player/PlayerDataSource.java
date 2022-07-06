@@ -1,10 +1,10 @@
 package com.example.sample.infrastructure.datasource.player;
 
-import com.example.sample.application.repository.PlayerRepository;
-import com.example.sample.domain.model.Location;
-import com.example.sample.domain.model.Player;
-import com.example.sample.domain.model.PlayerAnimation;
-import com.example.sample.domain.model.PlayerAnimationType;
+import com.example.sample.application.repository.player.PlayerRepository;
+import com.example.sample.domain.model.worldmap.Location;
+import com.example.sample.domain.model.character.player.Player;
+import com.example.sample.domain.model.character.player.PlayerAnimation;
+import com.example.sample.domain.model.character.player.PlayerAnimationType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 

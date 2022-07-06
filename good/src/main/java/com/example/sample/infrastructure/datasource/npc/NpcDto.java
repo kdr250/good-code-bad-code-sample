@@ -1,9 +1,9 @@
 package com.example.sample.infrastructure.datasource.npc;
 
-import com.example.sample.domain.model.Location;
-import com.example.sample.domain.model.Npc;
-import com.example.sample.domain.model.NpcAnimation;
-import com.example.sample.domain.model.Tile;
+import com.example.sample.domain.model.worldmap.Location;
+import com.example.sample.domain.model.character.npc.Npc;
+import com.example.sample.domain.model.character.npc.NpcAnimation;
+import com.example.sample.domain.model.worldmap.Tile;
 
 public class NpcDto {
   private int locationX;

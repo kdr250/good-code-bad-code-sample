@@ -1,6 +1,6 @@
 package com.example.sample.presentation.itemlist;
 
-import com.example.sample.domain.model.Player;
+import com.example.sample.domain.model.character.player.Player;
 import com.example.sample.domain.model.event.Event;
 import com.example.sample.domain.model.event.PlayerEvent;
 import com.example.sample.domain.model.gamemode.GameMode;

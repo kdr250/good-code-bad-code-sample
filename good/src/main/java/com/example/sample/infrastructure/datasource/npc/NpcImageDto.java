@@ -1,7 +1,7 @@
 package com.example.sample.infrastructure.datasource.npc;
 
-import com.example.sample.domain.model.NpcAnimationType;
-import com.example.sample.domain.model.Tile;
+import com.example.sample.domain.model.character.npc.NpcAnimationType;
+import com.example.sample.domain.model.worldmap.Tile;
 
 import javax.imageio.ImageIO;
 import java.awt.*;

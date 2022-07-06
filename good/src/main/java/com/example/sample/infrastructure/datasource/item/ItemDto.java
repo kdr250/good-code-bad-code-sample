@@ -1,7 +1,7 @@
 package com.example.sample.infrastructure.datasource.item;
 
-import com.example.sample.domain.model.Location;
-import com.example.sample.domain.model.Tile;
+import com.example.sample.domain.model.worldmap.Location;
+import com.example.sample.domain.model.worldmap.Tile;
 import com.example.sample.domain.model.battle.AttackPower;
 import com.example.sample.domain.model.item.Item;
 import com.example.sample.domain.model.item.ItemArmor;

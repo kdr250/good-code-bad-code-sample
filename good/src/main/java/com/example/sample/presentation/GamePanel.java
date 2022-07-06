@@ -1,6 +1,6 @@
 package com.example.sample.presentation;
 
-import com.example.sample.domain.model.Tile;
+import com.example.sample.domain.model.worldmap.Tile;
 import com.example.sample.domain.model.gamemode.GameMode;
 import com.example.sample.domain.model.gamemode.GameModeType;
 import com.example.sample.presentation.battle.BattleController;

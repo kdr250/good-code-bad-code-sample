@@ -1,7 +1,7 @@
 package com.example.sample.domain.model.item;
 
-import com.example.sample.domain.model.Collision;
-import com.example.sample.domain.model.Location;
+import com.example.sample.domain.model.worldmap.Collision;
+import com.example.sample.domain.model.worldmap.Location;
 import com.example.sample.domain.model.battle.DefensePower;
 import com.example.sample.domain.model.event.PlayerEquipEvent;
 import com.example.sample.domain.model.event.Event;

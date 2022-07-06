@@ -1,9 +1,9 @@
 package com.example.sample.infrastructure.datasource.enemy;
 
-import com.example.sample.domain.model.Enemy;
-import com.example.sample.domain.model.EnemyAnimation;
-import com.example.sample.domain.model.Location;
-import com.example.sample.domain.model.Tile;
+import com.example.sample.domain.model.character.enemy.Enemy;
+import com.example.sample.domain.model.character.enemy.EnemyAnimation;
+import com.example.sample.domain.model.worldmap.Location;
+import com.example.sample.domain.model.worldmap.Tile;
 
 public class EnemyDto {
   private String name;

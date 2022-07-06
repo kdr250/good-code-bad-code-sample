@@ -1,7 +1,7 @@
 package com.example.sample.infrastructure.datasource.player;
 
-import com.example.sample.domain.model.Location;
-import com.example.sample.domain.model.Tile;
+import com.example.sample.domain.model.worldmap.Location;
+import com.example.sample.domain.model.worldmap.Tile;
 
 public class PlayerDto {
   private int locationX;

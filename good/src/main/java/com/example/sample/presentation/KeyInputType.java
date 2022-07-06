@@ -1,6 +1,6 @@
 package com.example.sample.presentation;
 
-import com.example.sample.domain.model.Vector;
+import com.example.sample.domain.model.worldmap.Vector;
 
 import java.awt.event.KeyEvent;
 

@@ -3,11 +3,9 @@
  */
 package com.example.sample.domain.model.item;
 
-import com.example.sample.domain.model.Collision;
-import com.example.sample.domain.model.Location;
+import com.example.sample.domain.model.worldmap.Collision;
+import com.example.sample.domain.model.worldmap.Location;
 import com.example.sample.domain.model.battle.AttackPower;
-import com.example.sample.domain.model.battle.DefensePower;
-import com.example.sample.domain.model.event.EquipWeaponEvent;
 import com.example.sample.domain.model.event.Event;
 import com.example.sample.domain.model.event.PlayerEquipEvent;
 import lombok.Getter;

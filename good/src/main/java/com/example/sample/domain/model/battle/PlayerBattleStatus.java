@@ -2,12 +2,10 @@ package com.example.sample.domain.model.battle;
 
 import com.example.sample.domain.model.item.Equipment;
 import com.example.sample.domain.model.item.EquipmentType;
-import com.example.sample.domain.model.technique.PlayerTechniques;
-import com.example.sample.domain.model.technique.Technique;
-import com.example.sample.domain.model.technique.magic.Magic;
-import com.example.sample.domain.model.technique.magic.MagicType;
-import com.example.sample.domain.model.technique.physics.Physics;
-import com.example.sample.domain.model.technique.physics.PhysicsType;
+import com.example.sample.domain.model.battle.technique.PlayerTechniques;
+import com.example.sample.domain.model.battle.technique.Technique;
+import com.example.sample.domain.model.battle.technique.magic.Magic;
+import com.example.sample.domain.model.battle.technique.magic.MagicType;
 import lombok.Getter;
 
 import java.util.List;

@@ -1,6 +1,6 @@
 package com.example.sample.domain.model.item;
 
-import com.example.sample.domain.model.Collidable;
+import com.example.sample.domain.model.worldmap.Collidable;
 
 import java.awt.image.BufferedImage;
 

@@ -1,8 +1,8 @@
 package com.example.sample.presentation.title;
 
-import com.example.sample.application.service.PlayerQueryService;
-import com.example.sample.domain.model.PlayerAnimation;
-import com.example.sample.domain.model.Tile;
+import com.example.sample.application.service.player.PlayerQueryService;
+import com.example.sample.domain.model.character.player.PlayerAnimation;
+import com.example.sample.domain.model.worldmap.Tile;
 import com.example.sample.domain.model.gamemode.GameMode;
 import com.example.sample.presentation.GamePanel;
 import com.example.sample.presentation.KeyInputType;

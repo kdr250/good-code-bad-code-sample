@@ -1,6 +1,6 @@
 package com.example.sample.domain.model.event;
 
-import com.example.sample.domain.model.Player;
+import com.example.sample.domain.model.character.player.Player;
 import com.example.sample.domain.model.item.Equipment;
 
 public class EquipWeaponPlayerEvent implements PlayerEvent {
