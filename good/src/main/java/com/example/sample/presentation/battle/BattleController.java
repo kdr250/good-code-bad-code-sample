@@ -37,9 +37,9 @@ public class BattleController {
     this.player = player;
     this.enemy = enemy;
     this.battleView = new BattleView(player, enemy, crystalBlank, crystalFull);
-    battleViewState = BattleViewState.SELECTING_PLAYER_ACTION;
-    playerActionChoice = PlayerActionChoice.ATTACK;
-    playerTechniqueChoice = PlayerTechniqueChoice.ONE;
+    this.battleViewState = BattleViewState.SELECTING_PLAYER_ACTION;
+    this.playerActionChoice = PlayerActionChoice.ATTACK;
+    this.playerTechniqueChoice = PlayerTechniqueChoice.ONE;
   }
 
   public void update(KeyInputType keyInputType, GameMode gameMode) {
