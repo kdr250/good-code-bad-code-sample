@@ -19,7 +19,7 @@ public class ItemDomainService {
 
       if (item instanceof Interactive) {
         executeEvent(items, (Interactive) item, player, gameMode);
-        continue;
+        break;
       }
 
       player.pickUp(item);
@@ -38,5 +38,7 @@ public class ItemDomainService {
       items.remove(interactiveItem);
       return;
     }
+
+    throw new IllegalStateException();
   }
 }

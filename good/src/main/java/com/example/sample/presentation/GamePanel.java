@@ -37,10 +37,10 @@ public class GamePanel extends JPanel implements Runnable {
   private final BattleController battleController;
   private final GameClearController gameClearController;
 
-  private boolean isUpdateFinished = false;
-
   private final GameMode gameMode = new GameMode(GameModeType.DISPLAY_TITLE);
-  Font arial30 = new Font("Arial", Font.PLAIN, 30);
+  private final Font arial30 = new Font("Arial", Font.PLAIN, 30);
+
+  private boolean isUpdateFinished = false;
 
   public GamePanel(KeyInputHandler keyInputHandler, TitleController titleController, WorldMapController worldMapController, ItemListController itemListController, BattleController battleController, GameClearController gameClearController) {
     this.keyInputHandler = keyInputHandler;
@@ -57,9 +57,7 @@ public class GamePanel extends JPanel implements Runnable {
   }
 
   public void startGameThread() {
-
     titleController.setUp();
-
     gameThread = new Thread(this);
     gameThread.start();
   }
@@ -106,6 +104,9 @@ public class GamePanel extends JPanel implements Runnable {
         return;
       case GAME_CLEAR:
         gameClearController.update(keyInputType);
+        return;
+      default:
+        throw new IllegalArgumentException();
     }
   }
 
@@ -134,6 +135,9 @@ public class GamePanel extends JPanel implements Runnable {
       case GAME_CLEAR:
         worldMapController.draw(g2);
         gameClearController.draw(g2);
+        break;
+      default:
+        throw new IllegalArgumentException();
     }
 
     g2.dispose();

@@ -38,8 +38,13 @@ public class EnemyBattleStatus {
 
   private ItemType decideDropItemType() {
     int random = (int)(Math.random() * 100);
-    if (random < 25) return ItemType.POTION_RED;
-    if (random < 50) return ItemType.POTION_RED;
-    return ItemType.KEY;
+    switch (random / 25) {
+      case 0:
+        return ItemType.POTION_RED;
+      case 1:
+        return ItemType.POTION_BLUE;
+      default:
+        return ItemType.KEY;
+    }
   }
 }
