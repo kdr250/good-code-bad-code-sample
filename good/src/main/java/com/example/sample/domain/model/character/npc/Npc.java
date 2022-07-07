@@ -10,6 +10,9 @@ import lombok.Getter;
 import java.awt.image.BufferedImage;
 import java.util.List;
 
+/**
+ * NPC
+ */
 @Getter
 public class Npc implements Collidable {
   private Location location;

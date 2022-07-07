@@ -6,6 +6,9 @@ import lombok.Getter;
 
 import java.awt.image.BufferedImage;
 
+/**
+ * 鍵
+ */
 @Getter
 public class ItemKey implements Key {
 

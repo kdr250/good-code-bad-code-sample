@@ -5,6 +5,9 @@ import com.example.sample.domain.model.worldmap.Direction;
 import java.awt.image.BufferedImage;
 import java.util.Map;
 
+/**
+ * NPCのアニメーション
+ */
 public class NpcAnimation {
   private final Map<NpcAnimationType, BufferedImage> animationMap;
 

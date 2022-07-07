@@ -1,6 +1,7 @@
 /*
  * 装備中の装備一覧
  * ○リスト5.31 詳細なロジックは呼ぶ側ではなく、呼ばれる側に実装しよう
+ * を参考にしたクラス
  */
 package com.example.sample.domain.model.battle;
 

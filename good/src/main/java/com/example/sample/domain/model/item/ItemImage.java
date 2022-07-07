@@ -4,6 +4,9 @@ import lombok.Getter;
 
 import java.awt.image.BufferedImage;
 
+/**
+ * アイテムのイメージ
+ */
 @Getter
 public class ItemImage {
   private final ItemType itemType;

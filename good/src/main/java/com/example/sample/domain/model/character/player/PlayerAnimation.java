@@ -5,6 +5,9 @@ import com.example.sample.domain.model.worldmap.Direction;
 import java.awt.image.BufferedImage;
 import java.util.Map;
 
+/**
+ * プレイヤーのアニメーション
+ */
 public class PlayerAnimation {
   private final Map<PlayerAnimationType, BufferedImage> animationMap;
 

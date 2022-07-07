@@ -9,6 +9,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+/**
+ * プレイヤーの所持品
+ */
 public class PlayerItems {
   private static final int MAX_ITEM_COUNT = 20;
   private final List<Item> items;

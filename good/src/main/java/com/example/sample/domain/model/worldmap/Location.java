@@ -2,6 +2,7 @@
  * 位置を表現するクラス
  * ○リスト5.18 引数を変更しない構造へ改善
  * ○リスト12.10 エラーは例外をスローする形にする
+ * を参考にしたクラス
  */
 package com.example.sample.domain.model.worldmap;
 
@@ -16,7 +17,7 @@ public class Location {
   private final int y;
 
   public Location(final int x, final int y) {
-    if (valid(x, y)) {
+    if (!valid(x, y)) {
       throw new IllegalArgumentException("不正な位置です");
     }
 
@@ -39,14 +40,6 @@ public class Location {
   public static final Location EMPTY = new Location(0, 0);
 
   private boolean valid(int x, int y) {
-    return x < 0 || y < 0;
-  }
-
-  @Override
-  public String toString() {
-    return "Location{" +
-        "x=" + x +
-        ", y=" + y +
-        '}';
+    return x >= 0 && y >= 0;
   }
 }

@@ -3,6 +3,9 @@ package com.example.sample.domain.model.character.npc;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * NPCのコレクション
+ */
 public class Npcs {
   private final List<Npc> npcs;
 

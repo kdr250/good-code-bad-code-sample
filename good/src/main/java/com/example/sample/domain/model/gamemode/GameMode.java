@@ -2,6 +2,9 @@ package com.example.sample.domain.model.gamemode;
 
 import lombok.Getter;
 
+/**
+ * ゲームモード
+ */
 @Getter
 public class GameMode {
   private GameModeType gameModeType;

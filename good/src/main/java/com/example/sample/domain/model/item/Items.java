@@ -5,6 +5,9 @@ import com.example.sample.domain.model.item.Item;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * アイテムのコレクション
+ */
 public class Items {
   private final List<Item> items;
 

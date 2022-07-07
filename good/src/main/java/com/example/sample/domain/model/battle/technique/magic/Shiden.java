@@ -1,9 +1,16 @@
+/*
+ * ○リスト6.39 魔法「紫電」の値オブジェクト導入版
+ * を参考にしたクラス
+ */
 package com.example.sample.domain.model.battle.technique.magic;
 
 import com.example.sample.domain.model.battle.AttackPower;
 import com.example.sample.domain.model.battle.Level;
 import com.example.sample.domain.model.battle.MagicPoint;
 
+/**
+ * 紫電
+ */
 public class Shiden implements Magic {
 
   @Override

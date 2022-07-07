@@ -1,5 +1,6 @@
 /*
  * リスト9.16 メンバーのレベルを表現するクラス
+ * を参考にしたクラス
  */
 package com.example.sample.domain.model.battle;
 

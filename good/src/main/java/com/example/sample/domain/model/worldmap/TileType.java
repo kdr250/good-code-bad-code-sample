@@ -4,6 +4,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * タイルの種類
+ */
 public enum TileType {
   GRASS("\uD83D\uDFE9"),
   WALL("\uD83E\uDDF1"),

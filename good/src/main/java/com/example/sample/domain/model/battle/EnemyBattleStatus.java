@@ -3,6 +3,9 @@ package com.example.sample.domain.model.battle;
 import com.example.sample.domain.model.item.ItemType;
 import lombok.Getter;
 
+/**
+ * 敵の戦闘ステータス
+ */
 @Getter
 public class EnemyBattleStatus {
   private HitPoint hitPoint;

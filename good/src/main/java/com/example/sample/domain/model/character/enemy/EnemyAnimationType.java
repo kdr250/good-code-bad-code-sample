@@ -4,6 +4,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * 敵のアニメーション種類
+ */
 public enum EnemyAnimationType {
   SLIME_DOWN_ONE,
   SLIME_DOWN_TWO;

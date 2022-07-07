@@ -8,6 +8,9 @@ import lombok.Getter;
 
 import java.awt.image.BufferedImage;
 
+/**
+ * 赤ポーション
+ */
 @Getter
 public class ItemPotionRed implements Consumable {
 

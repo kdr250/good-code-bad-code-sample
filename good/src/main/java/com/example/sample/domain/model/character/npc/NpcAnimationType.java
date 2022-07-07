@@ -4,6 +4,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * NPCのアニメーション種類
+ */
 public enum NpcAnimationType {
   OLD_MAN_UP_ONE,
   OLD_MAN_UP_TWO,

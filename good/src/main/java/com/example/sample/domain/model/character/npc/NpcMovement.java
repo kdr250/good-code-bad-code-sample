@@ -2,6 +2,9 @@ package com.example.sample.domain.model.character.npc;
 
 import com.example.sample.domain.model.worldmap.Vector;
 
+/**
+ * NPCの移動
+ */
 public class NpcMovement {
   private Vector vector;
   private int count = 0;

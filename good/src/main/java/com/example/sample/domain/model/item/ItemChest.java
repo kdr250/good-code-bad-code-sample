@@ -8,6 +8,9 @@ import lombok.Getter;
 
 import java.awt.image.BufferedImage;
 
+/**
+ * 宝箱
+ */
 @Getter
 public class ItemChest implements Interactive {
 

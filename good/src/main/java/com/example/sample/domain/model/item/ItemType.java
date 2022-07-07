@@ -4,6 +4,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * アイテムの種類
+ */
 public enum ItemType {
   KEY,
   CHEST,

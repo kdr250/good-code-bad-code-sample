@@ -1,9 +1,16 @@
+/*
+ * ○リスト6.38 魔法「ファイア」の値オブジェクト導入版
+ * を参考にしたクラス
+ */
 package com.example.sample.domain.model.battle.technique.magic;
 
 import com.example.sample.domain.model.battle.AttackPower;
 import com.example.sample.domain.model.battle.Level;
 import com.example.sample.domain.model.battle.MagicPoint;
 
+/**
+ * ファイア
+ */
 public class Fire implements Magic {
 
   @Override

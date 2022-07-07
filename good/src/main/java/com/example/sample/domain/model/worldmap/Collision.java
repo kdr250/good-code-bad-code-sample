@@ -2,6 +2,9 @@ package com.example.sample.domain.model.worldmap;
 
 import java.awt.*;
 
+/**
+ * 衝突
+ */
 public class Collision {
   private final Rectangle value;
   private static final int WIDTH = 48;

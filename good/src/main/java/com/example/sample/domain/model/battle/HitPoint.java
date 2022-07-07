@@ -1,6 +1,7 @@
 /*
  * ヒットポイント（HP）を表現するクラス
  * ○リスト2.9 クラスにすると強く関係するデータとロジックをまとめられる
+ * を参考にしたクラス
  */
 package com.example.sample.domain.model.battle;
 

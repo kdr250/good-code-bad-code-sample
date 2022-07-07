@@ -8,6 +8,9 @@ import lombok.Getter;
 
 import java.awt.image.BufferedImage;
 
+/**
+ * 門
+ */
 @Getter
 public class ItemDoor implements Interactive {
 

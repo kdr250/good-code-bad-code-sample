@@ -1,5 +1,6 @@
 /*
  * ○リスト5.29 魔法力に関係するロジックをカプセル化
+ * を参考にしたクラス
  */
 package com.example.sample.domain.model.battle;
 

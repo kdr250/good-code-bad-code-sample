@@ -3,7 +3,7 @@ package com.example.sample.domain.model.worldmap;
 import lombok.Getter;
 
 /**
- * ベクトルを表現するクラス
+ * ベクトル
  */
 @Getter
 public class Vector {

@@ -6,6 +6,9 @@ import com.example.sample.domain.model.battle.technique.physics.PhysicsType;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * プレイヤーの技
+ */
 public class PlayerTechniques {
   private final List<Technique> list;
   private static final int SIZE = 4;

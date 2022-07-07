@@ -1,17 +1,23 @@
 package com.example.sample.domain.model.worldmap;
 
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-@RequiredArgsConstructor
+/**
+ * ワールドマップ
+ */
 @Getter
 public class WorldMap {
   private final Tile[][] tiles;
   private final Location playerStartLocation;
+
+  public WorldMap(final Tile[][] tiles, final Location playerStartLocation) {
+    this.tiles = tiles;
+    this.playerStartLocation = playerStartLocation;
+  }
 
   public List<Tile> getTilesFromLocation(final Location location) {
     int tileX = location.getX() / Tile.TILE_SIZE;

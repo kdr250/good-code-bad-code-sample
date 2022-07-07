@@ -1,5 +1,8 @@
 package com.example.sample.domain.model.character.player;
 
+/**
+ * プレイヤーのアニメーション種類
+ */
 public enum PlayerAnimationType {
   UP_ONE,
   UP_TWO,

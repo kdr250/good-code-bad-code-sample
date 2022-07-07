@@ -1,5 +1,6 @@
 /*
  * ○リスト4.21 武器を表現するクラス（改良版）
+ * を参考にしたクラス
  */
 package com.example.sample.domain.model.item;
 

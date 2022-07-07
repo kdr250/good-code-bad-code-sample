@@ -1,5 +1,6 @@
 /*
  * ○リスト4.18 不変で堅牢になったAttackPowerクラス
+ * を参考にしたクラス
  */
 package com.example.sample.domain.model.battle;
 

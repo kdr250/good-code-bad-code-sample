@@ -9,6 +9,9 @@ import lombok.Getter;
 
 import java.awt.image.BufferedImage;
 
+/**
+ * 魔法の杖
+ */
 @Getter
 public class ItemMagicalWeapon implements Equipment {
 

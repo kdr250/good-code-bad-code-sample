@@ -9,6 +9,9 @@ import lombok.Getter;
 
 import java.awt.image.BufferedImage;
 
+/**
+ * 鎧
+ */
 @Getter
 public class ItemArmor implements Equipment {
 

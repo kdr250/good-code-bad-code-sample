@@ -3,6 +3,9 @@ package com.example.sample.domain.model.character.enemy;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * 敵のコレクション
+ */
 public class Enemies {
   private List<Enemy> enemies;
 

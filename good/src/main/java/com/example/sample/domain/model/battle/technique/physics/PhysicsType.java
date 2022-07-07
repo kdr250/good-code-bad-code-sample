@@ -3,6 +3,9 @@ package com.example.sample.domain.model.battle.technique.physics;
 import com.example.sample.domain.model.battle.Level;
 import com.example.sample.domain.model.battle.technique.Technique;
 
+/**
+ * 物理攻撃の種類
+ */
 public enum PhysicsType implements Technique {
   PUNCH(new Punch()),
   KICK(new Kick());

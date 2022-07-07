@@ -9,6 +9,9 @@ import lombok.Getter;
 
 import java.awt.image.BufferedImage;
 
+/**
+ * 青い盾
+ */
 @Getter
 public class ItemShieldBlue implements Equipment {
 

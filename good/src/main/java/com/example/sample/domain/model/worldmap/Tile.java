@@ -4,6 +4,9 @@ import lombok.Getter;
 
 import java.awt.image.BufferedImage;
 
+/**
+ * タイル
+ */
 @Getter
 public class Tile implements Collidable {
   private final TileType tileType;

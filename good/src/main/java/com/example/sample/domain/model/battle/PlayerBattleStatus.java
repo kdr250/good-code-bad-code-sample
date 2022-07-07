@@ -10,6 +10,9 @@ import lombok.Getter;
 
 import java.util.List;
 
+/**
+ * プレイヤーの戦闘ステータス
+ */
 @Getter
 public class PlayerBattleStatus {
   private HitPoint hitPoint;

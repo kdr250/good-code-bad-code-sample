@@ -11,6 +11,9 @@ import lombok.Getter;
 import java.awt.image.BufferedImage;
 import java.util.List;
 
+/**
+ * 敵
+ */
 @Getter
 public class Enemy implements Collidable {
   private final String name;

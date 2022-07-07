@@ -3,6 +3,9 @@ package com.example.sample.domain.model.battle.technique.magic;
 import com.example.sample.domain.model.battle.Level;
 import com.example.sample.domain.model.battle.technique.Technique;
 
+/**
+ * 魔法攻撃の種類
+ */
 public enum MagicType implements Technique {
   FIRE(new Fire()),
   SHIDEN(new Shiden()),

@@ -3,6 +3,9 @@ package com.example.sample.domain.model.character.enemy;
 import java.awt.image.BufferedImage;
 import java.util.Map;
 
+/**
+ * 敵のアニメーション
+ */
 public class EnemyAnimation {
   private final Map<EnemyAnimationType, BufferedImage> animationMap;
 

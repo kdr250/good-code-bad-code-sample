@@ -9,6 +9,9 @@ import lombok.Getter;
 
 import java.awt.image.BufferedImage;
 
+/**
+ * 普通の盾
+ */
 @Getter
 public class ItemShieldNormal implements Equipment {
 

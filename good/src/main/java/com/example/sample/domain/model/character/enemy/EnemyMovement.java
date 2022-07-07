@@ -2,6 +2,9 @@ package com.example.sample.domain.model.character.enemy;
 
 import com.example.sample.domain.model.worldmap.Vector;
 
+/**
+ * 敵の移動
+ */
 public class EnemyMovement {
   private Vector vector;
   private int count = 0;
