@@ -36,9 +36,6 @@ public class ItemDomainService {
     }
     if (event instanceof PlayerEvent && ((PlayerEvent) event).execute(player)) {
       items.remove(interactiveItem);
-      return;
     }
-
-    throw new IllegalStateException();
   }
 }
