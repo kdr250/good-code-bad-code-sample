@@ -8,10 +8,16 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * 敵のドメインサービス
+ */
 @Service
 public class EnemyDomainService {
 
-  public void move(final Enemy enemy, final List<Collidable> collidableList, final Player player, final GameMode gameMode) {
+  /**
+   * 敵を移動する
+   */
+  public void move(final Enemy enemy, final List<Collidable> collidableList) {
     if (!enemy.updateMovementThenCanMove(collidableList)) return;
 
     enemy.move();

@@ -6,9 +6,15 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * NPCのドメインサービス
+ */
 @Service
 public class NpcDomainService {
 
+  /**
+   * NPCを移動する
+   */
   public void move(final Npc npc, List<Collidable> collidableList) {
     if (!npc.updateMovementThenCanMove(collidableList)) {
       npc.changeDirection();

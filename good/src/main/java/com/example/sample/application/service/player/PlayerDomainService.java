@@ -7,9 +7,15 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * プレイヤーのドメインサービス
+ */
 @Service
 public class PlayerDomainService {
 
+  /**
+   * プレイヤーを移動する
+   */
   public void move(final Player player, final List<Collidable> collidableList, final Vector vector) {
     if (!player.canMove(collidableList, vector)) {
       player.changeDirection(vector);

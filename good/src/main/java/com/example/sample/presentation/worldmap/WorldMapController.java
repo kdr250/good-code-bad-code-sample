@@ -105,7 +105,7 @@ public class WorldMapController {
     // 敵
     for (Enemy enemy : enemies.enemies()) {
       List<Collidable> collidableListForEnemy = createCollidableList(enemy.getLocation().shift(enemy.getEnemyMovement().getVector()));
-      enemyDomainService.move(enemy, collidableListForEnemy, player, gameMode);
+      enemyDomainService.move(enemy, collidableListForEnemy);
 
       if (player.isOverlap(enemy)) {
         gameMode.battle();

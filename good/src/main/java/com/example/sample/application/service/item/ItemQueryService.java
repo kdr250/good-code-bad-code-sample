@@ -8,20 +8,32 @@ import com.example.sample.domain.model.item.ItemType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+/**
+ * アイテムの参照サービス
+ */
 @Service
 @RequiredArgsConstructor
 public class ItemQueryService {
 
   private final ItemRepository itemRepository;
 
+  /**
+   * アイテムのコレクションをみつける
+   */
   public Items find() {
     return itemRepository.find();
   }
 
+  /**
+   * アイテムをみつける
+   */
   public Item find(ItemType itemType) {
     return itemRepository.find(itemType);
   }
 
+  /**
+   * アイテムのイメージをみつける
+   */
   public ItemImage findImage(ItemType itemType) {
     return itemRepository.findImage(itemType);
   }

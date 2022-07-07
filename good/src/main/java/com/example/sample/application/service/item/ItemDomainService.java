@@ -10,9 +10,16 @@ import com.example.sample.domain.model.item.Interactive;
 import com.example.sample.domain.model.item.Item;
 import org.springframework.stereotype.Service;
 
+/**
+ * アイテムのドメインサービス
+ */
 @Service
 public class ItemDomainService {
 
+  /**
+   * アイテムを取得されるかインテラクトする
+   * TODO: 要修正
+   */
   public void pickedUpOrInteract(final Items items, final Player player, final GameMode gameMode) {
     for (Item item : items.items()) {
       if (!player.isOverlap(item)) continue;
