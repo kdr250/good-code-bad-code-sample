@@ -4,7 +4,6 @@ import com.example.sample.domain.model.character.player.Player;
 import com.example.sample.domain.model.worldmap.Tile;
 import com.example.sample.domain.model.item.Item;
 import com.example.sample.presentation.GamePanel;
-import com.example.sample.presentation.KeyInputType;
 
 import java.awt.*;
 import java.util.List;
@@ -13,42 +12,13 @@ public class ItemListView {
 
   private final Player player;
 
-  private int itemListIndex = 0;
-  private int fpsCounter = 0;
-
   public ItemListView(final Player player) {
     this.player = player;
   }
 
-  public boolean countUpFpsThenIsKeyInputAllowed() {
-    fpsCounter++;
-    if (fpsCounter > 5) {
-      fpsCounter = 0;
-      return true;
-    }
-    return false;
-  }
-
-  public void moveCursor(KeyInputType keyInputType) {
-    updateItemListIndex(keyInputType);
-  }
-
-  public ItemListViewChoice choice() {
-    List<Item> items = player.getPlayerItems().items();
-    if (itemListIndex > -1 && itemListIndex < items.size()) return ItemListViewChoice.USE_ITEM;
-    return ItemListViewChoice.BACK;
-  }
-
-  public Item selectingItem() {
-    List<Item> items = player.getPlayerItems().items();
-    if (itemListIndex > -1 && itemListIndex < items.size()) return items.get(itemListIndex);
-
-    throw new IllegalArgumentException();
-  }
-
-  public void draw(Graphics2D g2) {
+  public void draw(Graphics2D g2, int itemListIndex) {
     drawPlayerBattleStatus(g2);
-    drawPlayerItemList(g2);
+    drawPlayerItemList(g2, itemListIndex);
   }
 
   private void drawPlayerBattleStatus(Graphics2D g2) {
@@ -139,7 +109,7 @@ public class ItemListView {
     }
   }
 
-  private void drawPlayerItemList(Graphics2D g2) {
+  private void drawPlayerItemList(Graphics2D g2, int itemListIndex) {
     // フレーム
     int frameX = Tile.TILE_SIZE * 9;
     int frameY = Tile.TILE_SIZE;
@@ -220,27 +190,5 @@ public class ItemListView {
   private int getXForAlignToRightText(String text, int tailX, Graphics2D g2) {
     int length = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
     return tailX - length;
-  }
-
-  private void updateItemListIndex(KeyInputType keyInputType) {
-    List<Item> items = player.getPlayerItems().items();
-    switch (keyInputType) {
-      case UP:
-        int tempItemListIndexUp = itemListIndex == -1 ? items.size() - 1 : itemListIndex - 4;
-        itemListIndex = tempItemListIndexUp >= 0 ? tempItemListIndexUp : -1;
-        break;
-      case DOWN:
-        int tempItemListIndexDown = itemListIndex == -1 ? 0 : itemListIndex + 4;
-        itemListIndex = tempItemListIndexDown < items.size() ? tempItemListIndexDown : -1;
-        break;
-      case LEFT:
-        int tempItemListIndexLeft = itemListIndex == -1 ? items.size() - 1 : itemListIndex - 1;
-        itemListIndex = tempItemListIndexLeft >= 0 ? tempItemListIndexLeft : -1;
-        break;
-      case RIGHT:
-        int tempItemListIndexRight = itemListIndex == -1 ? 0 : itemListIndex + 1;
-        itemListIndex = tempItemListIndexRight < items.size() ? tempItemListIndexRight : -1;
-        break;
-    }
   }
 }
