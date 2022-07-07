@@ -10,6 +10,7 @@ import java.awt.image.BufferedImage;
 
 /**
  * 宝箱
+ * TODO: Itemとは別のinterface・classに修正すること
  */
 @Getter
 public class ItemChest implements Interactive {

@@ -10,6 +10,7 @@ import java.awt.image.BufferedImage;
 
 /**
  * 門
+ * TODO: Itemとは別のinterface・classに修正すること
  */
 @Getter
 public class ItemDoor implements Interactive {
