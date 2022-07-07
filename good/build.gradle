@@ -17,6 +17,8 @@ plugins {
     id "org.dddjava.jig-gradle-plugin" version "2022.6.2"
 }
 
+jigReports.dependsOn(clean, classes)
+
 sourceSets {
     main {
         // mybatis SQL map XML ファイルを java 以下でも検知する
