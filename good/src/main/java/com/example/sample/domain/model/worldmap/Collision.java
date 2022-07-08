@@ -31,13 +31,10 @@ public class Collision {
   }
 
   public boolean isCollide(Collision other) {
-    return this.value.intersects(other.value);
+    return value.intersects(other.value);
   }
 
-  @Override
-  public String toString() {
-    return "Collision{" +
-        "value=" + value +
-        '}';
+  public boolean contains(Location location) {
+    return value.contains(location.getX(), location.getY());
   }
 }

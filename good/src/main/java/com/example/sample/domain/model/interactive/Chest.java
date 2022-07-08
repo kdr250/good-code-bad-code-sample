@@ -4,6 +4,7 @@ import com.example.sample.domain.model.worldmap.Collision;
 import com.example.sample.domain.model.worldmap.Location;
 import com.example.sample.domain.model.event.Event;
 import com.example.sample.domain.model.event.GameClearEvent;
+import com.example.sample.domain.model.worldmap.Vector;
 import lombok.Getter;
 
 import java.awt.image.BufferedImage;
@@ -17,6 +18,7 @@ public class Chest implements Interactive {
   private final Location location;
   private final Collision collision;
   private final InteractiveImage interactiveImage;
+  private static final Vector vector = Vector.down(5);
 
   public Chest(final Location location, final InteractiveImage interactiveImage) {
     if (interactiveImage.getInteractiveType() != InteractiveType.CHEST) {
@@ -30,6 +32,11 @@ public class Chest implements Interactive {
   @Override
   public Event interact() {
     return new GameClearEvent();
+  }
+
+  @Override
+  public boolean contains(Location location) {
+    return collision.shift(vector).contains(location);
   }
 
   @Override
