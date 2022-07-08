@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS tb_npc (
     world_map_id INTEGER NOT NULL,
     location_id INTEGER NOT NULL,
     CONSTRAINT fk_npc_world_map_id FOREIGN KEY (world_map_id) REFERENCES tb_world_map(id) ON DELETE RESTRICT ON UPDATE RESTRICT,
-    CONSTRAINT fk_npc_location_id_npc FOREIGN KEY (location_id) REFERENCES tb_location(id) ON DELETE RESTRICT ON UPDATE RESTRICT
+    CONSTRAINT fk_npc_location_id FOREIGN KEY (location_id) REFERENCES tb_location(id) ON DELETE RESTRICT ON UPDATE RESTRICT
 );
 
 CREATE TABLE IF NOT EXISTS tb_item (
@@ -36,7 +36,16 @@ CREATE TABLE IF NOT EXISTS tb_item (
     world_map_id INTEGER NOT NULL,
     location_id INTEGER NOT NULL,
     CONSTRAINT fk_item_world_map_id FOREIGN KEY (world_map_id) REFERENCES tb_world_map(id) ON DELETE RESTRICT ON UPDATE RESTRICT,
-    CONSTRAINT fk_item_location_id_npc FOREIGN KEY (location_id) REFERENCES tb_location(id) ON DELETE RESTRICT ON UPDATE RESTRICT
+    CONSTRAINT fk_item_location_id FOREIGN KEY (location_id) REFERENCES tb_location(id) ON DELETE RESTRICT ON UPDATE RESTRICT
+);
+
+CREATE TABLE IF NOT EXISTS tb_interactive (
+    id INTEGER PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    world_map_id INTEGER NOT NULL,
+    location_id INTEGER NOT NULL,
+    CONSTRAINT fk_interactive_world_map_id FOREIGN KEY (world_map_id) REFERENCES tb_world_map(id) ON DELETE RESTRICT ON UPDATE RESTRICT,
+    CONSTRAINT fk_interactive_location_id FOREIGN KEY (location_id) REFERENCES tb_location(id) ON DELETE RESTRICT ON UPDATE RESTRICT
 );
 
 CREATE TABLE IF NOT EXISTS tb_tile_image (
@@ -64,6 +73,12 @@ CREATE TABLE IF NOT EXISTS tb_enemy_image (
 );
 
 CREATE TABLE IF NOT EXISTS tb_item_image (
+    id INTEGER PRIMARY KEY,
+    name VARCHAR(100) UNIQUE NOT NULL,
+    image LONGTEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS tb_interactive_image (
     id INTEGER PRIMARY KEY,
     name VARCHAR(100) UNIQUE NOT NULL,
     image LONGTEXT NOT NULL

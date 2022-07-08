@@ -5,8 +5,8 @@ import com.example.sample.domain.model.worldmap.Tile;
 import com.example.sample.domain.model.battle.AttackPower;
 import com.example.sample.domain.model.item.Item;
 import com.example.sample.domain.model.item.ItemArmor;
-import com.example.sample.domain.model.item.ItemChest;
-import com.example.sample.domain.model.item.ItemDoor;
+import com.example.sample.domain.model.interactive.Chest;
+import com.example.sample.domain.model.interactive.Door;
 import com.example.sample.domain.model.item.ItemImage;
 import com.example.sample.domain.model.item.ItemKey;
 import com.example.sample.domain.model.item.ItemMagicalWeapon;
@@ -58,10 +58,6 @@ public class ItemImageDto {
     switch (itemType) {
       case KEY:
         return new ItemKey(itemImage);
-      case CHEST:
-        return new ItemChest(Location.EMPTY, itemImage);
-      case DOOR:
-        return new ItemDoor(Location.EMPTY, itemImage);
       case WEAPON:
         return new ItemWeapon(new AttackPower(2), Location.EMPTY, itemImage);
       case MAGICAL_WEAPON:

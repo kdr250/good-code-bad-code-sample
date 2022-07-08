@@ -1,4 +1,4 @@
-package com.example.sample.domain.model.item;
+package com.example.sample.domain.model.interactive;
 
 import com.example.sample.domain.model.worldmap.Collision;
 import com.example.sample.domain.model.worldmap.Location;
@@ -10,22 +10,21 @@ import java.awt.image.BufferedImage;
 
 /**
  * 宝箱
- * TODO: Itemとは別のinterface・classに修正すること
  */
 @Getter
-public class ItemChest implements Interactive {
+public class Chest implements Interactive {
 
   private final Location location;
   private final Collision collision;
-  private final ItemImage itemImage;
+  private final InteractiveImage interactiveImage;
 
-  public ItemChest(Location location, ItemImage itemImage) {
-    if (itemImage.getItemType() != ItemType.CHEST) {
+  public Chest(final Location location, final InteractiveImage interactiveImage) {
+    if (interactiveImage.getInteractiveType() != InteractiveType.CHEST) {
       throw new IllegalArgumentException();
     }
     this.location = location;
-    collision = new Collision(location);
-    this.itemImage = itemImage;
+    this.collision = new Collision(location);
+    this.interactiveImage = interactiveImage;
   }
 
   @Override
@@ -35,11 +34,6 @@ public class ItemChest implements Interactive {
 
   @Override
   public BufferedImage getImage() {
-    return itemImage.getBufferedImage();
-  }
-
-  @Override
-  public String description() {
-    return "";
+    return interactiveImage.getBufferedImage();
   }
 }

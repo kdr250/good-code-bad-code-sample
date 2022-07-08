@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.sample.infrastructure.datasource.interactive.InteractiveMapper">
+    <select id="selectInteractiveImageDtoList" resultType="com.example.sample.infrastructure.datasource.interactive.InteractiveImageDto">
+        SELECT
+        name,
+        image,
+        FROM tb_interactive_image
+        WHERE name in
+        <foreach item="name" index="index" collection="names" open="(" separator="," close=")">
+            #{name}
+        </foreach>
+    </select>
+
+    <select id="selectInteractiveDtoList" resultType="com.example.sample.infrastructure.datasource.interactive.InteractiveDto">
+        SELECT
+        name,
+        x as "locationX",
+        y as "locationY"
+        FROM tb_interactive
+        INNER JOIN tb_location on tb_interactive.location_id = tb_location.id
+        WHERE tb_interactive.world_map_id = #{worldId}
+    </select>
+</mapper>

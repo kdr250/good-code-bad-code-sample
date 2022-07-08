@@ -2,6 +2,7 @@ package com.example.sample.domain.model.character.player;
 
 import com.example.sample.domain.model.battle.PlayerBattleStatus;
 import com.example.sample.domain.model.character.enemy.Enemy;
+import com.example.sample.domain.model.interactive.Interactive;
 import com.example.sample.domain.model.item.Equipment;
 import com.example.sample.domain.model.item.EquipmentType;
 import com.example.sample.domain.model.item.Item;

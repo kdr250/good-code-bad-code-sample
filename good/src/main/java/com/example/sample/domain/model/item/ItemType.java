@@ -9,8 +9,6 @@ import java.util.stream.Collectors;
  */
 public enum ItemType {
   KEY,
-  CHEST,
-  DOOR,
   WEAPON,
   MAGICAL_WEAPON,
   BODY_ARMOR,

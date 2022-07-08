@@ -8,7 +8,7 @@ import com.example.sample.domain.model.event.Event;
 import com.example.sample.domain.model.event.GameModeEvent;
 import com.example.sample.domain.model.event.PlayerEvent;
 import com.example.sample.domain.model.gamemode.GameMode;
-import com.example.sample.domain.model.item.Interactive;
+import com.example.sample.domain.model.interactive.Interactive;
 import com.example.sample.domain.model.item.Item;
 import org.springframework.stereotype.Service;
 

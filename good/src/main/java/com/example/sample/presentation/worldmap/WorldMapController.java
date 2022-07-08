@@ -2,6 +2,8 @@ package com.example.sample.presentation.worldmap;
 
 import com.example.sample.application.service.enemy.EnemyDomainService;
 import com.example.sample.application.service.enemy.EnemyQueryService;
+import com.example.sample.application.service.interactive.InteractiveDomainService;
+import com.example.sample.application.service.interactive.InteractiveQueryService;
 import com.example.sample.application.service.item.ItemDomainService;
 import com.example.sample.application.service.item.ItemQueryService;
 import com.example.sample.application.service.npc.NpcDomainService;
@@ -9,6 +11,8 @@ import com.example.sample.application.service.npc.NpcQueryService;
 import com.example.sample.application.service.player.PlayerDomainService;
 import com.example.sample.application.service.player.PlayerQueryService;
 import com.example.sample.application.service.worldmap.WorldMapQueryService;
+import com.example.sample.domain.model.interactive.Interactions;
+import com.example.sample.domain.model.interactive.Interactive;
 import com.example.sample.domain.model.worldmap.Collidable;
 import com.example.sample.domain.model.character.enemy.Enemies;
 import com.example.sample.domain.model.character.enemy.Enemy;
@@ -52,12 +56,15 @@ public class WorldMapController {
   private final EnemyDomainService enemyDomainService;
   private final ItemQueryService itemQueryService;
   private final ItemDomainService itemDomainService;
+  private final InteractiveQueryService interactiveQueryService;
+  private final InteractiveDomainService interactiveDomainService;
 
   private WorldMap worldMap;
   private Player player;
   private Npcs npcs;
   private Enemies enemies;
   private Items items;
+  private Interactions interactions;
 
   private PlayerStatusView playerStatusView;
 
@@ -70,6 +77,7 @@ public class WorldMapController {
     npcs = npcQueryService.find();
     enemies = enemyQueryService.find();
     items = itemQueryService.find();
+    interactions = interactiveQueryService.find();
 
     ItemImage itemImageCrystalBlank = itemQueryService.findImage(ItemType.CRYSTAL_BLANK);
     ItemImage itemImageCrystalFull = itemQueryService.findImage(ItemType.CRYSTAL_FULL);
@@ -95,6 +103,9 @@ public class WorldMapController {
 
     // アイテム
     itemDomainService.pickedUpOrInteract(items, player, gameMode);
+
+    // 相互作用トリガー
+    interactiveDomainService.interact(interactions, player, gameMode);
 
     // NPC
     for (Npc npc : npcs.npcs()) {
@@ -150,6 +161,13 @@ public class WorldMapController {
       }
     }
 
+    for (Interactive interactive : interactions.interactions()) {
+      Triple<Boolean, Integer, Integer> result = canDisplayAndDifferenceFromPlayer(interactive.getLocation(), player.getLocation());
+      if (result.getLeft()) {
+        g2.drawImage(interactive.getImage(), GamePanel.screenCenterX + result.getMiddle(), GamePanel.screenCenterY + result.getRight(), null);
+      }
+    }
+
     if (gameMode.getGameModeType() == GameModeType.WORLD_MAP) {
       playerStatusView.draw(g2);
     }
@@ -187,6 +205,7 @@ public class WorldMapController {
     collidableList.addAll(enemies.enemies());
     collidableList.addAll(npcs.npcs());
     collidableList.addAll(items.items());
+    collidableList.addAll(interactions.interactions());
     return collidableList;
   }
 }
