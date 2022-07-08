@@ -31,7 +31,7 @@ public class TitleController {
     if (keyInputType == KeyInputType.DECIDE) {
       WorldMapController worldMapController = applicationContext.getBean(WorldMapController.class);
       worldMapController.setUp(gameMode);
-      gameMode.worldMap();
+      gameMode.changeToWorldMap();
     }
   }
 

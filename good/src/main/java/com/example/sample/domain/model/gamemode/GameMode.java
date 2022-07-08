@@ -13,15 +13,7 @@ public class GameMode {
     this.gameModeType = gameModeType;
   }
 
-  public void displayTitle() {
-    gameModeType = GameModeType.DISPLAY_TITLE;
-  }
-
-  public boolean isDisplayingTitle() {
-    return gameModeType == GameModeType.DISPLAY_TITLE;
-  }
-
-  public void worldMap() {
+  public void changeToWorldMap() {
     gameModeType = GameModeType.WORLD_MAP;
   }
 
@@ -29,7 +21,7 @@ public class GameMode {
     return gameModeType == GameModeType.WORLD_MAP;
   }
 
-  public void battle() {
+  public void changeToBattle() {
     gameModeType = GameModeType.BATTLE;
   }
 
@@ -37,7 +29,7 @@ public class GameMode {
     return gameModeType == GameModeType.BATTLE;
   }
 
-  public void displayItemList() {
+  public void changeToDisplayItemList() {
     gameModeType = GameModeType.DISPLAY_ITEM_LIST;
   }
 
@@ -45,7 +37,7 @@ public class GameMode {
     return gameModeType == GameModeType.DISPLAY_ITEM_LIST;
   }
 
-  public void gameClear() {
+  public void changeToGameClear() {
     gameModeType = GameModeType.GAME_CLEAR;
   }
 

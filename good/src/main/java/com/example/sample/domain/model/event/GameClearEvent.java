@@ -9,7 +9,7 @@ public class GameClearEvent implements GameModeEvent {
 
   @Override
   public boolean execute(GameMode gameMode) {
-    gameMode.gameClear();
+    gameMode.changeToGameClear();
     return true;
   }
 }

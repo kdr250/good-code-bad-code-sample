@@ -66,7 +66,7 @@ public class BattleController {
           if (playerActionChoice == PlayerActionChoice.ESCAPE) {
             WorldMapController worldMapController = applicationContext.getBean(WorldMapController.class);
             worldMapController.removeEnemy(enemy);
-            gameMode.worldMap();
+            gameMode.changeToWorldMap();
           }
           return;
       }
@@ -140,7 +140,7 @@ public class BattleController {
         }
         WorldMapController worldMapController = applicationContext.getBean(WorldMapController.class);
         worldMapController.removeEnemy(enemy);
-        gameMode.worldMap();
+        gameMode.changeToWorldMap();
         return;
       }
     }
@@ -149,7 +149,7 @@ public class BattleController {
       if (keyInputType == KeyInputType.DECIDE) {
         WorldMapController worldMapController = applicationContext.getBean(WorldMapController.class);
         worldMapController.removeEnemy(enemy);
-        gameMode.worldMap();
+        gameMode.changeToWorldMap();
         return;
       }
     }
@@ -159,7 +159,7 @@ public class BattleController {
         player.deactivateAllEquipments();
         WorldMapController worldMapController = applicationContext.getBean(WorldMapController.class);
         worldMapController.reset();
-        gameMode.worldMap();
+        gameMode.changeToWorldMap();
         return;
       }
     }

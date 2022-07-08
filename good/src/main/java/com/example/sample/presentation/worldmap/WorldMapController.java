@@ -81,7 +81,7 @@ public class WorldMapController {
 
   public void update(KeyInputType keyInputType, GameMode gameMode) {
     if (keyInputType == KeyInputType.DISPLAY_ITEM_LIST) {
-      gameMode.displayItemList();
+      gameMode.changeToDisplayItemList();
       ItemListController itemListController = applicationContext.getBean(ItemListController.class);
       itemListController.setUp();
       return;
@@ -108,7 +108,7 @@ public class WorldMapController {
       enemyDomainService.move(enemy, collidableListForEnemy);
 
       if (player.isOverlap(enemy)) {
-        gameMode.battle();
+        gameMode.changeToBattle();
         BattleController battleController = applicationContext.getBean(BattleController.class);
         battleController.setUp(player, enemy, playerStatusView.getCrystalBlank(), playerStatusView.getCrystalFull());
       }

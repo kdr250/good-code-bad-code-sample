@@ -42,7 +42,7 @@ public class ItemListController {
       if (keyInputType == KeyInputType.DECIDE) {
         ItemListViewChoice choice = choice();
         if (choice == ItemListViewChoice.BACK) {
-          gameMode.worldMap();
+          gameMode.changeToWorldMap();
           return;
         }
 
