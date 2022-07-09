@@ -14,6 +14,7 @@ import com.example.sample.domain.model.item.Equipment;
 import com.example.sample.domain.model.item.EquipmentType;
 import com.example.sample.domain.model.item.Item;
 import com.example.sample.domain.model.battle.technique.Technique;
+import com.example.sample.domain.model.item.PlayerItems;
 import com.example.sample.domain.model.worldmap.Collidable;
 import com.example.sample.domain.model.worldmap.Collision;
 import com.example.sample.domain.model.worldmap.Location;
