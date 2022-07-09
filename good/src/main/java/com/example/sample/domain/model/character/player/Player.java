@@ -52,6 +52,8 @@ public class Player implements Collidable {
 
   public void warp(final Location location) {
     this.location = location;
+    this.collision = new Collision(location);
+    this.direction = Direction.DOWN;
   }
 
   public boolean canMove(final List<Collidable> collidableList, final Vector vector) {

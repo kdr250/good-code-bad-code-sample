@@ -1,10 +1,10 @@
 package com.example.sample.presentation.battle;
 
 import com.example.sample.application.service.item.ItemQueryService;
+import com.example.sample.application.service.player.PlayerDomainService;
 import com.example.sample.domain.model.character.enemy.Enemy;
 import com.example.sample.domain.model.character.player.Player;
 import com.example.sample.domain.model.gamemode.GameMode;
-import com.example.sample.domain.model.item.Item;
 import com.example.sample.domain.model.item.ItemImage;
 import com.example.sample.domain.model.battle.technique.Technique;
 import com.example.sample.presentation.KeyInputType;
@@ -18,6 +18,7 @@ import java.awt.*;
 public class BattleController {
 
   private final ApplicationContext applicationContext;
+  private final PlayerDomainService playerDomainService;
   private final ItemQueryService itemQueryService;
 
   private Player player;
@@ -31,8 +32,9 @@ public class BattleController {
 
   private int fpsCounter = 0;
 
-  public BattleController(ApplicationContext applicationContext, ItemQueryService itemQueryService) {
+  public BattleController(ApplicationContext applicationContext, PlayerDomainService playerDomainService, ItemQueryService itemQueryService) {
     this.applicationContext = applicationContext;
+    this.playerDomainService = playerDomainService;
     this.itemQueryService = itemQueryService;
   }
 
@@ -93,8 +95,7 @@ public class BattleController {
             return;
           }
 
-          player.consumeCostForAttack(technique);
-          enemy.damageHitPoint(player.totalAttackPower(technique).toDamage());
+          playerDomainService.attackEnemy(player, technique, enemy);
           battleViewState = BattleViewState.PLAYER_TECHNIQUE_RESULT;
           return;
       }
@@ -103,13 +104,12 @@ public class BattleController {
     if (battleViewState == BattleViewState.PLAYER_TECHNIQUE_RESULT) {
       if (keyInputType == KeyInputType.DECIDE) {
         if (enemy.isDead()) {
-          Item dropItem = itemQueryService.find(enemy.dropItemType());
-          player.pickUp(dropItem);
+          playerDomainService.pickUpDropItem(player, enemy);
           battleViewState = BattleViewState.BATTLE_RESULT_PLAYER_WIN;
           return;
         }
 
-        player.damageHitPoint(enemy.attackPower().toDamage());
+        playerDomainService.damaged(player, enemy);
         battleViewState = BattleViewState.ENEMY_ACTION_RESULT;
         return;
       }
