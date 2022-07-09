@@ -45,11 +45,11 @@ public class PlayerItems {
   }
 
   public boolean hasKey() {
-    return items.stream().anyMatch(item -> item instanceof Key);
+    return items.stream().anyMatch(Key.class::isInstance);
   }
 
   public PlayerItems removeKeyIfExists() {
-    Optional<Item> key = items.stream().filter(item -> item instanceof Key).findFirst();
+    Optional<Item> key = items.stream().filter(Key.class::isInstance).findFirst();
     if (key.isEmpty()) return this;
     List<Item> deleting = new ArrayList<>(items);
     deleting.remove(key.get());
