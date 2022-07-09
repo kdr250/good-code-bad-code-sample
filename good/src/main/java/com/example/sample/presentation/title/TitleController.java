@@ -16,7 +16,6 @@ public class TitleController {
   private final ApplicationContext applicationContext;
   private final PlayerQueryService playerQueryService;
 
-  private PlayerAnimation playerAnimation;
   private TitleView titleView;
 
   public TitleController(ApplicationContext applicationContext, PlayerQueryService playerQueryService) {
@@ -25,7 +24,7 @@ public class TitleController {
   }
 
   public void setUp() {
-    playerAnimation = playerQueryService.findAnimation();
+    PlayerAnimation playerAnimation = playerQueryService.findAnimation();
     titleView = new TitleView(playerAnimation);
   }
 
