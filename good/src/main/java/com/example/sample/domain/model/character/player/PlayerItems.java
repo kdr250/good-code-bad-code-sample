@@ -1,3 +1,7 @@
+/*
+ * ○リスト10.20 パーティーの所持品を表現するクラス
+ * を参考にしたクラス
+ */
 package com.example.sample.domain.model.character.player;
 
 import com.example.sample.domain.model.item.Item;
