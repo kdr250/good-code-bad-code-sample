@@ -16,7 +16,7 @@ public class Damage {
   }
 
   public static Damage of(final int value) {
-    int correctedValue = Math.max(value, 1);
+    int correctedValue = Math.max(value, MIN);
     return new Damage(correctedValue);
   }
 
