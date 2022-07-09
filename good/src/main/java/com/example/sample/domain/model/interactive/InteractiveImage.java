@@ -2,6 +2,9 @@ package com.example.sample.domain.model.interactive;
 
 import java.awt.image.BufferedImage;
 
+/**
+ * 相互作用トリガーのイメージ
+ */
 public class InteractiveImage {
   private final InteractiveType interactiveType;
   private final BufferedImage bufferedImage;
