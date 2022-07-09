@@ -35,6 +35,10 @@ public class PlayerItems {
     return new PlayerItems(adding);
   }
 
+  public boolean canAdd() {
+    return items.size() < MAX_ITEM_COUNT;
+  }
+
   public List<Item> items() {
     return Collections.unmodifiableList(items);
   }

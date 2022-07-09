@@ -124,7 +124,7 @@ public class Player implements Collidable {
   }
 
   public void pickUp(Item item) {
-    playerItems = playerItems.add(item);
+    if (playerItems.canAdd()) playerItems = playerItems.add(item);
   }
 
   public void removeItem(Item item) {
