@@ -1,7 +1,5 @@
 package com.example.sample.domain.model.interactive;
 
-import com.example.sample.domain.model.item.ItemType;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;

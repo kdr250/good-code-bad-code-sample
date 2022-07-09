@@ -5,8 +5,6 @@ import com.example.sample.domain.model.worldmap.Tile;
 import com.example.sample.domain.model.battle.AttackPower;
 import com.example.sample.domain.model.item.Item;
 import com.example.sample.domain.model.item.ItemArmor;
-import com.example.sample.domain.model.interactive.Chest;
-import com.example.sample.domain.model.interactive.Door;
 import com.example.sample.domain.model.item.ItemImage;
 import com.example.sample.domain.model.item.ItemKey;
 import com.example.sample.domain.model.item.ItemMagicalWeapon;
