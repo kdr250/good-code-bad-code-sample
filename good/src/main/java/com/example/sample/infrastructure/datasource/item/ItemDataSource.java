@@ -5,7 +5,6 @@ import com.example.sample.domain.model.item.Items;
 import com.example.sample.domain.model.item.Item;
 import com.example.sample.domain.model.item.ItemImage;
 import com.example.sample.domain.model.item.ItemType;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.awt.image.BufferedImage;
@@ -14,12 +13,15 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Repository
-@RequiredArgsConstructor
 public class ItemDataSource implements ItemRepository {
 
   private final ItemMapper itemMapper;
 
   private static final int FIRST_WORLD_ID = 1;
+
+  public ItemDataSource(ItemMapper itemMapper) {
+    this.itemMapper = itemMapper;
+  }
 
   @Override
   public Items find() {
@@ -43,7 +45,7 @@ public class ItemDataSource implements ItemRepository {
   public ItemImage findImage(ItemType itemType) {
     return itemMapper.selectItemImageDtoList(ItemType.names()).stream()
       .map(ItemImageDto::toItemImage)
-        .filter(i -> i.getItemType() == itemType)
+        .filter(i -> i.itemType() == itemType)
         .findFirst().orElseThrow(IllegalArgumentException::new);
   }
 }

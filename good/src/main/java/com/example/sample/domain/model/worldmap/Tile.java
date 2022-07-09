@@ -1,7 +1,5 @@
 package com.example.sample.domain.model.worldmap;
 
-import lombok.Getter;
-
 import java.awt.image.BufferedImage;
 
 /**

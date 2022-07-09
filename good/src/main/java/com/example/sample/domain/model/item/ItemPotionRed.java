@@ -18,7 +18,7 @@ public class ItemPotionRed implements Consumable {
   private static final int RECOVERY_AMOUNT = 5;
 
   public ItemPotionRed(final Location location, final ItemImage itemImage) {
-    if (itemImage.getItemType() != ItemType.POTION_RED) {
+    if (itemImage.itemType() != ItemType.POTION_RED) {
       throw new IllegalArgumentException();
     }
     this.location = location;

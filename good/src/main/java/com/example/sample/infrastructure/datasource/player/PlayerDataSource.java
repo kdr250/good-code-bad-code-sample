@@ -5,7 +5,6 @@ import com.example.sample.domain.model.worldmap.Location;
 import com.example.sample.domain.model.character.player.Player;
 import com.example.sample.domain.model.character.player.PlayerAnimation;
 import com.example.sample.domain.model.character.player.PlayerAnimationType;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.awt.image.BufferedImage;
@@ -13,11 +12,14 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Repository
-@RequiredArgsConstructor
 public class PlayerDataSource implements PlayerRepository {
   private final PlayerMapper playerMapper;
 
   private static final int FIRST_WORLD_ID = 1;
+
+  public PlayerDataSource(PlayerMapper playerMapper) {
+    this.playerMapper = playerMapper;
+  }
 
   @Override
   public Player find() {

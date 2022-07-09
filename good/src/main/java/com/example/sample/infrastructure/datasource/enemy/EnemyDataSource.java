@@ -5,7 +5,6 @@ import com.example.sample.domain.model.character.enemy.Enemies;
 import com.example.sample.domain.model.character.enemy.Enemy;
 import com.example.sample.domain.model.character.enemy.EnemyAnimation;
 import com.example.sample.domain.model.character.enemy.EnemyAnimationType;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.awt.image.BufferedImage;
@@ -14,12 +13,15 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Repository
-@RequiredArgsConstructor
 public class EnemyDataSource implements EnemyRepository {
 
   private final EnemyMapper enemyMapper;
 
   private static final int FIRST_WORLD_ID = 1;
+
+  public EnemyDataSource(EnemyMapper enemyMapper) {
+    this.enemyMapper = enemyMapper;
+  }
 
   @Override
   public Enemies find() {

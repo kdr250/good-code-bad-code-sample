@@ -89,7 +89,7 @@ public class GamePanel extends JPanel implements Runnable {
   private void update() {
     KeyInputType keyInputType = keyInputHandler.getKeyInputType();
 
-    switch (gameMode.getGameModeType()) {
+    switch (gameMode.gameModeType()) {
       case DISPLAY_TITLE:
         titleController.update(keyInputType, gameMode);
         return;
@@ -117,7 +117,7 @@ public class GamePanel extends JPanel implements Runnable {
     g2.setFont(arial30);
     g2.setColor(Color.white);
 
-    switch (gameMode.getGameModeType()) {
+    switch (gameMode.gameModeType()) {
       case DISPLAY_TITLE:
         titleController.draw(g2);
         break;

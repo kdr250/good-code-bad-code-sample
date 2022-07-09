@@ -5,17 +5,19 @@ import com.example.sample.domain.model.item.Items;
 import com.example.sample.domain.model.item.Item;
 import com.example.sample.domain.model.item.ItemImage;
 import com.example.sample.domain.model.item.ItemType;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 /**
  * アイテムの参照サービス
  */
 @Service
-@RequiredArgsConstructor
 public class ItemQueryService {
 
   private final ItemRepository itemRepository;
+
+  public ItemQueryService(ItemRepository itemRepository) {
+    this.itemRepository = itemRepository;
+  }
 
   /**
    * アイテムのコレクションをみつける

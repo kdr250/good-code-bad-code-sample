@@ -4,7 +4,6 @@ import com.example.sample.application.repository.interactive.InteractiveReposito
 import com.example.sample.domain.model.interactive.Interactions;
 import com.example.sample.domain.model.interactive.Interactive;
 import com.example.sample.domain.model.interactive.InteractiveType;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.awt.image.BufferedImage;
@@ -13,12 +12,15 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Repository
-@RequiredArgsConstructor
 public class InteractiveDataSource implements InteractiveRepository {
 
   private final InteractiveMapper interactiveMapper;
 
   private static final int FIRST_WORLD_ID = 1;
+
+  public InteractiveDataSource(InteractiveMapper interactiveMapper) {
+    this.interactiveMapper = interactiveMapper;
+  }
 
   @Override
   public Interactions find() {

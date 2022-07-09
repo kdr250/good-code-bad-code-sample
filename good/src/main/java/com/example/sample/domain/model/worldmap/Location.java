@@ -6,12 +6,9 @@
  */
 package com.example.sample.domain.model.worldmap;
 
-import lombok.Getter;
-
 /**
  * 位置
  */
-@Getter
 public class Location {
   private final int x;
   private final int y;
@@ -41,5 +38,13 @@ public class Location {
 
   private boolean valid(int x, int y) {
     return x >= 0 && y >= 0;
+  }
+
+  public int getX() {
+    return x;
+  }
+
+  public int getY() {
+    return y;
   }
 }

@@ -9,13 +9,11 @@ import com.example.sample.domain.model.item.ItemImage;
 import com.example.sample.domain.model.battle.technique.Technique;
 import com.example.sample.presentation.KeyInputType;
 import com.example.sample.presentation.worldmap.WorldMapController;
-import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 import java.awt.*;
 
-@RequiredArgsConstructor
 @Component
 public class BattleController {
 
@@ -32,6 +30,11 @@ public class BattleController {
   private PlayerTechniqueChoice playerTechniqueChoice = PlayerTechniqueChoice.ONE;
 
   private int fpsCounter = 0;
+
+  public BattleController(ApplicationContext applicationContext, ItemQueryService itemQueryService) {
+    this.applicationContext = applicationContext;
+    this.itemQueryService = itemQueryService;
+  }
 
   public void setUp(Player player, Enemy enemy, ItemImage crystalBlank, ItemImage crystalFull) {
     this.player = player;

@@ -6,14 +6,12 @@ import com.example.sample.domain.model.gamemode.GameMode;
 import com.example.sample.domain.model.item.Item;
 import com.example.sample.presentation.KeyInputType;
 import com.example.sample.presentation.worldmap.WorldMapController;
-import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 import java.awt.*;
 import java.util.List;
 
-@RequiredArgsConstructor
 @Component
 public class ItemListController {
 
@@ -26,6 +24,11 @@ public class ItemListController {
   private static final int ITEM_LIST_ROW_SIZE = 5;
   private int itemListIndex = 0;
   private int fpsCounter = 0;
+
+  public ItemListController(ApplicationContext applicationContext, ItemDomainService itemDomainService) {
+    this.applicationContext = applicationContext;
+    this.itemDomainService = itemDomainService;
+  }
 
   public void setUp() {
     WorldMapController worldMapController = applicationContext.getBean(WorldMapController.class);

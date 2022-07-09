@@ -30,8 +30,6 @@ public class WorldMapDto {
       }
     }
 
-    Location playerStart = new Location(playerStartX * Tile.TILE_SIZE, playerStartY * Tile.TILE_SIZE);
-
-    return new WorldMap(result, playerStart);
+    return new WorldMap(result);
   }
 }

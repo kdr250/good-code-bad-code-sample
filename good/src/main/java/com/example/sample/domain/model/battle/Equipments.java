@@ -7,12 +7,10 @@ package com.example.sample.domain.model.battle;
 
 import com.example.sample.domain.model.item.Equipment;
 import com.example.sample.domain.model.item.EquipmentType;
-import lombok.Getter;
 
 /**
  * 装備一覧
  */
-@Getter
 public class Equipments {
   private Equipment armor;
   private Equipment arm;
@@ -125,5 +123,17 @@ public class Equipments {
     return armor.defensePower()
         .reinforce(arm.defensePower())
         .reinforce(weapon.defensePower());
+  }
+
+  public Equipment getArmor() {
+    return armor;
+  }
+
+  public Equipment getArm() {
+    return arm;
+  }
+
+  public Equipment getWeapon() {
+    return weapon;
   }
 }

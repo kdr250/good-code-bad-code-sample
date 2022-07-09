@@ -1,11 +1,8 @@
 package com.example.sample.domain.model.worldmap;
 
-import lombok.Getter;
-
 /**
  * ベクトル
  */
-@Getter
 public class Vector {
   private final int x;
   private final int y;
@@ -54,5 +51,13 @@ public class Vector {
     if (x < 0 && y == 0) return Direction.LEFT;
     if (x > 0 && y == 0) return Direction.RIGHT;
     return Direction.NONE;
+  }
+
+  public int getX() {
+    return x;
+  }
+
+  public int getY() {
+    return y;
   }
 }

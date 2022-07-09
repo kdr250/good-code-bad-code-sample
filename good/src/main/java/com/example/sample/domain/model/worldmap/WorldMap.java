@@ -1,7 +1,5 @@
 package com.example.sample.domain.model.worldmap;
 
-import lombok.Getter;
-
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -9,14 +7,11 @@ import java.util.stream.IntStream;
 /**
  * ワールドマップ
  */
-@Getter
 public class WorldMap {
   private final Tile[][] tiles;
-  private final Location playerStartLocation;
 
-  public WorldMap(final Tile[][] tiles, final Location playerStartLocation) {
+  public WorldMap(final Tile[][] tiles) {
     this.tiles = tiles;
-    this.playerStartLocation = playerStartLocation;
   }
 
   public List<Tile> getTilesFromLocation(final Location location) {
@@ -24,13 +19,17 @@ public class WorldMap {
     int tileY = location.getY() / Tile.TILE_SIZE;
 
     return IntStream.rangeClosed(0, 3)
-      .mapToObj(number -> getTile(number, tileX, tileY))
+      .mapToObj(number -> getSpecifiedTile(tileX, tileY, number))
       .filter(tile -> tile.contains(location))
       .collect(Collectors.toList());
   }
 
-  private Tile getTile(int number, int tileX, int tileY) {
+  private Tile getSpecifiedTile(int tileX, int tileY, int number) {
     char[] binaryChars = String.format("%2s", Integer.toBinaryString(number)).replace(" ", "0").toCharArray();
     return tiles[tileY + (binaryChars[0] - '0')][tileX + (binaryChars[1] - '0')];
+  }
+
+  public Tile[][] tiles() {
+    return tiles;
   }
 }

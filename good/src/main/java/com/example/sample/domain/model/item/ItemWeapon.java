@@ -10,7 +10,6 @@ import com.example.sample.domain.model.worldmap.Location;
 import com.example.sample.domain.model.battle.AttackPower;
 import com.example.sample.domain.model.event.Event;
 import com.example.sample.domain.model.event.PlayerEquipEvent;
-import lombok.Getter;
 
 import java.awt.image.BufferedImage;
 

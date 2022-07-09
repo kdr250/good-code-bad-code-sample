@@ -15,7 +15,7 @@ public class ItemKey implements Key {
   private final ItemImage itemImage;
 
   public ItemKey(ItemImage itemImage) {
-    if (itemImage.getItemType() != ItemType.KEY) {
+    if (itemImage.itemType() != ItemType.KEY) {
       throw new IllegalArgumentException();
     }
     this.location = Location.EMPTY;

@@ -1,16 +1,17 @@
 package com.example.sample.domain.model.gamemode;
 
-import lombok.Getter;
-
 /**
  * ゲームモード
  */
-@Getter
 public class GameMode {
   private GameModeType gameModeType;
 
   public GameMode(final GameModeType gameModeType) {
     this.gameModeType = gameModeType;
+  }
+
+  public GameModeType gameModeType() {
+    return gameModeType;
   }
 
   public void changeToWorldMap() {

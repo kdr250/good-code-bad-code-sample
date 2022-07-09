@@ -33,7 +33,6 @@ import com.example.sample.presentation.GamePanel;
 import com.example.sample.presentation.KeyInputType;
 import com.example.sample.presentation.battle.BattleController;
 import com.example.sample.presentation.itemlist.ItemListController;
-import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.tuple.Triple;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
@@ -42,7 +41,6 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@RequiredArgsConstructor
 @Component
 public class WorldMapController {
 
@@ -70,6 +68,21 @@ public class WorldMapController {
 
   private Location playerStartLocation;
   private GameMode gameMode;
+
+  public WorldMapController(ApplicationContext applicationContext, WorldMapQueryService worldMapQueryService, PlayerQueryService playerQueryService, PlayerDomainService playerDomainService, NpcQueryService npcQueryService, NpcDomainService npcDomainService, EnemyQueryService enemyQueryService, EnemyDomainService enemyDomainService, ItemQueryService itemQueryService, ItemDomainService itemDomainService, InteractiveQueryService interactiveQueryService, InteractiveDomainService interactiveDomainService) {
+    this.applicationContext = applicationContext;
+    this.worldMapQueryService = worldMapQueryService;
+    this.playerQueryService = playerQueryService;
+    this.playerDomainService = playerDomainService;
+    this.npcQueryService = npcQueryService;
+    this.npcDomainService = npcDomainService;
+    this.enemyQueryService = enemyQueryService;
+    this.enemyDomainService = enemyDomainService;
+    this.itemQueryService = itemQueryService;
+    this.itemDomainService = itemDomainService;
+    this.interactiveQueryService = interactiveQueryService;
+    this.interactiveDomainService = interactiveDomainService;
+  }
 
   public void setUp(GameMode gameMode) {
     worldMap = worldMapQueryService.find();
@@ -129,7 +142,7 @@ public class WorldMapController {
   public void draw(Graphics2D g2) {
     if (player == null || worldMap == null) return;
 
-    for (Tile[] tiles : worldMap.getTiles()) {
+    for (Tile[] tiles : worldMap.tiles()) {
       for (Tile tile : tiles) {
         Triple<Boolean, Integer, Integer> result = canDisplayAndDistanceFromPlayer(tile.location(), player.location());
         if (Boolean.TRUE.equals(result.getLeft())) {
@@ -168,7 +181,7 @@ public class WorldMapController {
       }
     }
 
-    if (gameMode.getGameModeType() == GameModeType.WORLD_MAP) {
+    if (gameMode.gameModeType() == GameModeType.WORLD_MAP) {
       playerStatusView.draw(g2);
     }
   }
