@@ -70,7 +70,7 @@
 ./gradlew :good:run
 ```
 
-## JIG 設計ドキュメントの生成
+## JIGドキュメントの生成
 ```
 ./gradlew :good:clean build jig
 ```
