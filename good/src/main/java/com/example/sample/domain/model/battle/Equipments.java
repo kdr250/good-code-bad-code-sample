@@ -7,8 +7,6 @@ package com.example.sample.domain.model.battle;
 
 import com.example.sample.domain.model.item.Equipment;
 import com.example.sample.domain.model.item.EquipmentType;
-import com.example.sample.domain.model.item.ItemShieldNormal;
-import com.example.sample.domain.model.item.ItemWeapon;
 import lombok.Getter;
 
 /**
@@ -76,7 +74,7 @@ public class Equipments {
   }
 
   public void equip(Equipment equipment) {
-    switch (equipment.getEquipmentType()) {
+    switch (equipment.equipmentType()) {
       case ARMOR:
         equipArmor(equipment);
         break;
@@ -117,11 +115,15 @@ public class Equipments {
     }
   }
 
-  public int totalAttack() {
-    return weapon.attack() + armor.attack() + arm.attack();
+  public AttackPower totalAttackPower() {
+    return weapon.attackPower()
+        .reinForce(armor.attackPower())
+        .reinForce(arm.attackPower());
   }
 
-  public int totalDefense() {
-    return armor.defense() + arm.defense() + weapon.defense();
+  public DefensePower totalDefensePower() {
+    return armor.defensePower()
+        .reinforce(arm.defensePower())
+        .reinforce(weapon.defensePower());
   }
 }

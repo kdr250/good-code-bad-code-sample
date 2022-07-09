@@ -1,8 +1,15 @@
 package com.example.sample.domain.model.character.player;
 
+import com.example.sample.domain.model.battle.AttackPower;
+import com.example.sample.domain.model.battle.Damage;
+import com.example.sample.domain.model.battle.DefensePower;
+import com.example.sample.domain.model.battle.Equipments;
+import com.example.sample.domain.model.battle.Experience;
+import com.example.sample.domain.model.battle.HitPoint;
+import com.example.sample.domain.model.battle.Level;
+import com.example.sample.domain.model.battle.MagicPoint;
 import com.example.sample.domain.model.battle.PlayerBattleStatus;
 import com.example.sample.domain.model.character.enemy.Enemy;
-import com.example.sample.domain.model.interactive.Interactive;
 import com.example.sample.domain.model.item.Equipment;
 import com.example.sample.domain.model.item.EquipmentType;
 import com.example.sample.domain.model.item.Item;
@@ -12,7 +19,6 @@ import com.example.sample.domain.model.worldmap.Collision;
 import com.example.sample.domain.model.worldmap.Location;
 import com.example.sample.domain.model.worldmap.Vector;
 import com.example.sample.domain.model.worldmap.Direction;
-import lombok.Getter;
 
 import java.awt.image.BufferedImage;
 import java.util.List;
@@ -21,7 +27,6 @@ import java.util.function.Predicate;
 /**
  * プレイヤー
  */
-@Getter
 public class Player implements Collidable {
   private Location location;
   private Collision collision;
@@ -54,7 +59,7 @@ public class Player implements Collidable {
         .filter(collidable -> this != collidable)
         .filter(Predicate.not(Item.class::isInstance))
         .filter(Predicate.not(Enemy.class::isInstance))
-        .noneMatch(collidable -> collision.willCollide(collidable.getCollision(), vector));
+        .noneMatch(collidable -> collision.willCollide(collidable.collision(), vector));
   }
 
   public void changeDirection(Vector vector) {
@@ -69,8 +74,12 @@ public class Player implements Collidable {
     return playerAnimation.getImage();
   }
 
+  public Equipments equipments() {
+    return playerBattleStatus.equipments();
+  }
+
   public void changeEquipment(Equipment equipment) {
-    EquipmentType equipmentType = equipment.getEquipmentType();
+    EquipmentType equipmentType = equipment.equipmentType();
     if (playerBattleStatus.hasEquipment(equipmentType)) {
       Equipment deactivatedEquipment = playerBattleStatus.deactivateEquipment(equipmentType);
       pickUp(deactivatedEquipment);
@@ -79,7 +88,11 @@ public class Player implements Collidable {
     removeItem(equipment);
   }
 
-  public void recoverHitPoint(final int recoveryAmount) {
+  public HitPoint hitPoint() {
+    return playerBattleStatus.hitPoint();
+  }
+
+  public void recoverHitPoint(final HitPoint recoveryAmount) {
     playerBattleStatus.recoveryHitPoint(recoveryAmount);
   }
 
@@ -87,16 +100,24 @@ public class Player implements Collidable {
     playerBattleStatus.recoveryHitPointMax();
   }
 
-  public void damageHitPoint(final int damageAmount) {
-    playerBattleStatus.damageHitPoint(damageAmount);
+  public void damageHitPoint(final Damage damage) {
+    playerBattleStatus.damageHitPoint(damage);
   }
 
-  public void recoverMagicPoint(final int recoveryAmount) {
+  public MagicPoint magicPoint() {
+    return playerBattleStatus.magicPoint();
+  }
+
+  public void recoverMagicPoint(final MagicPoint recoveryAmount) {
     playerBattleStatus.recoveryMagicPoint(recoveryAmount);
   }
 
   public void recoverMagicPointMax() {
     playerBattleStatus.recoverMagicPointMax();
+  }
+
+  public PlayerItems playerItems() {
+    return playerItems;
   }
 
   public void pickUp(Item item) {
@@ -116,7 +137,7 @@ public class Player implements Collidable {
   }
 
   public boolean isOverlap(final Collidable collidable) {
-    return collision.isCollide(collidable.getCollision());
+    return collision.isCollide(collidable.collision());
   }
 
   public List<Technique> techniques() {
@@ -131,16 +152,16 @@ public class Player implements Collidable {
     playerBattleStatus.consumeCostForAttack(technique);
   }
 
-  public int totalAttack(Technique technique) {
-    return playerBattleStatus.totalAttack(technique);
+  public AttackPower totalAttackPower(Technique technique) {
+    return playerBattleStatus.totalAttackPower(technique);
   }
 
-  public int totalAttack() {
-    return playerBattleStatus.totalAttack();
+  public AttackPower totalAttackPower() {
+    return playerBattleStatus.totalAttackPower();
   }
 
-  public int totalDefense() {
-    return playerBattleStatus.totalDefense();
+  public DefensePower totalDefensePower() {
+    return playerBattleStatus.totalDefensePower();
   }
 
   public boolean isDead() {
@@ -151,7 +172,25 @@ public class Player implements Collidable {
     playerBattleStatus.deactivateAllEquipments();
   }
 
-  public boolean gainExperienceAndIsLevelUp(final int experienceIncrement) {
-    return playerBattleStatus.gainExperienceAndIsLevelUp(experienceIncrement);
+  public Level level() {
+    return playerBattleStatus.level();
+  }
+
+  public Experience experience() {
+    return playerBattleStatus.experience();
+  }
+
+  public boolean gainExperienceAndIsLevelUp(final Experience increment) {
+    return playerBattleStatus.gainExperienceAndIsLevelUp(increment);
+  }
+
+  @Override
+  public Location location() {
+    return location;
+  }
+
+  @Override
+  public Collision collision() {
+    return collision;
   }
 }

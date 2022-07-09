@@ -18,6 +18,6 @@ public class Enemies {
   }
 
   public void remove(Enemy enemy) {
-    enemies.remove(enemy);
+    enemies.remove(enemy); // TODO: 本当は不変にして、変更時は新しいインスタンスを返すようにしたい..
   }
 }

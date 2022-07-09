@@ -15,6 +15,7 @@ public class MagicPoint {
   private int originalMaxAmount;
   private final List<Integer> maxIncrements;
   private static final int MIN = 0;
+  public static final MagicPoint NONE = new MagicPoint(MIN);
 
   public MagicPoint(final int currentAmount, final int originalMaxAmount) {
     if (currentAmount < MIN || currentAmount > originalMaxAmount) {
@@ -50,8 +51,8 @@ public class MagicPoint {
    * 魔法力を回復する
    * @param recoveryAmount 回復量
    */
-  public void recover(final int recoveryAmount) {
-    currentAmount = Math.min(currentAmount + recoveryAmount, max());
+  public void recover(final MagicPoint recoveryAmount) {
+    currentAmount = Math.min(currentAmount + recoveryAmount.currentAmount, max());
   }
 
   public void recoverOriginalMax() {
@@ -71,11 +72,11 @@ public class MagicPoint {
     maxIncrements.remove((Integer)maxIncrement);
   }
 
-  public void consume(final int consumeAmount) {
-    currentAmount = Math.max(currentAmount - consumeAmount, MIN);
+  public void consume(final MagicPoint consumeAmount) {
+    currentAmount = Math.max(currentAmount - consumeAmount.currentAmount, MIN);
   }
 
-  public boolean canAttack(final int cost) {
-    return currentAmount >= cost;
+  public boolean canAttack(final MagicPoint cost) {
+    return currentAmount >= cost.currentAmount;
   }
 }

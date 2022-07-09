@@ -6,14 +6,12 @@ import com.example.sample.domain.model.battle.technique.PlayerTechniques;
 import com.example.sample.domain.model.battle.technique.Technique;
 import com.example.sample.domain.model.battle.technique.magic.Magic;
 import com.example.sample.domain.model.battle.technique.magic.MagicType;
-import lombok.Getter;
 
 import java.util.List;
 
 /**
  * プレイヤーの戦闘ステータス
  */
-@Getter
 public class PlayerBattleStatus {
   private HitPoint hitPoint;
   private AttackPower attackPower;
@@ -38,7 +36,7 @@ public class PlayerBattleStatus {
   public static PlayerBattleStatus initialize() {
     HitPoint hItPoint = new HitPoint(6);
     AttackPower attackPower = new AttackPower(1);
-    DefensePower defensePower = new DefensePower(1);
+    DefensePower defensePower = DefensePower.NONE;
     MagicPoint magicPoint = new MagicPoint(4);
     Level level = Level.initialize();
     Experience experience = new Experience(1, 5);
@@ -47,7 +45,11 @@ public class PlayerBattleStatus {
     return new PlayerBattleStatus(hItPoint, attackPower, defensePower, magicPoint, level, experience, equipments, playerTechniques);
   }
 
-  public void recoveryHitPoint(final int recoveryAmount) {
+  public HitPoint hitPoint() {
+    return hitPoint;
+  }
+
+  public void recoveryHitPoint(final HitPoint recoveryAmount) {
     hitPoint = hitPoint.recover(recoveryAmount);
   }
 
@@ -55,17 +57,25 @@ public class PlayerBattleStatus {
     hitPoint = hitPoint.recoverMax();
   }
 
-  public void damageHitPoint(final int damageAmount) {
-    int damage = Math.max(damageAmount - totalDefense(), 1);
-    hitPoint = hitPoint.damage(damage);
+  public void damageHitPoint(final Damage damage) {
+    Damage correctedDamage = damage.reduce(totalDefensePower());
+    hitPoint = hitPoint.damage(correctedDamage);
   }
 
-  public void recoveryMagicPoint(final int recoveryAmount) {
+  public MagicPoint magicPoint() {
+    return magicPoint;
+  }
+
+  public void recoveryMagicPoint(final MagicPoint recoveryAmount) {
     magicPoint.recover(recoveryAmount);
   }
 
   public void recoverMagicPointMax() {
     magicPoint.recoverOriginalMax();
+  }
+
+  public Equipments equipments() {
+    return equipments;
   }
 
   public void equip(Equipment equipment) {
@@ -84,33 +94,28 @@ public class PlayerBattleStatus {
   public boolean canAttack(Technique technique) {
     if (technique instanceof MagicType) {
       Magic magicTechnique = ((MagicType)technique).getMagic();
-      return magicPoint.canAttack(magicTechnique.costMagicPoint(level).current());
+      return magicPoint.canAttack(magicTechnique.costMagicPoint(level));
     }
     return true;
   }
 
   public void consumeCostForAttack(Technique technique) {
-    if (technique instanceof MagicType) {
-      Magic magicTechnique = ((MagicType)technique).getMagic();
-      magicPoint.consume(magicTechnique.costMagicPoint(level).current());
-    }
+    magicPoint.consume(technique.costMagicPoint(level));
   }
 
-  public int totalAttack(Technique technique) {
-    int baseAttack = attackPower.getValue();
-    int equipmentsAttack = equipments.totalAttack();
-    int techniqueAttack = technique.attack(level);
-    return baseAttack + equipmentsAttack + techniqueAttack;
+  public AttackPower totalAttackPower(Technique technique) {
+    AttackPower equipmentsAttackPower = equipments.totalAttackPower();
+    AttackPower techniqueAttackPower = technique.attackPower(level);
+    return attackPower.reinForce(equipmentsAttackPower).reinForce(techniqueAttackPower);
   }
 
-  public int totalAttack() {
-    int baseAttack = attackPower.getValue();
-    int equipmentsAttack = equipments.totalAttack();
-    return baseAttack + equipmentsAttack;
+  public AttackPower totalAttackPower() {
+    AttackPower equipmentsAttackPower = equipments.totalAttackPower();
+    return attackPower.reinForce(equipmentsAttackPower);
   }
 
-  public int totalDefense() {
-    return defensePower.getValue() + equipments.totalDefense();
+  public DefensePower totalDefensePower() {
+    return defensePower.reinforce(equipments.totalDefensePower());
   }
 
   public boolean isDead() {
@@ -128,9 +133,17 @@ public class PlayerBattleStatus {
     equipments.deactivateAll();
   }
 
-  public boolean gainExperienceAndIsLevelUp(final int experienceIncrement) {
-    boolean needsLevelUp = experience.needsLevelUpIfGained(experienceIncrement);
-    experience = experience.gain(experienceIncrement);
+  public Level level() {
+    return level;
+  }
+
+  public Experience experience() {
+    return experience;
+  }
+
+  public boolean gainExperienceAndIsLevelUp(final Experience increment) {
+    boolean needsLevelUp = experience.needsLevelUpIfGained(increment);
+    experience = experience.gain(increment);
     if (needsLevelUp) level = level.increase();
     return needsLevelUp;
   }

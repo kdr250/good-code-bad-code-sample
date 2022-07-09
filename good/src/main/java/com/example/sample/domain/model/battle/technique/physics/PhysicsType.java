@@ -1,6 +1,8 @@
 package com.example.sample.domain.model.battle.technique.physics;
 
+import com.example.sample.domain.model.battle.AttackPower;
 import com.example.sample.domain.model.battle.Level;
+import com.example.sample.domain.model.battle.MagicPoint;
 import com.example.sample.domain.model.battle.technique.Technique;
 
 /**
@@ -31,7 +33,12 @@ public enum PhysicsType implements Technique {
   }
 
   @Override
-  public int attack(Level level) {
-    return physics.attackPower(level).getValue();
+  public AttackPower attackPower(Level level) {
+    return physics.attackPower(level);
+  }
+
+  @Override
+  public MagicPoint costMagicPoint(Level level) {
+    return MagicPoint.NONE;
   }
 }

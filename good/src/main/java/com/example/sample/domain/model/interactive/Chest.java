@@ -5,14 +5,12 @@ import com.example.sample.domain.model.worldmap.Location;
 import com.example.sample.domain.model.event.Event;
 import com.example.sample.domain.model.event.GameClearEvent;
 import com.example.sample.domain.model.worldmap.Vector;
-import lombok.Getter;
 
 import java.awt.image.BufferedImage;
 
 /**
  * 宝箱
  */
-@Getter
 public class Chest implements Interactive {
 
   private final Location location;
@@ -42,5 +40,15 @@ public class Chest implements Interactive {
   @Override
   public BufferedImage getImage() {
     return interactiveImage.getBufferedImage();
+  }
+
+  @Override
+  public Location location() {
+    return location;
+  }
+
+  @Override
+  public Collision collision() {
+    return collision;
   }
 }

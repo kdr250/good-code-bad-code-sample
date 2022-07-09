@@ -1,12 +1,10 @@
 package com.example.sample.domain.model.battle;
 
 import com.example.sample.domain.model.item.ItemType;
-import lombok.Getter;
 
 /**
  * 敵の戦闘ステータス
  */
-@Getter
 public class EnemyBattleStatus {
   private HitPoint hitPoint;
   private final AttackPower attackPower;
@@ -22,21 +20,33 @@ public class EnemyBattleStatus {
 
   public static EnemyBattleStatus initialize() {
     HitPoint hitPoint = new HitPoint(6);
-    AttackPower attackPower = new AttackPower(2);
+    AttackPower attackPower = new AttackPower(3);
     Experience experience = Experience.enemyExperience(2);
     return new EnemyBattleStatus(hitPoint, attackPower, experience);
   }
 
-  public void damageHitPoint(final int damageAmount) {
-    hitPoint = hitPoint.damage(damageAmount);
+  public HitPoint hitPoint() {
+    return hitPoint;
   }
 
-  public int attack() {
-    return attackPower.getValue();
+  public void damageHitPoint(final Damage damage) {
+    hitPoint = hitPoint.damage(damage);
+  }
+
+  public AttackPower attackPower() {
+    return attackPower;
   }
 
   public boolean isDead() {
     return hitPoint.isZero();
+  }
+
+  public Experience experience() {
+    return experience;
+  }
+
+  public ItemType dropItemType() {
+    return dropItemType;
   }
 
   private ItemType decideDropItemType() {

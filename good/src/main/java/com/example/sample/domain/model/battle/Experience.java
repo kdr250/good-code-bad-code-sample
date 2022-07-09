@@ -1,11 +1,8 @@
 package com.example.sample.domain.model.battle;
 
-import lombok.Getter;
-
 /**
  * 経験値
  */
-@Getter
 public class Experience {
   private int value;
   private final int nextLevelValue;
@@ -23,17 +20,22 @@ public class Experience {
     return new Experience(value, value + 1);
   }
 
-  public boolean needsLevelUpIfGained(final int increment) {
-    return nextLevelValue <= value + increment;
+  public boolean needsLevelUpIfGained(final Experience increment) {
+    return nextLevelValue <= value + increment.value;
   }
 
-  public Experience gain(final int increment) {
-    int newValue = (value + increment) % nextLevelValue;
+  public Experience gain(final Experience increment) {
+    int newValue = (value + increment.value) % nextLevelValue;
     int newNextLevelValue = needsLevelUpIfGained(increment) ? (int)(nextLevelValue * 1.5) : nextLevelValue;
     return new Experience(newValue, newNextLevelValue);
   }
 
   public int untilNextLevel() {
     return nextLevelValue - value;
+  }
+
+  @Override
+  public String toString() {
+    return String.valueOf(value);
   }
 }

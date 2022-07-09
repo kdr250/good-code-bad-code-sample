@@ -25,7 +25,7 @@ public class HellFire implements Magic {
 
   @Override
   public AttackPower attackPower(final Level level) {
-    final int value = 5 + level.getValue() * 2;
+    final int value = 5 + level.value() * 2;
     return new AttackPower(value);
   }
 

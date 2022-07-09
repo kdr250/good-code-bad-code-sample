@@ -83,7 +83,7 @@ public class WorldMapController {
     ItemImage itemImageCrystalFull = itemQueryService.findImage(ItemType.CRYSTAL_FULL);
     playerStatusView = new PlayerStatusView(player, itemImageCrystalBlank, itemImageCrystalFull);
 
-    playerStartLocation = player.getLocation();
+    playerStartLocation = player.location();
     this.gameMode = gameMode;
   }
 
@@ -96,7 +96,7 @@ public class WorldMapController {
     }
 
     Vector vector = keyInputType.getVector();
-    List<Collidable> collidableList = createCollidableList(player.getLocation().shift(vector));
+    List<Collidable> collidableList = createCollidableList(player.location().shift(vector));
 
     // プレイヤー
     playerDomainService.move(player, collidableList, vector);
@@ -109,13 +109,13 @@ public class WorldMapController {
 
     // NPC
     for (Npc npc : npcs.npcs()) {
-      List<Collidable> collidableListForNpc = createCollidableList(npc.getLocation().shift(npc.getNpcMovement().getVector()));
+      List<Collidable> collidableListForNpc = createCollidableList(npc.location().shift(npc.movingVector()));
       npcDomainService.move(npc, collidableListForNpc);
     }
 
     // 敵
     for (Enemy enemy : enemies.enemies()) {
-      List<Collidable> collidableListForEnemy = createCollidableList(enemy.getLocation().shift(enemy.getEnemyMovement().getVector()));
+      List<Collidable> collidableListForEnemy = createCollidableList(enemy.location().shift(enemy.movingVector()));
       enemyDomainService.move(enemy, collidableListForEnemy);
 
       if (player.isOverlap(enemy)) {
@@ -131,8 +131,8 @@ public class WorldMapController {
 
     for (Tile[] tiles : worldMap.getTiles()) {
       for (Tile tile : tiles) {
-        Triple<Boolean, Integer, Integer> result = canDisplayAndDifferenceFromPlayer(tile.getLocation(), player.getLocation());
-        if (result.getLeft()) {
+        Triple<Boolean, Integer, Integer> result = canDisplayAndDistanceFromPlayer(tile.location(), player.location());
+        if (Boolean.TRUE.equals(result.getLeft())) {
           g2.drawImage(tile.getBufferedImage(), GamePanel.screenCenterX + result.getMiddle(), GamePanel.screenCenterY + result.getRight(), null);
         }
       }
@@ -141,29 +141,29 @@ public class WorldMapController {
     g2.drawImage(player.getAnimatedImage(), GamePanel.screenCenterX, GamePanel.screenCenterY, null);
 
     for (Npc npc : npcs.npcs()) {
-      Triple<Boolean, Integer, Integer> result = canDisplayAndDifferenceFromPlayer(npc.getLocation(), player.getLocation());
-      if (result.getLeft()) {
+      Triple<Boolean, Integer, Integer> result = canDisplayAndDistanceFromPlayer(npc.location(), player.location());
+      if (Boolean.TRUE.equals(result.getLeft())) {
         g2.drawImage(npc.getAnimatedImage(), GamePanel.screenCenterX + result.getMiddle(), GamePanel.screenCenterY + result.getRight(), null);
       }
     }
 
     for (Enemy enemy : enemies.enemies()) {
-      Triple<Boolean, Integer, Integer> result = canDisplayAndDifferenceFromPlayer(enemy.getLocation(), player.getLocation());
-      if (result.getLeft()) {
+      Triple<Boolean, Integer, Integer> result = canDisplayAndDistanceFromPlayer(enemy.location(), player.location());
+      if (Boolean.TRUE.equals(result.getLeft())) {
         g2.drawImage(enemy.getAnimatedImage(), GamePanel.screenCenterX + result.getMiddle(), GamePanel.screenCenterY + result.getRight(), null);
       }
     }
 
     for (Item item : items.items()) {
-      Triple<Boolean, Integer, Integer> result = canDisplayAndDifferenceFromPlayer(item.getLocation(), player.getLocation());
-      if (result.getLeft()) {
+      Triple<Boolean, Integer, Integer> result = canDisplayAndDistanceFromPlayer(item.location(), player.location());
+      if (Boolean.TRUE.equals(result.getLeft())) {
         g2.drawImage(item.getImage(), GamePanel.screenCenterX + result.getMiddle(), GamePanel.screenCenterY + result.getRight(), null);
       }
     }
 
     for (Interactive interactive : interactions.interactions()) {
-      Triple<Boolean, Integer, Integer> result = canDisplayAndDifferenceFromPlayer(interactive.getLocation(), player.getLocation());
-      if (result.getLeft()) {
+      Triple<Boolean, Integer, Integer> result = canDisplayAndDistanceFromPlayer(interactive.location(), player.location());
+      if (Boolean.TRUE.equals(result.getLeft())) {
         g2.drawImage(interactive.getImage(), GamePanel.screenCenterX + result.getMiddle(), GamePanel.screenCenterY + result.getRight(), null);
       }
     }
@@ -189,13 +189,13 @@ public class WorldMapController {
     items = itemQueryService.find();
   }
 
-  private Triple<Boolean, Integer, Integer> canDisplayAndDifferenceFromPlayer(Location location, Location playerLocation) {
-    int diffX = location.getX() - playerLocation.getX();
-    int diffY = location.getY() - playerLocation.getY();
-    boolean canDisplay = Math.abs(diffX) <= GamePanel.screenWidth / 2 + Tile.TILE_SIZE &&
-      Math.abs(diffY) <= GamePanel.screenHeight / 2 + Tile.TILE_SIZE;
+  private Triple<Boolean, Integer, Integer> canDisplayAndDistanceFromPlayer(Location location, Location playerLocation) {
+    int distanceX = location.getX() - playerLocation.getX();
+    int distanceY = location.getY() - playerLocation.getY();
+    boolean canDisplay = Math.abs(distanceX) <= GamePanel.screenWidth / 2 + Tile.TILE_SIZE &&
+      Math.abs(distanceY) <= GamePanel.screenHeight / 2 + Tile.TILE_SIZE;
 
-    return Triple.of(canDisplay, diffX, diffY);
+    return Triple.of(canDisplay, distanceX, distanceY);
   }
 
   private List<Collidable> createCollidableList(Location willMoveLocation) {

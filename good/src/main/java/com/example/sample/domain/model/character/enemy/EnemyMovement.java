@@ -28,7 +28,7 @@ public class EnemyMovement {
     }
   }
 
-  public Vector getVector() {
+  public Vector vector() {
     return vector;
   }
 }

@@ -1,7 +1,5 @@
 package com.example.sample.domain.model.item;
 
-import com.example.sample.domain.model.item.Item;
-
 import java.util.Collections;
 import java.util.List;
 
@@ -20,6 +18,6 @@ public class Items {
   }
 
   public void remove(Item item) {
-    items.remove(item);
+    items.remove(item); // TODO: 本当は不変にして、変更時は新しいインスタンスを返すようにしたい..
   }
 }

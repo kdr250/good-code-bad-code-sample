@@ -1,18 +1,17 @@
 package com.example.sample.domain.model.item;
 
+import com.example.sample.domain.model.battle.AttackPower;
 import com.example.sample.domain.model.worldmap.Collision;
 import com.example.sample.domain.model.worldmap.Location;
 import com.example.sample.domain.model.battle.DefensePower;
 import com.example.sample.domain.model.event.Event;
 import com.example.sample.domain.model.event.PlayerEquipEvent;
-import lombok.Getter;
 
 import java.awt.image.BufferedImage;
 
 /**
  * 青い盾
  */
-@Getter
 public class ItemShieldBlue implements Equipment {
 
   private final DefensePower defensePower;
@@ -49,12 +48,27 @@ public class ItemShieldBlue implements Equipment {
   }
 
   @Override
-  public int attack() {
-    return 0;
+  public AttackPower attackPower() {
+    return AttackPower.NONE;
   }
 
   @Override
-  public int defense() {
-    return defensePower.getValue();
+  public DefensePower defensePower() {
+    return defensePower;
+  }
+
+  @Override
+  public EquipmentType equipmentType() {
+    return equipmentType;
+  }
+
+  @Override
+  public Location location() {
+    return location;
+  }
+
+  @Override
+  public Collision collision() {
+    return collision;
   }
 }

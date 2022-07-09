@@ -91,7 +91,7 @@ public class BattleController {
           }
 
           player.consumeCostForAttack(technique);
-          enemy.damageHitPoint(player.totalAttack(technique));
+          enemy.damageHitPoint(player.totalAttackPower(technique).toDamage());
           battleViewState = BattleViewState.PLAYER_TECHNIQUE_RESULT;
           return;
       }
@@ -106,7 +106,7 @@ public class BattleController {
           return;
         }
 
-        player.damageHitPoint(enemy.attack());
+        player.damageHitPoint(enemy.attackPower().toDamage());
         battleViewState = BattleViewState.ENEMY_ACTION_RESULT;
         return;
       }
@@ -133,7 +133,7 @@ public class BattleController {
 
     if (battleViewState == BattleViewState.BATTLE_RESULT_PLAYER_WIN) {
       if (keyInputType == KeyInputType.DECIDE) {
-        boolean isLevelUp = player.gainExperienceAndIsLevelUp(enemy.getEnemyBattleStatus().getExperience().getValue());
+        boolean isLevelUp = player.gainExperienceAndIsLevelUp(enemy.experience());
         if (isLevelUp) {
           battleViewState = BattleViewState.BATTLE_RESULT_PLAYER_LEVEL_UP;
           return;

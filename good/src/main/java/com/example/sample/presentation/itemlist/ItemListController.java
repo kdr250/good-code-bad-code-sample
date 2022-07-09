@@ -70,20 +70,20 @@ public class ItemListController {
   }
 
   private ItemListViewChoice choice() {
-    List<Item> items = player.getPlayerItems().items();
+    List<Item> items = player.playerItems().items();
     if (itemListIndex > -1 && itemListIndex < items.size()) return ItemListViewChoice.USE_ITEM;
     return ItemListViewChoice.BACK;
   }
 
   private Item selectingItem() {
-    List<Item> items = player.getPlayerItems().items();
+    List<Item> items = player.playerItems().items();
     if (itemListIndex > -1 && itemListIndex < items.size()) return items.get(itemListIndex);
 
     throw new IllegalArgumentException();
   }
 
   private void updateItemListIndex(KeyInputType keyInputType) {
-    List<Item> items = player.getPlayerItems().items();
+    List<Item> items = player.playerItems().items();
     switch (keyInputType) {
       case UP:
         int tempItemListIndexUp = itemListIndex == -1 ? items.size() - 1 : itemListIndex - ITEM_LIST_ROW_SIZE;

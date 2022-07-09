@@ -4,14 +4,12 @@ import com.example.sample.domain.model.worldmap.Collision;
 import com.example.sample.domain.model.worldmap.Location;
 import com.example.sample.domain.model.event.PlayerEvent;
 import com.example.sample.domain.model.event.ConsumeItemAndHitPointRecoveryPlayerEvent;
-import lombok.Getter;
 
 import java.awt.image.BufferedImage;
 
 /**
  * 赤ポーション
  */
-@Getter
 public class ItemPotionRed implements Consumable {
 
   private final Location location;
@@ -41,5 +39,15 @@ public class ItemPotionRed implements Consumable {
   @Override
   public String description() {
     return "体力" + RECOVERY_AMOUNT + "回復";
+  }
+
+  @Override
+  public Location location() {
+    return location;
+  }
+
+  @Override
+  public Collision collision() {
+    return collision;
   }
 }

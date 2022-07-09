@@ -28,7 +28,7 @@ public class NpcMovement {
     }
   }
 
-  public Vector getVector() {
+  public Vector vector() {
     return vector;
   }
 }

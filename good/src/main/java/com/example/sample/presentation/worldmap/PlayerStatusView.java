@@ -25,13 +25,13 @@ public class PlayerStatusView {
     int playerLifeBarMaxWidth = 120;
     g2.setColor(Color.black);
     g2.fillRect(playerLifeBarX, y, playerLifeBarMaxWidth, 20);
-    double playerLifeBarWidth = playerLifeBarMaxWidth * ((double) player.getPlayerBattleStatus().getHitPoint().getValue() / (double) player.getPlayerBattleStatus().getHitPoint().getMaxValue());
+    double playerLifeBarWidth = playerLifeBarMaxWidth * ((double) player.hitPoint().value() / (double) player.hitPoint().maxValue());
     g2.setColor(Color.red);
     g2.fillRect(playerLifeBarX, y, (int)playerLifeBarWidth, 20);
     // 魔法力最大値を表示する
     x = Tile.TILE_SIZE / 2 - 5;
     y = (int)(Tile.TILE_SIZE * 1.5);
-    for (int i = 0; i < player.getPlayerBattleStatus().getMagicPoint().max(); i++) {
+    for (int i = 0; i < player.magicPoint().max(); i++) {
       g2.drawImage(crystalBlank.getBufferedImage(), x, y, null);
       x += 35;
     }
@@ -39,7 +39,7 @@ public class PlayerStatusView {
     // 現在の魔法力を表示する
     x = Tile.TILE_SIZE / 2 - 5;
     y = (int)(Tile.TILE_SIZE * 1.5);
-    for (int i = 0; i < player.getPlayerBattleStatus().getMagicPoint().current(); i++) {
+    for (int i = 0; i < player.magicPoint().current(); i++) {
       g2.drawImage(crystalFull.getBufferedImage(), x, y, null);
       x += 35;
     }

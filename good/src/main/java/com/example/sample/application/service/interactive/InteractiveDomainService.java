@@ -20,7 +20,7 @@ public class InteractiveDomainService {
    */
   public void interact(final Interactions interactions, final Player player, final GameMode gameMode) {
     for (Interactive interactive : interactions.interactions()) {
-      if (!interactive.contains(player.getLocation())) continue;
+      if (!interactive.contains(player.location())) continue;
 
       boolean result = executeEvent(interactive.interact(), player, gameMode);
       if (result) interactions.remove(interactive);

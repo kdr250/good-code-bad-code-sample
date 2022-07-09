@@ -7,7 +7,6 @@ import java.awt.image.BufferedImage;
 /**
  * タイル
  */
-@Getter
 public class Tile implements Collidable {
   private final TileType tileType;
   private final Location location;
@@ -30,5 +29,19 @@ public class Tile implements Collidable {
     boolean containsY = diffY >= TILE_SIZE * -1 && diffY <= TILE_SIZE;
 
     return containsX && containsY;
+  }
+
+  @Override
+  public Location location() {
+    return location;
+  }
+
+  @Override
+  public Collision collision() {
+    return collision;
+  }
+
+  public BufferedImage getBufferedImage() {
+    return bufferedImage;
   }
 }

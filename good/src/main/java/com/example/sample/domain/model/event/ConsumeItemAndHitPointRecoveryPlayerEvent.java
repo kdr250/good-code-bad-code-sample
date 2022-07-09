@@ -1,5 +1,6 @@
 package com.example.sample.domain.model.event;
 
+import com.example.sample.domain.model.battle.HitPoint;
 import com.example.sample.domain.model.character.player.Player;
 import com.example.sample.domain.model.item.Item;
 
@@ -8,11 +9,11 @@ import com.example.sample.domain.model.item.Item;
  */
 public class ConsumeItemAndHitPointRecoveryPlayerEvent implements PlayerEvent {
   private final Item item;
-  private final int recoveryAmount;
+  private final HitPoint recoveryAmount;
 
   public ConsumeItemAndHitPointRecoveryPlayerEvent(final Item item, final int recoveryAmount) {
     this.item = item;
-    this.recoveryAmount = recoveryAmount;
+    this.recoveryAmount = new HitPoint(recoveryAmount);
   }
 
   @Override

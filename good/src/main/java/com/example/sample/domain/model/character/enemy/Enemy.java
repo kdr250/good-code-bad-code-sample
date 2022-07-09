@@ -1,12 +1,15 @@
 package com.example.sample.domain.model.character.enemy;
 
+import com.example.sample.domain.model.battle.AttackPower;
+import com.example.sample.domain.model.battle.Damage;
 import com.example.sample.domain.model.battle.EnemyBattleStatus;
+import com.example.sample.domain.model.battle.Experience;
+import com.example.sample.domain.model.battle.HitPoint;
 import com.example.sample.domain.model.item.ItemType;
 import com.example.sample.domain.model.worldmap.Collidable;
 import com.example.sample.domain.model.worldmap.Collision;
 import com.example.sample.domain.model.worldmap.Location;
 import com.example.sample.domain.model.worldmap.Vector;
-import lombok.Getter;
 
 import java.awt.image.BufferedImage;
 import java.util.List;
@@ -14,7 +17,6 @@ import java.util.List;
 /**
  * 敵
  */
-@Getter
 public class Enemy implements Collidable {
   private final String name;
   private Location location;
@@ -33,15 +35,19 @@ public class Enemy implements Collidable {
   }
 
   public void move() {
-    Vector vector = enemyMovement.getVector();
+    Vector vector = enemyMovement.vector();
     location = location.shift(vector);
     collision = collision.shift(vector);
   }
 
   public boolean updateMovementThenCanMove(final List<Collidable> collidableList) {
     enemyMovement.update();
-    Vector vector = enemyMovement.getVector();
-    return collidableList.stream().filter(collidable -> this != collidable).noneMatch(c -> collision.willCollide(c.getCollision(), vector));
+    Vector vector = enemyMovement.vector();
+    return collidableList.stream().filter(collidable -> this != collidable).noneMatch(c -> collision.willCollide(c.collision(), vector));
+  }
+
+  public Vector movingVector() {
+    return enemyMovement.vector();
   }
 
   public BufferedImage getAnimatedImage() {
@@ -52,12 +58,16 @@ public class Enemy implements Collidable {
     return enemyAnimation.getImage();
   }
 
-  public void damageHitPoint(final int damageAmount) {
-    enemyBattleStatus.damageHitPoint(damageAmount);
+  public HitPoint hitPoint() {
+    return enemyBattleStatus.hitPoint();
   }
 
-  public int attack() {
-    return enemyBattleStatus.attack();
+  public void damageHitPoint(final Damage damage) {
+    enemyBattleStatus.damageHitPoint(damage);
+  }
+
+  public AttackPower attackPower() {
+    return enemyBattleStatus.attackPower();
   }
 
   public boolean isDead() {
@@ -65,6 +75,24 @@ public class Enemy implements Collidable {
   }
 
   public ItemType dropItemType() {
-    return enemyBattleStatus.getDropItemType();
+    return enemyBattleStatus.dropItemType();
+  }
+
+  public String name() {
+    return name;
+  }
+
+  public Experience experience() {
+    return enemyBattleStatus.experience();
+  }
+
+  @Override
+  public Location location() {
+    return location;
+  }
+
+  @Override
+  public Collision collision() {
+    return collision;
   }
 }

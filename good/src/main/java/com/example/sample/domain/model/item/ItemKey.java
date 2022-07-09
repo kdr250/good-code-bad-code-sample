@@ -2,14 +2,12 @@ package com.example.sample.domain.model.item;
 
 import com.example.sample.domain.model.worldmap.Collision;
 import com.example.sample.domain.model.worldmap.Location;
-import lombok.Getter;
 
 import java.awt.image.BufferedImage;
 
 /**
  * 鍵
  */
-@Getter
 public class ItemKey implements Key {
 
   private final Location location;
@@ -33,5 +31,15 @@ public class ItemKey implements Key {
   @Override
   public String description() {
     return "扉を開ける鍵";
+  }
+
+  @Override
+  public Location location() {
+    return location;
+  }
+
+  @Override
+  public Collision collision() {
+    return collision;
   }
 }

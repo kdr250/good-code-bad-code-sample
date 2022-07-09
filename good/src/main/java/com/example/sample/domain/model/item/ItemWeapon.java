@@ -4,6 +4,7 @@
  */
 package com.example.sample.domain.model.item;
 
+import com.example.sample.domain.model.battle.DefensePower;
 import com.example.sample.domain.model.worldmap.Collision;
 import com.example.sample.domain.model.worldmap.Location;
 import com.example.sample.domain.model.battle.AttackPower;
@@ -16,7 +17,6 @@ import java.awt.image.BufferedImage;
 /**
  * 武器
  */
-@Getter
 public class ItemWeapon implements Equipment {
 
   private final AttackPower attackPower;
@@ -64,12 +64,27 @@ public class ItemWeapon implements Equipment {
   }
 
   @Override
-  public int attack() {
-    return attackPower.getValue();
+  public AttackPower attackPower() {
+    return attackPower;
   }
 
   @Override
-  public int defense() {
-    return 0;
+  public DefensePower defensePower() {
+    return DefensePower.NONE;
+  }
+
+  @Override
+  public EquipmentType equipmentType() {
+    return equipmentType;
+  }
+
+  @Override
+  public Location location() {
+    return location;
+  }
+
+  @Override
+  public Collision collision() {
+    return collision;
   }
 }

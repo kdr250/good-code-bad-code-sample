@@ -1,18 +1,17 @@
 package com.example.sample.domain.model.item;
 
+import com.example.sample.domain.model.battle.DefensePower;
 import com.example.sample.domain.model.worldmap.Collision;
 import com.example.sample.domain.model.worldmap.Location;
 import com.example.sample.domain.model.battle.AttackPower;
 import com.example.sample.domain.model.event.Event;
 import com.example.sample.domain.model.event.PlayerEquipEvent;
-import lombok.Getter;
 
 import java.awt.image.BufferedImage;
 
 /**
  * 魔法の杖
  */
-@Getter
 public class ItemMagicalWeapon implements Equipment {
 
   private final AttackPower attackPower;
@@ -49,12 +48,27 @@ public class ItemMagicalWeapon implements Equipment {
   }
 
   @Override
-  public int attack() {
-    return attackPower.getValue();
+  public AttackPower attackPower() {
+    return attackPower;
   }
 
   @Override
-  public int defense() {
-    return 0;
+  public DefensePower defensePower() {
+    return DefensePower.NONE;
+  }
+
+  @Override
+  public EquipmentType equipmentType() {
+    return equipmentType;
+  }
+
+  @Override
+  public Location location() {
+    return location;
+  }
+
+  @Override
+  public Collision collision() {
+    return collision;
   }
 }

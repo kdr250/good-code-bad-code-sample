@@ -20,13 +20,13 @@ public class Shiden implements Magic {
 
   @Override
   public MagicPoint costMagicPoint(final Level level) {
-    final int value = 3 + (int)(level.getValue() * 0.2);
+    final int value = 3 + (int)(level.value() * 0.2);
     return new MagicPoint(value);
   }
 
   @Override
   public AttackPower attackPower(final Level level) {
-    final int value = 4 + (int)(level.getValue() * 1.5);
+    final int value = 4 + (int)(level.value() * 1.5);
     return new AttackPower(value);
   }
 

@@ -25,7 +25,7 @@ public class BattleView {
   }
 
   public void draw(Graphics2D g2, BattleViewState battleViewState, PlayerActionChoice playerActionChoice, PlayerTechniqueChoice playerTechniqueChoice) {
-    drawPlayerAndEnemy(g2, battleViewState, playerActionChoice, playerTechniqueChoice);
+    drawPlayerAndEnemy(g2);
     drawDialogBox(g2);
 
     switch (battleViewState) {
@@ -58,7 +58,7 @@ public class BattleView {
     }
   }
 
-  private void drawPlayerAndEnemy(Graphics2D g2, BattleViewState battleViewState, PlayerActionChoice playerActionChoice, PlayerTechniqueChoice playerTechniqueChoice) {
+  private void drawPlayerAndEnemy(Graphics2D g2) {
     g2.setColor(Color.black);
     g2.fillRect(Tile.TILE_SIZE, Tile.TILE_SIZE, GamePanel.screenWidth - Tile.TILE_SIZE * 2, GamePanel.screenHeight - Tile.TILE_SIZE * 2);
     // モンスターの画像
@@ -74,7 +74,7 @@ public class BattleView {
     g2.setColor(Color.red);
     g2.setStroke(new BasicStroke(3));
     g2.drawRect(monsterLifeBarX, monsterLifeBarY, monsterLifeBarMaxWidth, 20);
-    double monsterLifeBarWidth = monsterLifeBarMaxWidth * ((double) enemy.getEnemyBattleStatus().getHitPoint().getValue() / (double) enemy.getEnemyBattleStatus().getHitPoint().getMaxValue());
+    double monsterLifeBarWidth = monsterLifeBarMaxWidth * ((double) enemy.hitPoint().value() / (double) enemy.hitPoint().maxValue());
     g2.fillRect(monsterLifeBarX, monsterLifeBarY, (int)monsterLifeBarWidth, 20);
     // プレイヤーの画像
     int playerImageX = GamePanel.screenWidth / 2 + Tile.TILE_SIZE * 2;
@@ -87,13 +87,13 @@ public class BattleView {
     int playerLifeBarY = playerImageY + playerImageHeight;
     int playerLifeBarMaxWidth = 120;
     g2.drawRect(playerLifeBarX, playerLifeBarY, playerLifeBarMaxWidth, 20);
-    double playerLifeBarWidth = playerLifeBarMaxWidth * ((double) player.getPlayerBattleStatus().getHitPoint().getValue() / (double) player.getPlayerBattleStatus().getHitPoint().getMaxValue());
+    double playerLifeBarWidth = playerLifeBarMaxWidth * ((double) player.hitPoint().value() / (double) player.hitPoint().maxValue());
     g2.fillRect(playerLifeBarX, playerLifeBarY, (int)playerLifeBarWidth, 20);
     // プレイヤーの魔法力
     g2.setColor(Color.white);
     g2.setFont(g2.getFont().deriveFont(24f));
-    for (int i = 0; i < player.getPlayerBattleStatus().getMagicPoint().max(); i++) {
-      if (i < player.getPlayerBattleStatus().getMagicPoint().current()) {
+    for (int i = 0; i < player.magicPoint().max(); i++) {
+      if (i < player.magicPoint().current()) {
         g2.drawImage(crystalFull.getBufferedImage(), playerLifeBarX + i * 15, playerLifeBarY + 20, 30, 30, null);
       } else {
         g2.drawImage(crystalBlank.getBufferedImage(), playerLifeBarX + i * 15, playerLifeBarY + 20, 30, 30, null);
@@ -109,7 +109,7 @@ public class BattleView {
   }
 
   private void drawSelectingPlayerAction(Graphics2D g2, PlayerActionChoice playerActionChoice) {
-    g2.drawString(enemy.getName() + "が現れた", Tile.TILE_SIZE + 30, GamePanel.screenHeight / 2 + Tile.TILE_SIZE);
+    g2.drawString(enemy.name() + "が現れた", Tile.TILE_SIZE + 30, GamePanel.screenHeight / 2 + Tile.TILE_SIZE);
     g2.drawString("戦う", Tile.TILE_SIZE + Tile.TILE_SIZE * 10, GamePanel.screenHeight / 2 + Tile.TILE_SIZE);
     g2.drawString("にげる", Tile.TILE_SIZE + Tile.TILE_SIZE * 10, GamePanel.screenHeight / 2 + Tile.TILE_SIZE * 2);
     g2.drawString(">", Tile.TILE_SIZE + Tile.TILE_SIZE * 10 - 15, GamePanel.screenHeight / 2 + Tile.TILE_SIZE * (playerActionChoice.ordinal() + 1));
@@ -127,7 +127,7 @@ public class BattleView {
 
   private void drawPlayerTechniqueResult(Graphics2D g2, PlayerTechniqueChoice playerTechniqueChoice) {
     Technique technique = player.techniques().get(playerTechniqueChoice.ordinal());
-    g2.drawString("敵に" + player.totalAttack(technique) + "ダメージ！", Tile.TILE_SIZE + 30, GamePanel.screenHeight / 2 + Tile.TILE_SIZE);
+    g2.drawString("敵に" + player.totalAttackPower(technique) + "ダメージ！", Tile.TILE_SIZE + 30, GamePanel.screenHeight / 2 + Tile.TILE_SIZE);
     g2.drawString("> Press Enter", Tile.TILE_SIZE + 30, GamePanel.screenHeight / 2 + Tile.TILE_SIZE * 2);
   }
 
@@ -137,7 +137,7 @@ public class BattleView {
   }
 
   private void drawEnemyActionResult(Graphics2D g2) {
-    g2.drawString("プレイヤーに" + enemy.attack() + "ダメージ！", Tile.TILE_SIZE + 30, GamePanel.screenHeight / 2 + Tile.TILE_SIZE);
+    g2.drawString("プレイヤーに" + (enemy.attackPower().value() - player.totalDefensePower().value()) + "ダメージ！", Tile.TILE_SIZE + 30, GamePanel.screenHeight / 2 + Tile.TILE_SIZE);
     g2.drawString("> Press Enter", Tile.TILE_SIZE + 30, GamePanel.screenHeight / 2 + Tile.TILE_SIZE * 2);
   }
 
@@ -148,7 +148,7 @@ public class BattleView {
   }
 
   private void drawBattleResultPlayerLevelUp(Graphics2D g2) {
-    g2.drawString("レベルアップ！ LV." + player.getPlayerBattleStatus().getLevel().getValue() + "になった！" , Tile.TILE_SIZE + 30, GamePanel.screenHeight / 2 + Tile.TILE_SIZE);
+    g2.drawString("レベルアップ！ LV." + player.level().value() + "になった！" , Tile.TILE_SIZE + 30, GamePanel.screenHeight / 2 + Tile.TILE_SIZE);
     g2.drawString("> Press Enter", Tile.TILE_SIZE + 30, GamePanel.screenHeight / 2 + Tile.TILE_SIZE * 2);
   }
 

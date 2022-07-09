@@ -5,12 +5,9 @@
  */
 package com.example.sample.domain.model.battle;
 
-import lombok.Getter;
-
 /**
  * ヒットポイント
  */
-@Getter
 public class HitPoint {
   private static final int MIN = 0;
   private final int maxValue;
@@ -31,16 +28,16 @@ public class HitPoint {
     this.value = value;
   }
 
-  // ダメージを受ける
-  public HitPoint damage(final int damageAmount) {
-    final int damaged = value - damageAmount;
+  /** ダメージを受ける */
+  public HitPoint damage(final Damage damage) {
+    final int damaged = value - damage.value();
     final int corrected = Math.max(damaged, MIN);
     return new HitPoint(corrected, maxValue);
   }
 
-  // 回復する
-  public HitPoint recover(final int recoveryAmount) {
-    final int recovered = value + recoveryAmount;
+  /** 回復する */
+  public HitPoint recover(final HitPoint recoveryAmount) {
+    final int recovered = value + recoveryAmount.value;
     final int corrected = Math.min(maxValue, recovered);
     return new HitPoint(corrected, maxValue);
   }
@@ -51,5 +48,13 @@ public class HitPoint {
 
   public boolean isZero() {
     return value == MIN;
+  }
+
+  public int value() {
+    return value;
+  }
+
+  public int maxValue() {
+    return maxValue;
   }
 }

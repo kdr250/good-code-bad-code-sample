@@ -61,51 +61,51 @@ public class ItemListView {
     int tailX = (frameX + frameWidth) - 30;
     textY = frameY + Tile.TILE_SIZE;
     String value;
-    value = String.valueOf(player.getPlayerBattleStatus().getLevel().getValue());
+    value = String.valueOf(player.level().value());
     textX = getXForAlignToRightText(value, tailX, g2);
     g2.drawString(value, textX, textY);
     textY += lineHeight;
 
-    value = String.valueOf(player.getPlayerBattleStatus().getHitPoint().getValue());
+    value = String.valueOf(player.hitPoint().value());
     textX = getXForAlignToRightText(value, tailX, g2);
     g2.drawString(value, textX, textY);
     textY += lineHeight;
 
-    value = player.getPlayerBattleStatus().getMagicPoint().current() + "/" + player.getPlayerBattleStatus().getMagicPoint().max();
+    value = player.magicPoint().current() + "/" + player.magicPoint().max();
     textX = getXForAlignToRightText(value, tailX, g2);
     g2.drawString(value, textX, textY);
     textY += lineHeight;
 
-    value = String.valueOf(player.totalAttack());
+    value = String.valueOf(player.totalAttackPower());
     textX = getXForAlignToRightText(value, tailX, g2);
     g2.drawString(value, textX, textY);
     textY += lineHeight;
 
-    value = String.valueOf(player.totalDefense());
+    value = String.valueOf(player.totalDefensePower());
     textX = getXForAlignToRightText(value, tailX, g2);
     g2.drawString(value, textX, textY);
     textY += lineHeight;
 
-    value = String.valueOf(player.getPlayerBattleStatus().getExperience().getValue());
+    value = String.valueOf(player.experience());
     textX = getXForAlignToRightText(value, tailX, g2);
     g2.drawString(value, textX, textY);
     textY += lineHeight;
 
-    value = String.valueOf(player.getPlayerBattleStatus().getExperience().untilNextLevel());
+    value = String.valueOf(player.experience().untilNextLevel());
     textX = getXForAlignToRightText(value, tailX, g2);
     g2.drawString(value, textX, textY);
     textY += lineHeight;
 
-    if (!player.getPlayerBattleStatus().getEquipments().getWeapon().isEmpty()) {
-      g2.drawImage(player.getPlayerBattleStatus().getEquipments().getWeapon().getImage(), tailX - Tile.TILE_SIZE, textY - 24, null);
+    if (!player.equipments().getWeapon().isEmpty()) {
+      g2.drawImage(player.equipments().getWeapon().getImage(), tailX - Tile.TILE_SIZE, textY - 24, null);
     }
     textY += Tile.TILE_SIZE;
-    if (!player.getPlayerBattleStatus().getEquipments().getArmor().isEmpty()) {
-      g2.drawImage(player.getPlayerBattleStatus().getEquipments().getArmor().getImage(), tailX - Tile.TILE_SIZE, textY - 24, null);
+    if (!player.equipments().getArmor().isEmpty()) {
+      g2.drawImage(player.equipments().getArmor().getImage(), tailX - Tile.TILE_SIZE, textY - 24, null);
     }
     textY += Tile.TILE_SIZE;
-    if (!player.getPlayerBattleStatus().getEquipments().getArm().isEmpty()) {
-      g2.drawImage(player.getPlayerBattleStatus().getEquipments().getArm().getImage(), tailX - Tile.TILE_SIZE, textY - 24, null);
+    if (!player.equipments().getArm().isEmpty()) {
+      g2.drawImage(player.equipments().getArm().getImage(), tailX - Tile.TILE_SIZE, textY - 24, null);
     }
   }
 
@@ -125,7 +125,7 @@ public class ItemListView {
     int slotSize = Tile.TILE_SIZE + 3;
 
     // プレイヤーの所持アイテムを表示
-    List<Item> items = player.getPlayerItems().items();
+    List<Item> items = player.playerItems().items();
     for (int i = 0; i < items.size(); i++) {
 
       g2.setColor(new Color(240, 190, 90));

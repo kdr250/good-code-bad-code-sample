@@ -1,18 +1,17 @@
 package com.example.sample.domain.model.item;
 
+import com.example.sample.domain.model.battle.AttackPower;
 import com.example.sample.domain.model.worldmap.Collision;
 import com.example.sample.domain.model.worldmap.Location;
 import com.example.sample.domain.model.battle.DefensePower;
 import com.example.sample.domain.model.event.PlayerEquipEvent;
 import com.example.sample.domain.model.event.Event;
-import lombok.Getter;
 
 import java.awt.image.BufferedImage;
 
 /**
  * 普通の盾
  */
-@Getter
 public class ItemShieldNormal implements Equipment {
 
   private final DefensePower defensePower;
@@ -57,12 +56,27 @@ public class ItemShieldNormal implements Equipment {
   }
 
   @Override
-  public int attack() {
-    return 0;
+  public AttackPower attackPower() {
+    return AttackPower.NONE;
   }
 
   @Override
-  public int defense() {
-    return defensePower.getValue();
+  public DefensePower defensePower() {
+    return defensePower;
+  }
+
+  @Override
+  public EquipmentType equipmentType() {
+    return equipmentType;
+  }
+
+  @Override
+  public Location location() {
+    return location;
+  }
+
+  @Override
+  public Collision collision() {
+    return collision;
   }
 }

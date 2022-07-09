@@ -5,7 +5,6 @@ import com.example.sample.domain.model.worldmap.Collision;
 import com.example.sample.domain.model.worldmap.Location;
 import com.example.sample.domain.model.worldmap.Vector;
 import com.example.sample.domain.model.worldmap.Direction;
-import lombok.Getter;
 
 import java.awt.image.BufferedImage;
 import java.util.List;
@@ -13,7 +12,6 @@ import java.util.List;
 /**
  * NPC
  */
-@Getter
 public class Npc implements Collidable {
   private Location location;
   private Collision collision;
@@ -30,7 +28,7 @@ public class Npc implements Collidable {
   }
 
   public void move() {
-    Vector vector = npcMovement.getVector();
+    Vector vector = npcMovement.vector();
     location = location.shift(vector);
     collision = collision.shift(vector);
     direction = vector.direction();
@@ -38,15 +36,29 @@ public class Npc implements Collidable {
 
   public boolean updateMovementThenCanMove(final List<Collidable> collidableList) {
     npcMovement.update();
-    Vector vector = npcMovement.getVector();
-    return collidableList.stream().filter(collidable -> this != collidable).noneMatch(c -> collision.willCollide(c.getCollision(), vector));
+    Vector vector = npcMovement.vector();
+    return collidableList.stream().filter(collidable -> this != collidable).noneMatch(c -> collision.willCollide(c.collision(), vector));
+  }
+
+  public Vector movingVector() {
+    return npcMovement.vector();
   }
 
   public void changeDirection() {
-    direction = npcMovement.getVector().direction();
+    direction = npcMovement.vector().direction();
   }
 
   public BufferedImage getAnimatedImage() {
     return npcAnimation.getAnimatedImage(direction);
+  }
+
+  @Override
+  public Location location() {
+    return location;
+  }
+
+  @Override
+  public Collision collision() {
+    return collision;
   }
 }

@@ -1,18 +1,17 @@
 package com.example.sample.domain.model.item;
 
+import com.example.sample.domain.model.battle.AttackPower;
 import com.example.sample.domain.model.worldmap.Collision;
 import com.example.sample.domain.model.worldmap.Location;
 import com.example.sample.domain.model.battle.DefensePower;
 import com.example.sample.domain.model.event.Event;
 import com.example.sample.domain.model.event.PlayerEquipEvent;
-import lombok.Getter;
 
 import java.awt.image.BufferedImage;
 
 /**
  * 鎧
  */
-@Getter
 public class ItemArmor implements Equipment {
 
   private final DefensePower defensePower;
@@ -20,14 +19,6 @@ public class ItemArmor implements Equipment {
   private final Collision collision;
   private final ItemImage itemImage;
   private final EquipmentType equipmentType = EquipmentType.ARMOR;
-  public static final Equipment EMPTY = new ItemArmor(new DefensePower(0), Location.EMPTY, new ItemImage(ItemType.BODY_ARMOR, null));
-
-  private ItemArmor(final DefensePower defensePower, final Location location, final ItemImage itemImage) {
-    this.defensePower = defensePower;
-    this.location = location;
-    this.collision = new Collision(location);
-    this.itemImage = itemImage;
-  }
 
   public ItemArmor(final Location location, final ItemImage itemImage) {
     this.defensePower = new DefensePower(2);
@@ -57,12 +48,27 @@ public class ItemArmor implements Equipment {
   }
 
   @Override
-  public int attack() {
-    return 0;
+  public AttackPower attackPower() {
+    return AttackPower.NONE;
   }
 
   @Override
-  public int defense() {
-    return defensePower.getValue();
+  public DefensePower defensePower() {
+    return defensePower;
+  }
+
+  @Override
+  public EquipmentType equipmentType() {
+    return equipmentType;
+  }
+
+  @Override
+  public Location location() {
+    return location;
+  }
+
+  @Override
+  public Collision collision() {
+    return collision;
   }
 }

@@ -4,12 +4,9 @@
  */
 package com.example.sample.domain.model.battle;
 
-import lombok.Getter;
-
 /**
  * レベル
  */
-@Getter
 public class Level {
   private static final int MIN = 1;
   private static final int MAX = 99;
@@ -31,5 +28,9 @@ public class Level {
   public Level increase() {
     if (value < MAX) return new Level(value + 1);
     return this;
+  }
+
+  public int value() {
+    return value;
   }
 }

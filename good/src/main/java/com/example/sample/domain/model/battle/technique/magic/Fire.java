@@ -25,7 +25,7 @@ public class Fire implements Magic {
 
   @Override
   public AttackPower attackPower(final Level level) {
-    final int value = 2 + (int)(level.getValue() * 0.5);
+    final int value = 2 + (int)(level.value() * 0.5);
     return new AttackPower(value);
   }
 
