@@ -1,0 +1,122 @@
+a {
+    color: #000;
+    text-decoration-line: none;
+}
+a:hover {
+    text-decoration-line: underline;
+}
+
+body {
+    margin: 0 8px;
+}
+
+.treeMenuAndMain {
+    display: flex;
+    flex-wrap: nowrap;
+}
+.treeMenuAndMain > nav, .treeMenuAndMain > main {
+    height: 100%;
+    overflow: auto;
+}
+.treeMenuAndMain > main {
+    width: 80%;
+    flex-grow: 1;
+}
+.tree {
+    width: 20%;
+    resize: horizontal;
+
+    font-size: 0.8em;
+    border-right: dashed 1px;
+}
+.tree a, .tree summary {
+    word-break: keep-all;
+    white-space: nowrap;
+}
+.tree details > div {
+    margin-left: 30px;
+}
+
+section.package > h2, section.type> h2 {
+    margin-bottom: 0px;
+}
+section.package, section.type {
+    border-top: #000 solid 1px;
+    padding-left: 1em;
+    padding-bottom: 1em;
+}
+section.markdown {
+    margin: 0.5em;
+}
+section.markdown table thead {
+    color: #000;
+    background-color: #CCC;
+}
+section.type table caption {
+    caption-side: top;
+    text-align: left;
+}
+
+section.schema .component {
+    border: #000 solid 1px;
+    padding: 1em;
+}
+
+main table {
+    border-collapse: collapse;
+    width: 80%;
+    margin-bottom: 0.5em;
+}
+main table tr > * {
+    border: #000 solid 1px;
+    padding-left: 0.5em;
+    text-align: left;
+}
+main table thead {
+    color: #FFF;
+    background-color: #465DAA;
+}
+.method-name {
+    white-space: nowrap;
+}
+.method-argument-item {
+    display: block;
+}
+
+main table thead.enum {
+    color: #FFF;
+    background-color: #009900;
+}
+.enum-param-item {
+    display: block;
+    white-space: nowrap;
+}
+
+.fully-qualified-name {
+    font-size: 0.8em;
+    color: silver;
+}
+
+.index > header {
+    border-bottom:solid 1px #999;
+}
+.index > header > h1 {
+    margin-bottom: 0;
+}
+.index > header > p {
+    font-size: 0.6em;
+    margin-top: 0;
+}
+.index > header, .index > main {
+    margin:0 auto;
+    max-width: 800px;
+}
+.index .diagram img {
+    max-width: 800px;
+}
+
+/* 一般 */
+.weak {
+    font-size: 0.9em;
+    color: gray;
+}
