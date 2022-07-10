@@ -13,7 +13,6 @@ object 方向
 object 衝突
 }
 package 戦闘 {
-object 戦闘
 object ヒットポイント
 object 攻撃力
 object 魔法力
@@ -23,6 +22,7 @@ object 経験値
 object 技
 object 物理攻撃
 object 魔法攻撃
+object ダメージ
 }
 package アイテム {
 object 装備
@@ -57,8 +57,7 @@ NPC -- 衝突
 プレイヤーの所持品 -- 装備
 プレイヤーの所持品 -- 回復薬
 プレイヤーの所持品 -- 鍵
-戦闘 -- プレイヤー
-戦闘 -- 敵
 技 -- 物理攻撃
 技 -- 魔法攻撃
+攻撃力 -- ダメージ
 @enduml
