@@ -78,4 +78,4 @@
 
 ## 解説記事
 - [Qiita - ミノ駆動本を読んでクソゲー作ってみた](https://qiita.com/KeiFunahashi/items/eb42d9de6290a01722df)
-- [Qiita - ミノ駆動本を読んでクソゲーを神ゲーにリファククタしてみた](https://qiita.com/KeiFunahashi/items/fdfedf140c69c1d9a77f)
+- [Qiita - ミノ駆動本を読んでクソゲーを神ゲーにリファクタしてみた](https://qiita.com/KeiFunahashi/items/fdfedf140c69c1d9a77f)
