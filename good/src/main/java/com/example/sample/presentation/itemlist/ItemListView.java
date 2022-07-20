@@ -165,7 +165,7 @@ public class ItemListView {
         }
       }
 
-      if (i != 0 && i % 4 == 0) {
+      if (i != 0 && i % 5 == 4) {
         slotX = slotXStart;
         slotY += slotSize;
       }
