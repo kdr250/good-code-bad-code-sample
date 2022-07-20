@@ -15,6 +15,7 @@ import com.example.sample.domain.model.item.ItemShieldNormal;
 import com.example.sample.domain.model.item.ItemType;
 import com.example.sample.domain.model.item.ItemWeapon;
 
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.Map;
 
@@ -36,7 +37,8 @@ public class ItemDto {
       case KEY:
         return new ItemKey(itemImage);
       case WEAPON:
-        return new ItemWeapon(new AttackPower(2), getLocation(), itemImage);
+        AttackPower attackPower = AttackPower.random();
+        return new ItemWeapon(attackPower, getLocation(), overwriteNumber(itemImage, attackPower.value()));
       case MAGICAL_WEAPON:
         return new ItemMagicalWeapon(new AttackPower(3), getLocation(), itemImage);
       case BODY_ARMOR:
@@ -52,5 +54,18 @@ public class ItemDto {
       default:
         throw new IllegalArgumentException();
     }
+  }
+
+  private static final Font arial20 = new Font("Arial", Font.PLAIN, 20);
+
+  private ItemImage overwriteNumber(ItemImage original, int number) {
+    BufferedImage originalImage = original.getBufferedImage();
+    BufferedImage updatedImage = new BufferedImage(originalImage.getWidth(), originalImage.getHeight(), originalImage.getType());
+    updatedImage.setData(originalImage.getData());
+    Graphics2D g2 = updatedImage.createGraphics();
+    g2.setColor(Color.white);
+    g2.setFont(arial20);
+    g2.drawString(String.valueOf(number), Tile.TILE_SIZE - 15, Tile.TILE_SIZE - 10);
+    return new ItemImage(original.itemType(), updatedImage);
   }
 }
