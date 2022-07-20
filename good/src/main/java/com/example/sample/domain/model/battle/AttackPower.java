@@ -20,6 +20,11 @@ public class AttackPower {
     this.value = value;
   }
 
+  public static AttackPower random() {
+    int random = (int)Math.ceil(Math.random() * 9);
+    return new AttackPower(random);
+  }
+
   /**
    * 攻撃力を強化する
    * @param increment 攻撃力の増分

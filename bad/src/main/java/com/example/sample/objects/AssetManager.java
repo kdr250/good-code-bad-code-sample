@@ -33,19 +33,43 @@ public class AssetManager {
      * ×リスト1.17 生焼けオブジェクト の例
      */
     Location locationA = new Location();
-    locationA.worldX = panel.tileSize * 20;
-    locationA.worldY = panel.tileSize * 7;
+    locationA.worldX = panel.tileSize * 21;
+    locationA.worldY = panel.tileSize * 8;
     weaponA.location = locationA;
 
     Location locationB = new Location();
-    locationB.worldX = panel.tileSize * 21;
-    locationB.worldY = panel.tileSize * 7;
+    locationB.worldX = panel.tileSize * 22;
+    locationB.worldY = panel.tileSize * 8;
     weaponB.location = locationB;
+
+    Weapon weaponC = new Weapon(attackPower, panel);
+    Location locationC = new Location();
+    locationC.worldX = panel.tileSize * 23;
+    locationC.worldY = panel.tileSize * 8;
+    weaponC.location = locationC;
+
+    Weapon weaponD = new Weapon(attackPower, panel);
+    Location locationD = new Location();
+    locationD.worldX = panel.tileSize * 24;
+    locationD.worldY = panel.tileSize * 8;
+    weaponD.location = locationD;
+
+    Weapon weaponE = new Weapon(attackPower, panel);
+    Location locationE = new Location();
+    locationE.worldX = panel.tileSize * 25;
+    locationE.worldY = panel.tileSize * 8;
+    weaponE.location = locationE;
 
     int i = 0;
     panel.objects[i] = weaponA;
     i++;
     panel.objects[i] = weaponB;
+    i++;
+    panel.objects[i] = weaponC;
+    i++;
+    panel.objects[i] = weaponD;
+    i++;
+    panel.objects[i] = weaponE;
     i++;
     ItemPotionRed potionRed = new ItemPotionRed(panel);
     potionRed.location.worldX = panel.tileSize * 22;
@@ -68,7 +92,7 @@ public class AssetManager {
     panel.objects[i] = potionBlue;
     i++;
     ItemBodyArmor bodyArmor = new ItemBodyArmor(panel);
-    bodyArmor.location.worldX = panel.tileSize * 26;
+    bodyArmor.location.worldX = panel.tileSize * 21;
     bodyArmor.location.worldY = panel.tileSize * 7;
     panel.objects[i] = bodyArmor;
     i++;
@@ -109,4 +133,3 @@ public class AssetManager {
     panel.monsters[i].location.worldY = panel.tileSize * 20;
   }
 }
-
