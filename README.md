@@ -9,7 +9,7 @@
 
 ## 悪いコード例
 - 未成熟なクラスの例
-  - [×リスト1.17 生焼けオブジェクトの例](https://github.com/kdr250/good-code-bad-code-sample/blob/b11ac468e9cdc54a8f976376ca5a009ed329db90/app/src/main/java/com/example/sample/objects/AssetManager.java#L33)
+  - [×リスト1.17 生焼けオブジェクトの例](https://github.com/kdr250/good-code-bad-code-sample/blob/eba99e8c93f5fb8206f7a214ee7a6600ea4e1db5/bad/src/main/java/com/example/sample/objects/AssetManager.java#L33)
 - ヒットポイントの悪いコード例
   - [×リスト2.6 単なる変数として用意されたヒットポイント](https://github.com/kdr250/good-code-bad-code-sample/blob/eba99e8c93f5fb8206f7a214ee7a6600ea4e1db5/bad/src/main/java/com/example/sample/entity/Entity.java#L41)
   - [×リスト2.7 どこかに書かれるヒットポイント減少ロジック](https://github.com/kdr250/good-code-bad-code-sample/blob/eba99e8c93f5fb8206f7a214ee7a6600ea4e1db5/bad/src/main/java/com/example/sample/UI.java#L230)
