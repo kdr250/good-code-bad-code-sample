@@ -6,15 +6,19 @@ INSERT IGNORE INTO tb_location VALUES
 (5, 12, 33), --スライム
 (6, 8, 20), --スライム
 (7, 10, 31), --スライム
-(8, 22, 7), --赤ポーション
-(9, 23, 7), --青ポーション
-(10, 24, 7), --普通の盾
-(11, 25, 7), --青い盾
-(12, 25, 8), --鎧
-(13, 26, 7), --剣
-(14, 23, 8), --魔法の杖
-(15, 10, 11), --ドア
-(16, 10, 7); --宝箱
+(8, 21, 7), --赤ポーション
+(9, 22, 7), --青ポーション
+(10, 23, 7), --普通の盾
+(11, 24, 7), --青い盾
+(12, 25, 7), --鎧
+(13, 21, 8), --剣
+(14, 22, 8), --剣
+(15, 23, 8), --剣
+(16, 24, 8), --剣
+(17, 25, 8), --剣
+(18, 26, 7), --魔法の杖
+(19, 10, 11), --ドア
+(20, 10, 7); --宝箱
 
 INSERT IGNORE INTO tb_world_map VALUES
 (   1, 1, 32, 39, CONCAT(
@@ -77,11 +81,15 @@ INSERT IGNORE INTO tb_item VALUES
 (4, 'SHIELD_BLUE', 1, 11),
 (5, 'BODY_ARMOR', 1, 12),
 (6, 'WEAPON', 1, 13),
-(7, 'MAGICAL_WEAPON', 1, 14);
+(7, 'WEAPON', 1, 14),
+(8, 'WEAPON', 1, 15),
+(9, 'WEAPON', 1, 16),
+(10, 'WEAPON', 1, 17),
+(12, 'MAGICAL_WEAPON', 1, 18);
 
 INSERT IGNORE INTO tb_interactive VALUES
-(1, 'DOOR', 1, 15),
-(2, 'CHEST', 1, 16);
+(1, 'DOOR', 1, 19),
+(2, 'CHEST', 1, 20);
 
 INSERT IGNORE INTO tb_tile_image VALUES
 (1, 'GRASS', 'iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAIAAACQkWg2AAABhGlDQ1BJQ0MgcHJvZmlsZQAAKJF9kT1Iw0AcxV9btVIiDnYQcchQnVoQFXHUKhShQqgVWnUwufQLmhiSFBdHwbXg4Mdi1cHFWVcHV0EQ/ABxdHJSdJES/5cUWsR4cNyPd/ced++AYKPKNKtrDNB028ykkmIuvyKGX9EDARHEIcjMMmYlKQ3f8XWPAF/vEjzL/9yfo08tWAwIiMQzzDBt4nXiqU3b4LxPHGVlWSU+J46bdEHiR64rHr9xLrkc5JlRM5uZI44Si6UOVjqYlU2NeJI4pmo65QdzHquctzhr1Rpr3ZO/UCjoy0tcpzmMFBawCAkiFNRQQRU2ErTqpFjI0H7Sxz/k+iVyKeSqgJFjHhvQILt+8D/43a1VnBj3koQk0P3iOB8jQHgXaNYd5/vYcZonQOgZuNLb/o0GMP1Jer2txY6A/m3g4rqtKXvA5Q4w+GTIpuxKIZrBYhF4P6NvygMDt0Bk1euttY/TByBLXaVvgINDYLRE2Ws+7+7t7O3fM63+fgBBKXKT6IBY5wAAAAlwSFlzAAAuIwAALiMBeKU/dgAAAAd0SU1FB+YGDAsgETo+85YAAAAZdEVYdENvbW1lbnQAQ3JlYXRlZCB3aXRoIEdJTVBXgQ4XAAAARklEQVQoz2OMnRPLQApgYiARUKbhCctFEjRAVBPUwwJnyfzRHyBPozmSiRjVyHpY8GvA9BidI46Y6GMi6EucEUdk9JHsBwBCyBTSQsxaywAAAABJRU5ErkJggg=='),
