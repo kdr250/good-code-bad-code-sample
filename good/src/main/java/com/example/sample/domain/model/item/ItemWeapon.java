@@ -54,7 +54,7 @@ public class ItemWeapon implements Equipment {
 
   @Override
   public String description() {
-    return "普通の剣";
+    return "普通の剣\n攻撃力" + attackPower;
   }
 
   @Override
